@@ -8,6 +8,7 @@ onready var bullet_manager = $BulletManager
 onready var drill_manager = $DrillManager
 
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	player.connect("make_bullet", self, "_on_make_bullet")

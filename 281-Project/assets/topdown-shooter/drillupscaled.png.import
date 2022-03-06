@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/drillupscaled.png-2148586b2c53467289974945076e08a8.stex"
+path="res://.import/drillupscaled.png-c01d8892810a72ed2c8dd90e20931ad4.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/drillupscaled.png"
-dest_files=[ "res://.import/drillupscaled.png-2148586b2c53467289974945076e08a8.stex" ]
+source_file="res://assets/topdown-shooter/drillupscaled.png"
+dest_files=[ "res://.import/drillupscaled.png-c01d8892810a72ed2c8dd90e20931ad4.stex" ]
 
 [params]
 
