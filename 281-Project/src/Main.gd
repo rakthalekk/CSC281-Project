@@ -6,8 +6,25 @@ const DRILL = preload("res://src/Drill.tscn")
 onready var player = $Player
 onready var bullet_manager = $BulletManager
 onready var drill_manager = $DrillManager
+onready var tilemap = $TileMap
 
+onready var tileNone = "None"
+onready var tileGrass = "Grass"
+onready var tileUnobtainium = "Unobtainium"
 
+func _process(delta):
+	var cell = $TileMap.world_to_map($Player.global_position)
+	var tile_id = $TileMap.get_cellv(cell)
+	# -1 if out of bounds, 0 if on the grass, 1 if on the stone
+	# Cell is the block the coords of the tile the player is on: (X, Y)
+	# print("TileID: " + str(tile_id) + "    Cell: " + str(cell))
+	match tile_id:
+		-1: #Out of bounds
+			player.onTile = tileNone
+		0: #On Grass
+			player.onTile = tileGrass
+		1: #On Stone
+			player.onTile = tileUnobtainium
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
