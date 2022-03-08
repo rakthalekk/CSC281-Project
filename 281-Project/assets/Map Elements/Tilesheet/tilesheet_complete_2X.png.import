@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/drillupscaled.png-c01d8892810a72ed2c8dd90e20931ad4.stex"
+path="res://.import/tilesheet_complete_2X.png-f791d82358e72b3bf6a0eb83601f336d.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/topdown-shooter/drillupscaled.png"
-dest_files=[ "res://.import/drillupscaled.png-c01d8892810a72ed2c8dd90e20931ad4.stex" ]
+source_file="res://assets/Map Elements/Tilesheet/tilesheet_complete_2X.png"
+dest_files=[ "res://.import/tilesheet_complete_2X.png-f791d82358e72b3bf6a0eb83601f336d.stex" ]
 
 [params]
 

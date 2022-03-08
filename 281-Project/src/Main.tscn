@@ -1,11 +1,13 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
-[ext_resource path="res://assets/topdown-shooter/Tilesheet/stonetilesheetup.png" type="Texture" id=1]
+[ext_resource path="res://assets/Map Elements/Tilesheet/stonetilesheetup.png" type="Texture" id=1]
 [ext_resource path="res://src/Resource Count.gd" type="Script" id=2]
 [ext_resource path="res://src/Main.gd" type="Script" id=3]
 [ext_resource path="res://src/GrassTileMap.gd" type="Script" id=4]
 [ext_resource path="res://src/Player Coordinates.gd" type="Script" id=5]
 [ext_resource path="res://src/Player.tscn" type="PackedScene" id=6]
+[ext_resource path="res://src/Enemy.tscn" type="PackedScene" id=7]
+[ext_resource path="res://src/HP Label.gd" type="Script" id=8]
 
 [sub_resource type="StreamTexture" id=2]
 load_path = "res://.import/tilesettest.png-7299ee7ac41381639f1a80f176cc7b7d.stex"
@@ -71,11 +73,7 @@ script = ExtResource( 4 )
 
 [node name="Player" parent="." instance=ExtResource( 6 )]
 position = Vector2( 200, 152 )
-collision_layer = 1
 collision_mask = 271
-
-[node name="Camera2D" type="Camera2D" parent="Player"]
-current = true
 
 [node name="GUI" type="CanvasLayer" parent="."]
 
@@ -89,9 +87,6 @@ Unobtainium:	###
 Fairy Dust: 		###"
 scroll_active = false
 script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Player Coordinates" type="RichTextLabel" parent="GUI"]
 margin_left = 2.0
@@ -106,3 +101,21 @@ script = ExtResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="HP Label" type="RichTextLabel" parent="GUI"]
+margin_left = 584.0
+margin_right = 640.0
+margin_bottom = 40.0
+text = "HP: 100"
+script = ExtResource( 8 )
+
+[node name="Enemy" parent="." instance=ExtResource( 7 )]
+position = Vector2( 584, 384 )
+
+[node name="Enemy2" parent="." instance=ExtResource( 7 )]
+position = Vector2( 472, 816 )
+
+[node name="Enemy3" parent="." instance=ExtResource( 7 )]
+position = Vector2( 1200, 648 )
+
+[connection signal="update_health" from="Player" to="GUI/HP Label" method="_on_Player_update_health"]

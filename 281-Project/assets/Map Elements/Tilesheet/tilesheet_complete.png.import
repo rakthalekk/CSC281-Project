@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/stonetilesheetup.png-869de54e741c7f0f41962587131429c8.stex"
+path="res://.import/tilesheet_complete.png-336ff62c82e716d1285af49dbe350d9b.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/topdown-shooter/Tilesheet/stonetilesheetup.png"
-dest_files=[ "res://.import/stonetilesheetup.png-869de54e741c7f0f41962587131429c8.stex" ]
+source_file="res://assets/Map Elements/Tilesheet/tilesheet_complete.png"
+dest_files=[ "res://.import/tilesheet_complete.png-336ff62c82e716d1285af49dbe350d9b.stex" ]
 
 [params]
 
