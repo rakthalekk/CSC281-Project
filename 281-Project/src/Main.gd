@@ -43,3 +43,7 @@ func _on_create_drill(pos: Vector2):
 	var inst = DRILL.instance()
 	drill_manager.add_child(inst)
 	inst.position = pos
+
+
+func _on_Player_player_stats_changed():
+	pass # Replace with function body.
