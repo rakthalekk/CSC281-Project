@@ -1,7 +1,7 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://assets/Map Elements/Tilesheet/stonetilesheetup.png" type="Texture" id=1]
-
+[ext_resource path="res://src/Enemy.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/Main.gd" type="Script" id=3]
 [ext_resource path="res://src/GrassTileMap.gd" type="Script" id=4]
 [ext_resource path="res://src/Player Coordinates.gd" type="Script" id=5]
@@ -76,7 +76,6 @@ script = ExtResource( 4 )
 
 [node name="Player" parent="." instance=ExtResource( 6 )]
 position = Vector2( 200, 152 )
-collision_layer = 1
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 current = true
@@ -124,9 +123,6 @@ margin_right = 259.0
 margin_bottom = 559.0
 color = Color( 0, 0, 0, 0.686275 )
 script = ExtResource( 8 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Text Label" type="RichTextLabel" parent="HUD/Health Bar"]
 margin_left = -50.0
@@ -187,6 +183,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Enemy" parent="." instance=ExtResource( 2 )]
+position = Vector2( 888, 224 )
+
+[node name="Enemy2" parent="." instance=ExtResource( 2 )]
+position = Vector2( 304, 680 )
+
+[node name="Enemy3" parent="." instance=ExtResource( 2 )]
+position = Vector2( 912, 656 )
+
+[connection signal="player_stats_changed" from="Player" to="HUD/Health Bar" method="_on_Player_player_stats_changed"]
 [connection signal="player_stats_changed" from="Player" to="HUD/Health Bar/Number Label" method="_on_Player_player_stats_changed"]
-[connection signal="player_stats_changed" from="Player" to="HUD/Health Bar/Bar" method="_on_Player_player_stats_changed"]
 [connection signal="player_stats_changed" from="Player" to="HUD/Unobtainium Display/Number" method="_on_Player_player_stats_changed"]

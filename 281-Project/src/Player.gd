@@ -6,14 +6,11 @@ export(int) var knockback_speed = 400
 export(int) var dmg = 10
 export(int) var max_health = 100
 
-# Player Misc. Stats
-export(int) var speed = 300
-
 signal make_bullet
 signal create_drill
 signal action_pressed_test
 signal update_health
-=======
+
 # Used to indicate the players' stats have changed
 signal player_stats_changed
 
@@ -21,7 +18,6 @@ signal player_stats_changed
 onready var gun_tip = $GunTip
 onready var anim_player = $AnimationPlayer
 
-var hp = max_health
 var direction := Vector2.ZERO
 var speed = run_speed
 var velocity := Vector2.ZERO
@@ -32,7 +28,7 @@ var fairyDustCount : int = 0
 var knockback = false
 
 # Current Health of the player
-var health : int = 100
+var health : int = max_health
 
 # Used to detect when the players' stats have changed to update the HUD
 var prevUCount : int = unobtainiumCount
@@ -55,6 +51,9 @@ func _ready():
 
 # Process function called every frame
 func _process(delta):
+	if health <= 0:
+		queue_free()
+
 	if knockback:
 		velocity = direction * knockback_speed
 	else:
@@ -89,8 +88,8 @@ func damage(dmg, dir):
 	knockback = true
 	anim_player.play("damaged")
 	direction = dir
-	hp -= dmg
-	emit_signal("update_health", hp)
+	health -= dmg
+	emit_signal("player_stats_changed", self)
 
 
 # Turns off knockback after animation
