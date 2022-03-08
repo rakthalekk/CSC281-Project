@@ -6,10 +6,17 @@ export(int) var knockback_speed = 400
 export(int) var dmg = 10
 export(int) var max_health = 100
 
+# Player Misc. Stats
+export(int) var speed = 300
+
 signal make_bullet
 signal create_drill
 signal action_pressed_test
 signal update_health
+=======
+# Used to indicate the players' stats have changed
+signal player_stats_changed
+
 
 onready var gun_tip = $GunTip
 onready var anim_player = $AnimationPlayer
@@ -19,9 +26,18 @@ var direction := Vector2.ZERO
 var speed = run_speed
 var velocity := Vector2.ZERO
 
+# Current resources of the player
 var unobtainiumCount : int = 0
 var fairyDustCount : int = 0
 var knockback = false
+
+# Current Health of the player
+var health : int = 100
+
+# Used to detect when the players' stats have changed to update the HUD
+var prevUCount : int = unobtainiumCount
+var prevFDCount : int = fairyDustCount
+var prevHealth : int = health
 
 var onTile = "None"
 #Tiles accounted for:
@@ -32,6 +48,10 @@ ID	||	NAME   ||	Reference
 0		"Grass"		tileGrass
 1	"Unobtainium"	tileUnobtainium
 """
+
+func _ready():
+	#emit the initial stats of the player,
+	emit_signal("player_stats_changed", self)
 
 # Process function called every frame
 func _process(delta):
@@ -45,7 +65,10 @@ func _process(delta):
 		
 		look_at(get_global_mouse_position())
 	move_and_slide(velocity)
-
+	
+	# Stat Checking - will emit signal if stats changed
+	if(unobtainiumCount != prevUCount || fairyDustCount != prevFDCount || health != prevHealth):
+		emit_signal("player_stats_changed", self)
 
 # Handles input
 func _unhandled_input(event):
