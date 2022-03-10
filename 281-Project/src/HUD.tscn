@@ -1,0 +1,98 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://src/Player Coordinates.gd" type="Script" id=3]
+[ext_resource path="res://assets/Structures/drillupscaled.png" type="Texture" id=5]
+[ext_resource path="res://assets/Resources/Unobtainium.png" type="Texture" id=6]
+[ext_resource path="res://src/HUD.gd" type="Script" id=7]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource( 7 )
+
+[node name="Player Coordinates" type="RichTextLabel" parent="."]
+margin_left = 2.0
+margin_top = 1.0
+margin_right = 154.0
+margin_bottom = 49.0
+text = "Player Coordinates:
+X:	######
+Y:	######"
+scroll_active = false
+script = ExtResource( 3 )
+
+[node name="Border" type="ColorRect" parent="."]
+margin_top = 525.0
+margin_right = 1024.0
+margin_bottom = 600.0
+color = Color( 0.764706, 0.556863, 0.00392157, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Drill Item" type="TextureRect" parent="."]
+margin_left = 368.0
+margin_top = 528.0
+margin_right = 504.0
+margin_bottom = 680.0
+rect_scale = Vector2( 0.45, 0.45 )
+texture = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Health Bar" type="ColorRect" parent="."]
+margin_left = 53.0
+margin_top = 533.0
+margin_right = 259.0
+margin_bottom = 559.0
+color = Color( 0, 0, 0, 0.686275 )
+
+[node name="Text Label" type="RichTextLabel" parent="Health Bar"]
+margin_left = -50.0
+margin_top = 7.0
+margin_right = -4.0
+margin_bottom = 23.0
+rect_pivot_offset = Vector2( 21, 6 )
+text = "Health:"
+scroll_active = false
+
+[node name="Number Label" type="RichTextLabel" parent="Health Bar"]
+margin_left = 211.0
+margin_top = 7.0
+margin_right = 275.0
+margin_bottom = 23.0
+rect_pivot_offset = Vector2( 21, 6 )
+text = "###/100"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Bar" type="ColorRect" parent="Health Bar"]
+margin_left = 3.0
+margin_top = 3.0
+margin_right = 203.0
+margin_bottom = 23.0
+color = Color( 0, 1, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Unobtainium Display" type="TextureRect" parent="."]
+margin_left = 40.0
+margin_top = 568.0
+margin_right = 360.0
+margin_bottom = 848.0
+rect_scale = Vector2( 0.1, 0.1 )
+texture = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Number" type="RichTextLabel" parent="Unobtainium Display"]
+margin_left = 320.0
+margin_top = 80.0
+margin_right = 384.0
+margin_bottom = 92.0
+rect_scale = Vector2( 10, 10 )
+text = "###"
+scroll_active = false

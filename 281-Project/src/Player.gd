@@ -26,6 +26,7 @@ var velocity := Vector2.ZERO
 var unobtainiumCount : int = 0
 var fairyDustCount : int = 0
 var knockback = false
+var attacking = false
 
 # Current Health of the player
 var health : int = max_health
@@ -61,8 +62,20 @@ func _process(delta):
 		direction.x = Input.get_action_strength("right") - Input.get_action_strength("left")
 		direction = direction.normalized()
 		velocity = direction * speed
-		
-		#look_at(get_global_mouse_position())
+	
+	# Play animation based on player walk direction
+	if !attacking && !knockback:
+		if direction.x > 0:
+			anim_player.play("walk_right")
+		elif direction.x < 0:
+			anim_player.play("walk_left")
+		elif direction.y > 0:
+			anim_player.play("walk_down")
+		elif direction.y < 0:
+			anim_player.play("walk_up")
+		else:
+			anim_player.play("idle")
+	
 	move_and_slide(velocity)
 	
 	# Stat Checking - will emit signal if stats changed
@@ -77,7 +90,29 @@ func _unhandled_input(event):
 		#var dir = (get_global_mouse_position() - pos).normalized()
 		#emit_signal("make_bullet", pos, dir)
 		
-		anim_player.play("attack")
+		if !knockback:
+			var dir = (get_global_mouse_position() - global_position).normalized()
+			
+			attacking = true
+			
+			if dir.x >= 0.6:
+				anim_player.play("attack_right")
+				$AttackHitbox/CollisionShape2D/ColorRect.rect_position = Vector2(-30, -45)
+				$AttackHitbox/CollisionShape2D/ColorRect.rect_size = Vector2(56, 96)
+			elif dir.x <= -0.6:
+				anim_player.play("attack_left")
+				$AttackHitbox/CollisionShape2D/ColorRect.rect_position = Vector2(-30, -45)
+				$AttackHitbox/CollisionShape2D/ColorRect.rect_size = Vector2(56, 96)
+			elif dir.y <= 0:
+				anim_player.play("attack_up")
+				$AttackHitbox/CollisionShape2D/ColorRect.rect_position = Vector2(-48, -29)
+				$AttackHitbox/CollisionShape2D/ColorRect.rect_size = Vector2(96, 56)
+			else:
+				anim_player.play("attack_down")
+				$AttackHitbox/CollisionShape2D/ColorRect.rect_position = Vector2(-48, -29)
+				$AttackHitbox/CollisionShape2D/ColorRect.rect_size = Vector2(96, 56)
+				
+			$AttackHitbox/CollisionShape2D/ColorRect.visible = true
 		
 	if event.is_action_pressed("create_drill") && onTile == get_parent().tileUnobtainium: #on Unobtainium
 		emit_signal("create_drill", global_position)
@@ -86,11 +121,23 @@ func _unhandled_input(event):
 # Damages the player and knocks them back in the given direction
 func damage(dmg, dir):
 	knockback = true
+	if attacking:
+		attacking = false
+		end_attack_animation()
 	anim_player.play("damaged")
 	direction = dir
 	health -= dmg
 	emit_signal("player_stats_changed", self)
 
+
+func end_attack_animation():
+	attacking = false
+	$AttackHitbox/CollisionShape2D/ColorRect.visible = false
+	call_deferred("disable_attack_collider")
+
+
+func disable_attack_collider():
+	$AttackHitbox/CollisionShape2D.disabled = true
 
 # Turns off knockback after animation
 func disable_knockback():
