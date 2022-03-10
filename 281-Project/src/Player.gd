@@ -62,7 +62,7 @@ func _process(delta):
 		direction = direction.normalized()
 		velocity = direction * speed
 		
-		look_at(get_global_mouse_position())
+		#look_at(get_global_mouse_position())
 	move_and_slide(velocity)
 	
 	# Stat Checking - will emit signal if stats changed
