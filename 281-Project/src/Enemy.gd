@@ -1,3 +1,4 @@
+class_name Enemy
 extends KinematicBody2D
 
 const CALM = preload("res://assets/Enemies/bunnyaup.png")

@@ -10,6 +10,7 @@ signal make_bullet
 signal create_drill
 signal action_pressed_test
 signal update_health
+signal place_structure
 
 # Used to indicate the players' stats have changed
 signal player_stats_changed
@@ -17,6 +18,7 @@ signal player_stats_changed
 
 onready var gun_tip = $GunTip
 onready var anim_player = $AnimationPlayer
+
 
 var direction := Vector2.ZERO
 var speed = run_speed
@@ -84,13 +86,12 @@ func _process(delta):
 
 # Handles input
 func _unhandled_input(event):
-	if event.is_action_pressed("shoot"):
-		# Disable shoot for now
-		#var pos = gun_tip.global_position
-		#var dir = (get_global_mouse_position() - pos).normalized()
-		#emit_signal("make_bullet", pos, dir)
+	if event.is_action_pressed("click"):
 		
-		if !knockback:
+		if Global.selected_structure:
+			emit_signal("place_structure", get_global_mouse_position())
+		
+		elif !knockback:
 			var dir = (get_global_mouse_position() - global_position).normalized()
 			
 			attacking = true
@@ -114,8 +115,8 @@ func _unhandled_input(event):
 				
 			$AttackHitbox/CollisionShape2D/ColorRect.visible = true
 		
-	if event.is_action_pressed("create_drill") && onTile == get_parent().tileUnobtainium: #on Unobtainium
-		emit_signal("create_drill", global_position)
+#	if event.is_action_pressed("create_drill") && onTile == get_parent().tileUnobtainium: #on Unobtainium
+#		emit_signal("create_drill", global_position)
 
 
 # Damages the player and knocks them back in the given direction
@@ -148,3 +149,4 @@ func disable_knockback():
 func _on_AttackHitbox_body_entered(body):
 	var dir = (body.position - position).normalized()
 	body.damage(dmg, dir)
+

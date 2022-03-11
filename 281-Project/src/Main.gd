@@ -2,10 +2,16 @@ extends Node2D
 
 const BULLET = preload("res://src/Bullet.tscn")
 const DRILL = preload("res://src/Drill.tscn")
+const TURRET = preload("res://src/Turret.tscn")
+const BUNNY = preload("res://src/Enemy.tscn")
+
+var structures = []
+
 
 onready var player = $Player
 onready var bullet_manager = $BulletManager
-onready var drill_manager = $DrillManager
+onready var structure_manager = $StructureManager
+onready var enemies = $Enemies
 onready var tilemap = $TileMap
 
 onready var tileNone = "None"
@@ -39,11 +45,39 @@ func _on_make_bullet(pos: Vector2, dir: Vector2):
 	inst.direction = dir
 
 
-func _on_create_drill(pos: Vector2):
-	var inst = DRILL.instance()
-	drill_manager.add_child(inst)
+func create_drill(pos: Vector2):
+	if $TileMap.get_cellv($TileMap.world_to_map(pos)) == 1:
+		# Can't place another structure within 100 pixels of any existing ones
+		for s in structures:
+			if pos.distance_to(s.position) <= 100:
+				return;
+		
+		var inst = DRILL.instance()
+		structure_manager.add_child(inst)
+		inst.position = pos
+		structures.append(inst)
+
+
+func create_turret(pos: Vector2):
+	for s in structures:
+		if pos.distance_to(s.position) <= 100:
+			return;
+		
+	var inst = TURRET.instance()
+	structure_manager.add_child(inst)
 	inst.position = pos
+	structures.append(inst)
+	inst.connect("make_bullet", self, "_on_make_bullet")
 
 
-func _on_Player_player_stats_changed():
-	pass # Replace with function body.
+func _on_Player_place_structure(pos: Vector2):
+	if Global.selected_structure == "drill":
+		create_drill(pos)
+	elif Global.selected_structure == "turret":
+		create_turret(pos)
+
+
+func _on_BunnySpawner_spawn_bunny(pos: Vector2):
+	var inst = BUNNY.instance()
+	enemies.add_child(inst)
+	inst.position = pos
