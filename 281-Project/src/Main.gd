@@ -8,10 +8,10 @@ const BUNNY = preload("res://src/Enemy.tscn")
 var structures = []
 
 
-onready var player = $Player
+onready var player = $Entities/Player
 onready var bullet_manager = $BulletManager
-onready var structure_manager = $StructureManager
-onready var enemies = $Enemies
+onready var enemy_manager = $Entities/EnemyManager
+onready var structure_manager = $Entities/StructureManager
 onready var tilemap = $TileMap
 
 onready var tileNone = "None"
@@ -19,7 +19,7 @@ onready var tileGrass = "Grass"
 onready var tileUnobtainium = "Unobtainium"
 
 func _process(delta):
-	var cell = $TileMap.world_to_map($Player.global_position)
+	var cell = $TileMap.world_to_map(player.global_position)
 	var tile_id = $TileMap.get_cellv(cell)
 	# -1 if out of bounds, 0 if on the grass, 1 if on the stone
 	# Cell is the block the coords of the tile the player is on: (X, Y)
@@ -79,5 +79,5 @@ func _on_Player_place_structure(pos: Vector2):
 
 func _on_BunnySpawner_spawn_bunny(pos: Vector2):
 	var inst = BUNNY.instance()
-	enemies.add_child(inst)
+	enemy_manager.add_child(inst)
 	inst.position = pos
