@@ -55,7 +55,7 @@ func _ready():
 # Process function called every frame
 func _process(delta):
 	if health <= 0:
-		queue_free()
+		Global.reset_level()
 
 	if knockback:
 		velocity = direction * knockback_speed
