@@ -2,7 +2,7 @@ extends CanvasLayer
 
 
 const DRILL_IMG = preload("res://assets/Resources/drillcursor.png")
-const TURRET_IMG = preload("res://icon.png")
+const TURRET_IMG = preload("res://assets/Resources/turretcursor.png")
 
 
 func _on_Player_player_stats_changed(var player):

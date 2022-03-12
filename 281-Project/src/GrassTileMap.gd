@@ -33,7 +33,7 @@ func generate():
 				tiley = 1
 			elif (tiley > 5):
 				tiley = 2
-			set_cell(x, y, 0, false, false, false, Vector2(tilex, tiley))
+			set_cell(x, y, 2, false, false, false, Vector2(tilex, tiley))
 	
 	
 	#Floor Stone Generation
