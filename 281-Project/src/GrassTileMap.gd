@@ -39,8 +39,8 @@ func generate():
 	#Floor Stone Generation
 	stones = create_2d_array(fieldLength, fieldWidth, 1)
 	for x in range(4, fieldLength-4):
-		for y in range(2, fieldWidth-2):
-			var stonerandom = rng.randi_range(1, 70)#rng.randi_range(1, 200)
+		for y in range(4, fieldWidth-5):
+			var stonerandom = rng.randi_range(1, 20)#rng.randi_range(1, 200)
 			if (stonerandom == 1):
 				stones[y][x] = 0
 				var plusX = 0
