@@ -3,8 +3,8 @@ extends TileMap
 # Declare member variables here. Examples:
 var rng = RandomNumberGenerator.new()
 var stones = [[]]
-var fieldWidth = 9
-var fieldLength = 64
+var fieldWidth = 11
+var fieldLength = 63
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -19,8 +19,8 @@ func _ready():
 func generate():
 	
 	#Floor Grass Generation
-	for x in range(63):
-		for y in range(63):
+	for x in range(fieldLength):
+		for y in range(fieldWidth):
 			var tilex = rng.randi_range(0, 15)
 			if (tilex < 15):
 				tilex = 0
@@ -37,10 +37,10 @@ func generate():
 	
 	
 	#Floor Stone Generation
-	stones = create_2d_array(64, 64, 1)
-	for x in range(9, 53):
-		for y in range(9, 53):
-			var stonerandom = rng.randi_range(1, 200)
+	stones = create_2d_array(fieldLength, fieldWidth, 1)
+	for x in range(4, fieldLength-4):
+		for y in range(2, fieldWidth-2):
+			var stonerandom = rng.randi_range(1, 70)#rng.randi_range(1, 200)
 			if (stonerandom == 1):
 				stones[y][x] = 0
 				var plusX = 0
@@ -64,10 +64,16 @@ func generate():
 						plusY = 0
 					stones[y + plusY][x + plusX] = 0
 	placeStone()
+	
+	# Add the Border
+#	for x in range(-5, fieldLength+5):
+#		for y in range(-5, fieldWidth+5):
+#			if((x < 0 or x > fieldLength-1) or (y < 0 or y > fieldWidth)):
+#				set_cell(x, y, 2, false, false, false, Vector2(x, y))
 
 func placeStone():
-	for x in range(63):
-		for y in range(63):
+	for x in range(fieldLength):
+		for y in range(fieldWidth - 1):
 			if (stones[y][x] == 0):
 				var bin1 = stones[y][x + 1] 
 				var bin4 = stones[y + 1][x]
