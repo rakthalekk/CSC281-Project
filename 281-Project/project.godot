@@ -102,6 +102,7 @@ create_drill={
 2d_physics/layer_3="PlayerStructures"
 2d_physics/layer_4="Items"
 2d_physics/layer_5="Map Structures"
+2d_physics/layer_9="PlayerHurtbox"
 
 [physics]
 

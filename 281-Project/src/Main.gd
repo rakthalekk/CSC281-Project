@@ -46,7 +46,7 @@ func _on_make_bullet(pos: Vector2, dir: Vector2):
 
 
 func create_drill(pos: Vector2):
-	if $TileMap.get_cellv($TileMap.world_to_map(pos)) == 1:
+	if $TileMap.get_cellv($TileMap.world_to_map(pos)) == $TileMap.stoneTileID:
 		# Can't place another structure within 100 pixels of any existing ones
 		for s in structures:
 			if pos.distance_to(s.position) <= 100:

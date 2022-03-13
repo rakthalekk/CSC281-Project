@@ -18,6 +18,8 @@ signal player_stats_changed
 
 onready var gun_tip = $GunTip
 onready var anim_player = $AnimationPlayer
+onready var eff_anim_player = $EffectsAnimationPlayer
+onready var invincibility_timer = $InvincibilityTimer
 
 
 var direction := Vector2.ZERO
@@ -121,14 +123,18 @@ func _unhandled_input(event):
 
 # Damages the player and knocks them back in the given direction
 func damage(dmg, dir):
-	knockback = true
-	if attacking:
-		attacking = false
-		end_attack_animation()
-	anim_player.play("damaged")
-	direction = dir
-	health -= dmg
-	emit_signal("player_stats_changed", self)
+	if invincibility_timer.is_stopped():
+		eff_anim_player.play("invulnerable")
+		set_collision_layer_bit(8, false)
+		invincibility_timer.start()
+		knockback = true
+		if attacking:
+			attacking = false
+			end_attack_animation()
+		anim_player.play("damaged")
+		direction = dir
+		health -= dmg
+		emit_signal("player_stats_changed", self)
 
 
 func end_attack_animation():
@@ -150,3 +156,7 @@ func _on_AttackHitbox_body_entered(body):
 	var dir = (body.position - position).normalized()
 	body.damage(dmg, dir)
 
+
+func _on_InvincibilityTimer_timeout():
+	eff_anim_player.play("RESET")
+	set_collision_layer_bit(8, true)
