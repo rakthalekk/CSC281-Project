@@ -7,7 +7,6 @@ const BUNNY = preload("res://src/Enemy.tscn")
 
 var structures = []
 
-
 onready var player = $Entities/Player
 onready var bullet_manager = $BulletManager
 onready var enemy_manager = $Entities/EnemyManager
@@ -27,23 +26,17 @@ func _process(delta):
 	match tile_id:
 		-1: #Out of bounds
 			player.onTile = tileNone
-		0: #On Grass
+		2: #On Grass
 			player.onTile = tileGrass
-		1: #On Stone
+		3: #On Stone
 			player.onTile = tileUnobtainium
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	player.connect("make_bullet", self, "_on_make_bullet")
-	player.connect("create_drill", self, "_on_create_drill")
-
+	#print("MAIN ON TILE: " + str(tile_id))
 
 func _on_make_bullet(pos: Vector2, dir: Vector2):
 	var inst = BULLET.instance()
 	bullet_manager.add_child(inst)
 	inst.position = pos
 	inst.direction = dir
-
 
 func create_drill(pos: Vector2):
 	if $TileMap.get_cellv($TileMap.world_to_map(pos)) == $TileMap.stoneTileID:

@@ -101,7 +101,10 @@ position = Vector2( 912, 656 )
 
 [node name="StructureManager" type="YSort" parent="Entities"]
 
+[node name="MiningTimer" type="Timer" parent="."]
+
 [connection signal="spawn_bunny" from="BunnySpawner" to="." method="_on_BunnySpawner_spawn_bunny"]
 [connection signal="timeout" from="BunnySpawner/Timer" to="BunnySpawner" method="_on_Timer_timeout"]
+[connection signal="is_manual_mining" from="Entities/Player" to="HUD" method="_on_Player_is_manual_mining"]
 [connection signal="place_structure" from="Entities/Player" to="." method="_on_Player_place_structure"]
 [connection signal="player_stats_changed" from="Entities/Player" to="HUD" method="_on_Player_player_stats_changed"]

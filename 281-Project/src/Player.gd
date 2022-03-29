@@ -5,6 +5,7 @@ export(int) var run_speed = 300
 export(int) var knockback_speed = 400
 export(int) var dmg = 10
 export(int) var max_health = 100
+export(int) var manual_mining_time = 5
 
 signal make_bullet
 signal create_drill
@@ -14,13 +15,14 @@ signal place_structure
 
 # Used to indicate the players' stats have changed
 signal player_stats_changed
+# Used to show when the player is mining
+signal is_manual_mining
 
-
-onready var gun_tip = $GunTip
+#onready var gun_tip = $GunTip
 onready var anim_player = $AnimationPlayer
 onready var eff_anim_player = $EffectsAnimationPlayer
 onready var invincibility_timer = $InvincibilityTimer
-
+onready var manual_mining_timer = $ManualMiningTimer
 
 var direction := Vector2.ZERO
 var speed = run_speed
@@ -31,6 +33,7 @@ var unobtainiumCount : int = 0
 var fairyDustCount : int = 0
 var knockback = false
 var attacking = false
+var manual_mining = false
 
 # Current Health of the player
 var health : int = max_health
@@ -40,19 +43,20 @@ var prevUCount : int = unobtainiumCount
 var prevFDCount : int = fairyDustCount
 var prevHealth : int = health
 
-var onTile = "None"
+export var onTile = "None"
 #Tiles accounted for:
 """
 ID	||	NAME   ||	Reference
 ------------------------------
 -1		"NONE"		tileNone
-0		"Grass"		tileGrass
-1	"Unobtainium"	tileUnobtainium
+2		"Grass"		tileGrass
+3	"Unobtainium"	tileUnobtainium
 """
 
 func _ready():
 	#emit the initial stats of the player,
 	emit_signal("player_stats_changed", self)
+	emit_signal("is_manual_mining", self)
 
 # Process function called every frame
 func _process(delta):
@@ -85,15 +89,37 @@ func _process(delta):
 	# Stat Checking - will emit signal if stats changed
 	if(unobtainiumCount != prevUCount || fairyDustCount != prevFDCount || health != prevHealth):
 		emit_signal("player_stats_changed", self)
+	
+	# Handles Manual Mining
+	if(manual_mining):
+		#print("TEST: " + str($ManualMiningTimer.time_left))
+		if(onTile == "Unobtainium" && $ManualMiningTimer.time_left == 0):
+			$ManualMiningTimer.start(manual_mining_time)
+		if(onTile != "Unobtainium"):
+			#manual_mining = false
+			$ManualMiningTimer.stop()
+			$ManualMiningTimer.set_wait_time(5)
+		emit_signal("is_manual_mining", self)
+	
 
 # Handles input
 func _unhandled_input(event):
+	#Manual Mining
+	if (event.is_action_pressed("manual_mine")):
+		manual_mining = true
+	#Stop mining when key is released
+	if (event.is_action_released("manual_mine")):
+		manual_mining = false
+		$ManualMiningTimer.stop()
+		$ManualMiningTimer.set_wait_time(5)
+		emit_signal("is_manual_mining", self)
+	
 	if event.is_action_pressed("click"):
 		
 		if Global.selected_structure:
 			emit_signal("place_structure", get_global_mouse_position())
 		
-		elif !knockback:
+		elif !knockback && !manual_mining:
 			var dir = (get_global_mouse_position() - global_position).normalized()
 			
 			attacking = true
@@ -160,3 +186,7 @@ func _on_AttackHitbox_body_entered(body):
 func _on_InvincibilityTimer_timeout():
 	eff_anim_player.play("RESET")
 	set_collision_layer_bit(8, true)
+
+
+func _on_ManualMiningTimer_timeout():
+	unobtainiumCount += 1;

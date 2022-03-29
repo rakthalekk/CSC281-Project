@@ -53,6 +53,9 @@ margin_top = 533.0
 margin_right = 259.0
 margin_bottom = 559.0
 color = Color( 0, 0, 0, 0.686275 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Text Label" type="RichTextLabel" parent="Health Bar"]
 margin_left = -50.0
@@ -86,13 +89,16 @@ __meta__ = {
 }
 
 [node name="Unobtainium Display" type="TextureRect" parent="."]
-margin_left = 40.0
+margin_left = 56.0
 margin_top = 568.0
-margin_right = 360.0
+margin_right = 376.0
 margin_bottom = 848.0
 rect_scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 2 )
 expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Number" type="RichTextLabel" parent="Unobtainium Display"]
 margin_left = 370.0
@@ -102,6 +108,37 @@ margin_bottom = 92.0
 rect_scale = Vector2( 10, 10 )
 text = "###"
 scroll_active = false
+
+[node name="Mining Display" type="TextureRect" parent="."]
+margin_left = 144.0
+margin_top = 568.0
+margin_right = 464.0
+margin_bottom = 848.0
+rect_scale = Vector2( 0.1, 0.1 )
+texture = ExtResource( 2 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Mining Time" type="RichTextLabel" parent="Mining Display"]
+margin_left = 370.0
+margin_top = 80.0
+margin_right = 434.0
+margin_bottom = 92.0
+rect_scale = Vector2( 10, 10 )
+text = "###"
+scroll_active = false
+
+[node name="Cooldown Display" type="ColorRect" parent="Mining Display"]
+margin_left = 10.0
+margin_top = -30.0005
+margin_right = 330.0
+margin_bottom = 290.0
+color = Color( 0.654902, 0.654902, 0.654902, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [connection signal="toggled" from="Drill Item" to="." method="_on_Drill_Item_toggled"]
 [connection signal="toggled" from="Turret Item" to="." method="_on_Turret_Item_toggled"]
