@@ -4,7 +4,7 @@
 [ext_resource path="res://src/Enemy.gd" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 32, 24 )
+extents = Vector2( 32, 32 )
 
 [sub_resource type="Animation" id=3]
 length = 0.001
@@ -55,7 +55,7 @@ tracks/1/keys = {
 radius = 344.093
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 40, 32 )
+extents = Vector2( 40, 40 )
 
 [node name="Enemy" type="KinematicBody2D" groups=["enemy"]]
 collision_layer = 2
@@ -63,7 +63,7 @@ collision_mask = 3
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0, 24 )
+position = Vector2( 0, 16 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
@@ -85,7 +85,7 @@ collision_layer = 0
 collision_mask = 256
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-position = Vector2( 0, 24 )
+position = Vector2( 0, 16 )
 shape = SubResource( 5 )
 
 [connection signal="body_entered" from="VisionRadius" to="." method="_on_VisionRadius_body_entered"]

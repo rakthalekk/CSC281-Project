@@ -126,22 +126,12 @@ func _unhandled_input(event):
 			
 			if dir.x >= 0.6:
 				anim_player.play("attack_right")
-				$AttackHitbox/CollisionShape2D/ColorRect.rect_position = Vector2(-30, -45)
-				$AttackHitbox/CollisionShape2D/ColorRect.rect_size = Vector2(56, 96)
 			elif dir.x <= -0.6:
 				anim_player.play("attack_left")
-				$AttackHitbox/CollisionShape2D/ColorRect.rect_position = Vector2(-30, -45)
-				$AttackHitbox/CollisionShape2D/ColorRect.rect_size = Vector2(56, 96)
 			elif dir.y <= 0:
 				anim_player.play("attack_up")
-				$AttackHitbox/CollisionShape2D/ColorRect.rect_position = Vector2(-48, -29)
-				$AttackHitbox/CollisionShape2D/ColorRect.rect_size = Vector2(96, 56)
 			else:
 				anim_player.play("attack_down")
-				$AttackHitbox/CollisionShape2D/ColorRect.rect_position = Vector2(-48, -29)
-				$AttackHitbox/CollisionShape2D/ColorRect.rect_size = Vector2(96, 56)
-				
-			$AttackHitbox/CollisionShape2D/ColorRect.visible = true
 		
 #	if event.is_action_pressed("create_drill") && onTile == get_parent().tileUnobtainium: #on Unobtainium
 #		emit_signal("create_drill", global_position)
@@ -165,7 +155,6 @@ func damage(dmg, dir):
 
 func end_attack_animation():
 	attacking = false
-	$AttackHitbox/CollisionShape2D/ColorRect.visible = false
 	call_deferred("disable_attack_collider")
 
 
