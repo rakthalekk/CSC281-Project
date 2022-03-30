@@ -1,4 +1,4 @@
-extends StaticBody2D
+extends Structure
 
 const UNOBTAINIUM = preload("res://src/Unobtainium.tscn")
 
@@ -17,3 +17,7 @@ func _on_Timer_timeout():
 		if(inst.count < MAXCOUNT):
 			inst.count += 1
 		#print("Count is: " + str(inst.count) + " for miner at: " + str(get_position()))
+
+
+func _on_InvincibilityTimer_timeout():
+	end_invulnerability()

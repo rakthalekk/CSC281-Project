@@ -57,7 +57,7 @@ radius = 344.093
 [sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 40, 32 )
 
-[node name="Enemy" type="KinematicBody2D"]
+[node name="Enemy" type="KinematicBody2D" groups=["enemy"]]
 collision_layer = 2
 collision_mask = 3
 script = ExtResource( 2 )
@@ -75,6 +75,7 @@ anims/damaged = SubResource( 4 )
 
 [node name="VisionRadius" type="Area2D" parent="."]
 collision_layer = 0
+collision_mask = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="VisionRadius"]
 shape = SubResource( 2 )

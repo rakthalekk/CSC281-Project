@@ -2,10 +2,12 @@ extends TileMap
 
 # Declare member variables here. Examples:
 var rng = RandomNumberGenerator.new()
-var fieldWidth = 11
+var fieldWidth = 63
 var fieldLength = 63
-var stoneTileID = 3
 var grassTileID = 2
+var stoneTileID = 3
+var grassNoNavID = 4
+var stoneNoNavID = 5
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

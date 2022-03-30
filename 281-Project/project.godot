@@ -18,10 +18,16 @@ _global_script_classes=[ {
 "class": "Player",
 "language": "GDScript",
 "path": "res://src/Player.gd"
+}, {
+"base": "StaticBody2D",
+"class": "Structure",
+"language": "GDScript",
+"path": "res://src/Structure.gd"
 } ]
 _global_script_class_icons={
 "Enemy": "",
-"Player": ""
+"Player": "",
+"Structure": ""
 }
 
 [application]
@@ -107,7 +113,7 @@ manual_mine={
 2d_physics/layer_3="PlayerStructures"
 2d_physics/layer_4="Items"
 2d_physics/layer_5="Map Structures"
-2d_physics/layer_9="PlayerHurtbox"
+2d_physics/layer_9="EntityHurtbox"
 
 [physics]
 

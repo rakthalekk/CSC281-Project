@@ -1,4 +1,4 @@
-extends StaticBody2D
+extends Structure
 
 signal make_bullet
 
@@ -25,3 +25,7 @@ func _on_ShootInterval_timeout():
 	if target:
 		var direction = (target.global_position - global_position).normalized()
 		emit_signal("make_bullet", global_position, direction)
+
+
+func _on_InvincibilityTimer_timeout():
+	end_invulnerability()
