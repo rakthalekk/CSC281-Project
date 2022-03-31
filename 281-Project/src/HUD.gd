@@ -72,37 +72,26 @@ func cantAfford(parentItem, globalCost, normalTexture, lockedTexture):
 		parentItem.disabled = true
 		parentItem.texture_normal = load(lockedTexture)
 		if(hudUnobtainiumCount < globalCost[0]):
-			parentItem.get_node("Unobtainium Cost").get_node("Cost Number").set_text("")
-			parentItem.get_node("Unobtainium Cost").get_node("Cost Number").push_color(Color(1,0,0,1))
-			parentItem.get_node("Unobtainium Cost").get_node("Cost Number").append_bbcode(str(globalCost[0]))
-			parentItem.get_node("Unobtainium Cost").get_node("Cost Number").pop()
+			setText(parentItem.get_node("Unobtainium Cost").get_node("Cost Number"), Color(1,0,0,1), str(globalCost[0]))
 		else:
-			parentItem.get_node("Unobtainium Cost").get_node("Cost Number").set_text("")
-			parentItem.get_node("Unobtainium Cost").get_node("Cost Number").push_color(Color(1,1,1,1))
-			parentItem.get_node("Unobtainium Cost").get_node("Cost Number").append_bbcode(str(globalCost[0]))
-			parentItem.get_node("Unobtainium Cost").get_node("Cost Number").pop()
+			setText(parentItem.get_node("Unobtainium Cost").get_node("Cost Number"), Color(1,1,1,1), str(globalCost[0]))
 			
 		if(hudFairyDustCount < globalCost[1]):
-			parentItem.get_node("Fairy Dust Cost").get_node("Cost Number").set_text("")
-			parentItem.get_node("Fairy Dust Cost").get_node("Cost Number").push_color(Color(1,0,0,1))
-			parentItem.get_node("Fairy Dust Cost").get_node("Cost Number").append_bbcode(str(globalCost[1]))
-			parentItem.get_node("Fairy Dust Cost").get_node("Cost Number").pop()
+			setText(parentItem.get_node("Fairy Dust Cost").get_node("Cost Number"), Color(1,0,0,1), str(globalCost[1]))
 		else:
-			parentItem.get_node("Fairy Dust Cost").get_node("Cost Number").set_text("")
-			parentItem.get_node("Fairy Dust Cost").get_node("Cost Number").push_color(Color(1,1,1,1))
-			parentItem.get_node("Fairy Dust Cost").get_node("Cost Number").append_bbcode(str(globalCost[1]))
-			parentItem.get_node("Fairy Dust Cost").get_node("Cost Number").pop()
+			setText(parentItem.get_node("Fairy Dust Cost").get_node("Cost Number"), Color(1,1,1,1), str(globalCost[1]))
 	else:
 		parentItem.disabled = false
 		parentItem.texture_normal = load(normalTexture)
-		parentItem.get_node("Unobtainium Cost").get_node("Cost Number").set_text("")
-		parentItem.get_node("Unobtainium Cost").get_node("Cost Number").push_color(Color(1,1,1,1))
-		parentItem.get_node("Unobtainium Cost").get_node("Cost Number").append_bbcode(str(globalCost[0]))
-		parentItem.get_node("Unobtainium Cost").get_node("Cost Number").pop()
-		parentItem.get_node("Fairy Dust Cost").get_node("Cost Number").set_text("")
-		parentItem.get_node("Fairy Dust Cost").get_node("Cost Number").push_color(Color(1,1,1,1))
-		parentItem.get_node("Fairy Dust Cost").get_node("Cost Number").append_bbcode(str(globalCost[1]))
-		parentItem.get_node("Fairy Dust Cost").get_node("Cost Number").pop()
+		setText(parentItem.get_node("Unobtainium Cost").get_node("Cost Number"), Color(1,1,1,1), str(globalCost[0]))
+		setText(parentItem.get_node("Fairy Dust Cost").get_node("Cost Number"), Color(1,1,1,1), str(globalCost[1]))
+
+
+func setText(node, color, text):
+	node.set_text("")
+	node.push_color(color)
+	node.append_bbcode(text)
+	node.pop()
 
 func _on_Drill_Item_toggled(button_pressed):
 	if Global.selected_structure != "drill":
@@ -140,3 +129,20 @@ func _on_Fairy_Swatter_Lock_pressed():
 		fairySwatterCostObj.visible = false
 		emit_signal("unlocked_fairy_swatter", true)
 		emit_signal("just_purchased", hudUnobtainiumCount, hudFairyDustCount);
+
+
+func _on_Player_place_structure(pos: Vector2):
+	# Structure placing handled in main
+	if Global.selected_structure == "drill":
+		hudUnobtainiumCount -= Global.unobtainiumDrillCost[0]
+		hudFairyDustCount -= Global.unobtainiumDrillCost[1]
+		if(hudUnobtainiumCount < Global.unobtainiumDrillCost[0] || hudFairyDustCount < Global.unobtainiumDrillCost[1]):
+			Global.selected_structure = null
+			Input.set_custom_mouse_cursor(null)
+	elif Global.selected_structure == "turret":
+		hudUnobtainiumCount -= Global.magicTurretCost[0]
+		hudFairyDustCount -= Global.magicTurretCost[1]
+		if(hudUnobtainiumCount < Global.magicTurretCost[0] || hudFairyDustCount < Global.magicTurretCost[1]):
+			Global.selected_structure = null
+			Input.set_custom_mouse_cursor(null)
+	emit_signal("just_purchased", hudUnobtainiumCount, hudFairyDustCount);

@@ -12,7 +12,6 @@ export var onTile = "None"
 # Player Signals
 signal make_bullet
 signal create_drill
-signal action_pressed_test
 signal update_health
 signal place_structure
 

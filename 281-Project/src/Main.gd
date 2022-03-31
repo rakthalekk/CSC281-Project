@@ -102,6 +102,7 @@ func remove_structure(struct):
 
 
 func _on_Player_place_structure(pos: Vector2):
+	# This signal also being received in the HUD for resource manipulation
 	# Positions the structure in the center of the tile
 	pos = tilemap.map_to_world(tilemap.world_to_map(pos)) + Vector2(32, 32)
 	if Global.selected_structure == "drill":

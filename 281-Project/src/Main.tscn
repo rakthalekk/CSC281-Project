@@ -383,5 +383,6 @@ position = Vector2( 128, 0 )
 [connection signal="timeout" from="BunnySpawner2/Timer" to="BunnySpawner2" method="_on_Timer_timeout"]
 [connection signal="is_manual_mining" from="Entities/Player" to="HUD" method="_on_Player_is_manual_mining"]
 [connection signal="place_structure" from="Entities/Player" to="." method="_on_Player_place_structure"]
+[connection signal="place_structure" from="Entities/Player" to="HUD" method="_on_Player_place_structure"]
 [connection signal="player_stats_changed" from="Entities/Player" to="HUD" method="_on_Player_player_stats_changed"]
 [connection signal="timeout" from="EnemyPathingTimer" to="." method="_on_EnemyPathingTimer_timeout"]
