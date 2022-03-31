@@ -1,12 +1,15 @@
 class_name Player
 extends KinematicBody2D
 
+# Universal Vars for the Player
 export(int) var run_speed = 300
 export(int) var knockback_speed = 400
 export(int) var dmg = 10
 export(int) var max_health = 100
 export(int) var manual_mining_time = 5
+export var onTile = "None"
 
+# Player Signals
 signal make_bullet
 signal create_drill
 signal action_pressed_test
@@ -17,6 +20,8 @@ signal place_structure
 signal player_stats_changed
 # Used to show when the player is mining
 signal is_manual_mining
+# Used to show when the player is interacting
+signal is_interacting
 
 #onready var gun_tip = $GunTip
 onready var anim_player = $AnimationPlayer
@@ -43,7 +48,9 @@ var prevUCount : int = unobtainiumCount
 var prevFDCount : int = fairyDustCount
 var prevHealth : int = health
 
-export var onTile = "None"
+# Used to check whether the player has specific things
+var hasFairySwatter = false
+
 #Tiles accounted for:
 """
 ID	||	NAME   ||	Reference
@@ -92,7 +99,6 @@ func _process(delta):
 	
 	# Handles Manual Mining
 	if(manual_mining):
-		#print("TEST: " + str($ManualMiningTimer.time_left))
 		if(onTile == "Unobtainium" && $ManualMiningTimer.time_left == 0):
 			$ManualMiningTimer.start(manual_mining_time)
 		if(onTile != "Unobtainium"):
@@ -107,6 +113,8 @@ func _unhandled_input(event):
 	#Manual Mining
 	if (event.is_action_pressed("manual_mine")):
 		manual_mining = true
+	if (event.is_action_pressed("interact_key")):
+		emit_signal("is_interacting", self)
 	#Stop mining when key is released
 	if (event.is_action_released("manual_mine")):
 		manual_mining = false
@@ -179,3 +187,13 @@ func _on_InvincibilityTimer_timeout():
 
 func _on_ManualMiningTimer_timeout():
 	unobtainiumCount += 1;
+
+
+func _on_HUD_unlocked_fairy_swatter():
+	hasFairySwatter = true;
+
+
+func _on_HUD_just_purchased(hudUnobtainiumCount, hudFairyDustCount):
+	unobtainiumCount = hudUnobtainiumCount
+	fairyDustCount = hudFairyDustCount
+	emit_signal("player_stats_changed", self)
