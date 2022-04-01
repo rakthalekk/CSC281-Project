@@ -35,7 +35,7 @@ var velocity := Vector2.ZERO
 
 # Current resources of the player
 var unobtainiumCount : int = 20
-var fairyDustCount : int = 0
+var fairyDustCount : int = 20
 var knockback = false
 var attacking = false
 var manual_mining = false
@@ -95,7 +95,7 @@ func _process(delta):
 		if(onTile == "Unobtainium" && $ManualMiningTimer.time_left == 0):
 			$ManualMiningTimer.start(manual_mining_time)
 		if(onTile != "Unobtainium"):
-			#manual_mining = false
+			manual_mining = false
 			$ManualMiningTimer.stop()
 			$ManualMiningTimer.set_wait_time(manual_mining_time)
 		emit_signal("is_manual_mining", self)
@@ -105,25 +105,22 @@ func _process(delta):
 # Handles input
 func _unhandled_input(event):
 	#Manual Mining
-	if (event.is_action_pressed("manual_mine")):
-		manual_mining = true
-	if (event.is_action_pressed("interact_key")):
+	if (Input.is_action_just_pressed("manual_mine")):
+		if !manual_mining:
+			manual_mining = true
+		else:
+			manual_mining = false
+			$ManualMiningTimer.stop()
+			$ManualMiningTimer.set_wait_time(manual_mining_time)
+			emit_signal("is_manual_mining", self)
+
+	if (Input.is_action_just_pressed("interact_key")):
 		if harvest_fairy_dust && hasFairySwatter:
-			interacting = true
-			$HarvestTimer.start()
-
-	if (event.is_action_released("interact_key")):
-		interacting = false
-		$HarvestTimer.stop()
-		$HarvestTimer.set_wait_time(harvesting_time)
-		emit_signal("is_interacting", self)
-
-	#Stop mining when key is released
-	if (event.is_action_released("manual_mine")):
-		manual_mining = false
-		$ManualMiningTimer.stop()
-		$ManualMiningTimer.set_wait_time(manual_mining_time)
-		emit_signal("is_manual_mining", self)
+			if !interacting:
+				interacting = true
+				$HarvestTimer.start()
+			else:
+				stop_interacting()
 	
 	if event.is_action_pressed("click"):
 		
@@ -143,6 +140,13 @@ func _unhandled_input(event):
 				anim_player.play("attack_up")
 			else:
 				anim_player.play("attack_down")
+
+
+func stop_interacting():
+	interacting = false
+	$HarvestTimer.stop()
+	$HarvestTimer.set_wait_time(harvesting_time)
+	emit_signal("is_interacting", self)
 
 
 # Damages the player and knocks them back in the given direction

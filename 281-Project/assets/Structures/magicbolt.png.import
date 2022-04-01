@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/magicbolt.png-c1245258d2b9d765c5517581ef6dbe8a.stex"
+path="res://.import/magicbolt.png-5677962166219db888b004cc33bf7ad1.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Resources/magicbolt.png"
-dest_files=[ "res://.import/magicbolt.png-c1245258d2b9d765c5517581ef6dbe8a.stex" ]
+source_file="res://assets/Structures/magicbolt.png"
+dest_files=[ "res://.import/magicbolt.png-5677962166219db888b004cc33bf7ad1.stex" ]
 
 [params]
 

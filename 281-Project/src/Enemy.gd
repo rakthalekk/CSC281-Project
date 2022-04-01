@@ -1,9 +1,8 @@
 class_name Enemy
 extends KinematicBody2D
 
-const CALM = preload("res://assets/Enemies/bunnyaup.png")
-const ANGRY = preload("res://assets/Enemies/bunnybup.png")
-
+export(Texture) var CALM
+export(Texture) var ANGRY
 export(int) var dmg = 10
 export(int) var walk_speed = 100
 export(int) var run_speed = 200
@@ -39,10 +38,7 @@ func _process(delta):
 		velocity = direction * knockback_speed
 	elif targets.size() > 0:
 		$Sprite.texture = ANGRY
-		if path.size() > 0 && targets[0] is Player:
-			pursue_player()
-		else:
-			pursue_structure()
+		pursue_target()
 	else:
 		$Sprite.texture = CALM
 		wander(walk_speed)
@@ -50,17 +46,40 @@ func _process(delta):
 	velocity = move_and_slide(velocity)
 
 
+func pursue_target():
+	# Finds closest target
+	var closest_target = targets[0]
+	var shortest_dist = 999
+	for t in targets:
+		var d = global_position.distance_to(t.global_position)
+		if d < shortest_dist:
+			closest_target = t
+			shortest_dist = d
+	
+	# Find the length of the path to the player
+	var dist_to_player = 999
+	if path.size() > 0:
+		dist_to_player = global_position.distance_to(path[0])
+	for i in range(path.size() - 1):
+		dist_to_player += path[i].distance_to(path[i + 1])
+	
+	# Prioritize pursing the player, pursue other structures if 3x closer than player
+	if path.size() > 0 && targets[0] is Player && dist_to_player < 3 * shortest_dist:
+		pursue_player()
+	
+	# Directly target structures without pathing
+	else:
+		direction = global_position.direction_to(closest_target.global_position)
+		velocity = direction * run_speed
+
+
+# Target the player using navigation, pathing around structures and walls
 func pursue_player():
 	if global_position.distance_to(path[0]) < threshold:
 		path.remove(0)
 	else:
 		direction = global_position.direction_to(path[0])
 		velocity = direction * run_speed
-
-
-func pursue_structure():
-	direction = global_position.direction_to(targets[0].global_position)
-	velocity = direction * run_speed
 
 
 func wander(speed):

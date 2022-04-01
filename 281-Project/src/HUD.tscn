@@ -1,8 +1,7 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://assets/Structures/turret.png" type="Texture" id=1]
 [ext_resource path="res://assets/Resources/ore.png" type="Texture" id=2]
-[ext_resource path="res://src/Player Coordinates.gd" type="Script" id=3]
 [ext_resource path="res://assets/Resources/Fairy Dust.png" type="Texture" id=4]
 [ext_resource path="res://assets/Structures/drillupscaled.png" type="Texture" id=5]
 [ext_resource path="res://assets/Resources/fairyswatter.png" type="Texture" id=6]
@@ -52,28 +51,17 @@ animations = [ {
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource( 7 )
 
-[node name="Player Coordinates" type="RichTextLabel" parent="."]
-margin_left = 2.0
-margin_top = 1.0
-margin_right = 154.0
-margin_bottom = 49.0
-text = "Player Coordinates:
-X:	######
-Y:	######"
-scroll_active = false
-script = ExtResource( 3 )
-
 [node name="Border" type="ColorRect" parent="."]
-margin_top = 496.0
-margin_right = 1024.0
-margin_bottom = 600.0
+margin_top = 616.0
+margin_right = 1200.0
+margin_bottom = 720.0
 color = Color( 0.764706, 0.556863, 0.00392157, 1 )
 
 [node name="Drill Item" type="TextureButton" parent="."]
 margin_left = 352.0
-margin_top = 512.0
+margin_top = 632.0
 margin_right = 488.0
-margin_bottom = 664.0
+margin_bottom = 784.0
 rect_scale = Vector2( 0.5, 0.5 )
 toggle_mode = true
 texture_normal = ExtResource( 5 )
@@ -125,9 +113,9 @@ __meta__ = {
 
 [node name="Turret Item" type="TextureButton" parent="."]
 margin_left = 504.0
-margin_top = 512.0
+margin_top = 632.0
 margin_right = 612.0
-margin_bottom = 656.0
+margin_bottom = 776.0
 rect_scale = Vector2( 0.5, 0.5 )
 toggle_mode = true
 texture_normal = ExtResource( 1 )
@@ -177,9 +165,9 @@ __meta__ = {
 
 [node name="Health Bar" type="ColorRect" parent="."]
 margin_left = 56.0
-margin_top = 504.0
+margin_top = 624.0
 margin_right = 262.0
-margin_bottom = 530.0
+margin_bottom = 650.0
 color = Color( 0, 0, 0, 0.686275 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -212,9 +200,9 @@ color = Color( 0, 1, 0, 1 )
 
 [node name="Unobtainium Display" type="TextureRect" parent="."]
 margin_left = 8.0
-margin_top = 536.0
+margin_top = 656.0
 margin_right = 328.0
-margin_bottom = 816.0
+margin_bottom = 936.0
 rect_scale = Vector2( 0.2, 0.2 )
 texture = ExtResource( 2 )
 expand = true
@@ -230,9 +218,9 @@ scroll_active = false
 
 [node name="Fairy Dust Display" type="TextureRect" parent="."]
 margin_left = 152.0
-margin_top = 536.0
+margin_top = 656.0
 margin_right = 472.0
-margin_bottom = 816.0
+margin_bottom = 936.0
 rect_scale = Vector2( 0.2, 0.2 )
 texture = ExtResource( 4 )
 expand = true
@@ -274,7 +262,7 @@ margin_bottom = 320.0
 color = Color( 0.654902, 0.654902, 0.654902, 1 )
 
 [node name="Fairy Swatter" type="AnimatedSprite" parent="."]
-position = Vector2( 904, 544 )
+position = Vector2( 1048, 664 )
 frames = SubResource( 9 )
 frame = 3
 playing = true

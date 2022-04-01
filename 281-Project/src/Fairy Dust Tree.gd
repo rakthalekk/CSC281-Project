@@ -3,7 +3,15 @@ extends StaticBody2D
 var spawnedTexture = load("res://assets/Resources/Fairy Tree Dust.png")
 var cooldownTexture = load("res://assets/Resources/Fairy Tree.png")
 
+
 onready var sprite = $Sprite
+onready var parent = $"../.."
+
+
+func _ready():
+	yield(parent, "ready")
+	parent.update_log_navigation(global_position)
+
 
 func _on_Respawn_Timer_timeout():
 	#print("SWITCHING TREE:")
@@ -23,3 +31,4 @@ func _on_HarvestArea_body_entered(body):
 func _on_HarvestArea_body_exited(body):
 	if body is Player:
 		body.harvest_fairy_dust = false
+		body.stop_interacting()
