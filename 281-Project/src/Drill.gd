@@ -1,11 +1,18 @@
 extends Structure
 
+# Unobtainium Drill Variables
+var unobtainiumReward = 1 #The unobtainium produced
+const MAXCOUNT = 5 # Max unobtainium that can be at a miner before it will stop producing more
+var drillCooldownTime = 5 #Time in seconds it takes to mine an unobtainium ore
+
 const UNOBTAINIUM = preload("res://src/Unobtainium.tscn")
 
 #Instance will be used if the unobtainium is not spawned
 var inst = null
-# Max unobtainium that can be at a miner before it will stop producing more
-const MAXCOUNT = 5
+
+func _ready():
+	$"Timer".wait_time = drillCooldownTime;
+
 
 func _on_Timer_timeout():
 	#print("TIMER AT 0")
@@ -15,7 +22,7 @@ func _on_Timer_timeout():
 		inst.position = Vector2(0, 64) #This is position relative to the center of the drill
 	else: # Add unobtainium to the instance if not beyond max count
 		if(inst.count < MAXCOUNT):
-			inst.count += 1
+			inst.count += unobtainiumReward
 		#print("Count is: " + str(inst.count) + " for miner at: " + str(get_position()))
 
 

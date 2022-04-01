@@ -1,5 +1,9 @@
 extends StaticBody2D
 
+# Fairy Log Variables
+var logCooldown = [1,5] #[min time, max time] time in seconds
+var fairyDustReward = 1 #Amount of fairy dust collected from logs
+
 var spawnedTexture = load("res://assets/Map Elements/fairylogColored.png")
 var cooldownTexture = load("res://assets/Map Elements/fairylog.png")
 
@@ -22,10 +26,11 @@ func _ready():
 	parent.update_log_navigation(global_position)
 
 func harvested(body):
+	body.fairyDustCount += fairyDustReward
 	canHarvest = false
 	body.harvest_fairy_dust = false
 	sprite.texture = cooldownTexture
-	var waitTime = rng.randi_range(Global.logCooldown[0],Global.logCooldown[1])
+	var waitTime = rng.randi_range(logCooldown[0],logCooldown[1])
 	respawnTimer.wait_time = waitTime
 	respawnTimer.start()
 

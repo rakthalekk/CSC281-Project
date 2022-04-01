@@ -1,9 +1,15 @@
 extends Node2D
 
-const BULLET = preload("res://src/Bolt.tscn")
+# Structure References
 const DRILL = preload("res://src/Drill.tscn")
 const TURRET = preload("res://src/Turret.tscn")
+const OILRIG = preload("res://src/OilRig.tscn")
+
+# Enemy References
 const BUNNY = preload("res://src/Wonderbunny.tscn")
+
+# Misc References
+const BULLET = preload("res://src/Bolt.tscn")
 
 #signal update_resource_counts
 
@@ -45,7 +51,8 @@ func _process(delta):
 		var mouse_tile_pos = tilemap.map_to_world(tilemap.world_to_map(get_global_mouse_position()))
 		tile_highlight.rect_global_position = mouse_tile_pos
 		
-		if Global.selected_item == "drill" && get_stone_tile_count(mouse_tile_pos) < 3:
+		## CHANGE OIL RIG WHEN OIL TILES ARE IMPLEMENTED
+		if (Global.selected_item == "drill" || Global.selected_item == "oilrig") && get_stone_tile_count(mouse_tile_pos) < 3:
 			tile_highlight.color = Color(1, 0, 0, 0.2)
 			valid_place = false
 		elif !check_no_nav_tiles(mouse_tile_pos):
@@ -94,7 +101,6 @@ func create_drill(pos: Vector2):
 	structure_manager.add_child(inst)
 	inst.position = pos
 	structures.append(inst)
-	#emit_signal("update_resource_counts")
 
 
 func create_turret(pos: Vector2):
@@ -105,7 +111,15 @@ func create_turret(pos: Vector2):
 	inst.position = pos
 	structures.append(inst)
 	inst.connect("make_bullet", self, "_on_make_bullet")
-	##emit_signal("update_resource_counts")
+
+# Create an oil rig at the location
+func create_oilrig(pos: Vector2):
+	update_tile_navigation(pos, true)
+		
+	var inst = OILRIG.instance()
+	structure_manager.add_child(inst)
+	inst.position = pos
+	structures.append(inst)
 
 
 func update_tile_navigation(pos: Vector2, disable_nav: bool):
@@ -150,10 +164,15 @@ func _on_Player_place_structure(pos: Vector2):
 			if pos.distance_to(s.position) <= 100:
 				return;
 
-		if Global.selected_item == "drill":
-			create_drill(pos)
-		elif Global.selected_item == "turret":
-			create_turret(pos)
+		match Global.selected_item:
+			"drill":
+				create_drill(pos)
+			"turret":
+				create_turret(pos)
+			"oilrig":
+				create_oilrig(pos)
+			_:
+				print("Invalid structure being placed: " + str(Global.selected_item))
 
 
 func _on_EnemyPathingTimer_timeout():

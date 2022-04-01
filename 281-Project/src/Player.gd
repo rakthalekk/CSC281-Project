@@ -36,6 +36,7 @@ var velocity := Vector2.ZERO
 # Current resources of the player
 var unobtainiumCount : int = 20
 var fairyDustCount : int = 20
+var dragonOilCount : int = 20
 var knockback = false
 var attacking = false
 var manual_mining = false
@@ -52,6 +53,7 @@ var health : int = max_health
 # Used to detect when the players' stats have changed to update the HUD
 var prevUCount : int = unobtainiumCount
 var prevFDCount : int = fairyDustCount
+var prevDOCount : int = dragonOilCount
 var prevHealth : int = health
 
 # Used to check whether the player has specific things
@@ -91,7 +93,11 @@ func _process(delta):
 	move_and_slide(velocity)
 	
 	# Stat Checking - will emit signal if stats changed
-	if(unobtainiumCount != prevUCount || fairyDustCount != prevFDCount || health != prevHealth):
+	if(unobtainiumCount != prevUCount || fairyDustCount != prevFDCount || dragonOilCount != prevDOCount || health != prevHealth):
+		prevUCount = unobtainiumCount
+		prevFDCount  = fairyDustCount
+		prevDOCount  = dragonOilCount
+		prevHealth = health
 		emit_signal("player_stats_changed", self)
 	
 	# Handles Manual Mining
@@ -202,16 +208,17 @@ func _on_HUD_unlocked_fairy_swatter():
 	hasFairySwatter = true;
 
 
-func _on_HUD_just_purchased(hudUnobtainiumCount, hudFairyDustCount):
+func _on_HUD_just_purchased(hudUnobtainiumCount, hudFairyDustCount, hudDragonOilCount):
 	unobtainiumCount = hudUnobtainiumCount
 	fairyDustCount = hudFairyDustCount
+	dragonOilCount = hudDragonOilCount
 	emit_signal("player_stats_changed", self)
 
 
 func _on_HarvestTimer_timeout():
 	if(nearLog != null):
 		if(nearLog.canHarvest):
-			fairyDustCount += Global.fairyDustReward
+			#fairyDustCount += fairyDustReward
 			nearLog.harvested(self)
 	else:
 		print("SOMEHOW NEARTREE IS NULL??")

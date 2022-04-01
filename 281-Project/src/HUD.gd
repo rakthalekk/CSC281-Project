@@ -2,8 +2,10 @@ extends CanvasLayer
 
 const DRILL_IMG = preload("res://assets/Resources/drillcursor.png")
 const TURRET_IMG = preload("res://assets/Resources/turretcursor.png")
+const OILRIG_IMG = preload("res://assets/Resources/oilrigcursor.png")
 const ORE_IMG = preload("res://assets/Resources/ore.png")
 const DUST_IMG = preload("res://assets/Resources/Fairy Dust.png")
+const OIL_IMG = preload("res://assets/Resources/Dragon Oil.png")
 
 # Signal transmitted when the user unlocks the fairy swatter
 signal unlocked_fairy_swatter
@@ -13,6 +15,7 @@ signal just_purchased
 # Stored player stats
 var hudUnobtainiumCount = 0
 var hudFairyDustCount = 0
+var hudDragonOilCount = 0
 
 # Misc Constants for HUD
 onready var cooldownDisplay = $"Interact Display/Cooldown Display"
@@ -24,7 +27,7 @@ onready var fairySwatterCostObj = $"Fairy Swatter/Cost Object"
 onready var fairySwatterUCost = $"Fairy Swatter/Cost Object/Cost Number"
 onready var drillItem = $"Drill Item"
 onready var turretItem = $"Turret Item"
-
+onready var oilRigItem = $"Oil Rig Item"
 
 func _ready():
 	# Set price text box of fairy swatter
@@ -50,6 +53,9 @@ func _on_Player_player_stats_changed(var player):
 	$"Fairy Dust Display/Number".set_text(str(player.fairyDustCount))
 	hudFairyDustCount = player.fairyDustCount
 	
+	$"Dragon Oil Display/Number".set_text(str(player.dragonOilCount))
+	hudDragonOilCount = player.dragonOilCount
+	
 	invalidPrices()
 
 
@@ -70,26 +76,38 @@ func invalidPrices():
 	
 	cantAfford(drillItem,Global.unobtainiumDrillCost,"res://assets/Structures/drillupscaled.png","res://assets/Structures/drillupscaled grayscale.png")
 	cantAfford(turretItem,Global.magicTurretCost,"res://assets/Structures/turret.png","res://assets/Structures/turret grayscale.png")
+	cantAfford(oilRigItem,Global.oilRigCost,"res://assets/Structures/dragon oil rig.png", "res://assets/Structures/dragon oil rig grayscale.png")
 
 
 func cantAfford(parentItem, globalCost, normalTexture, lockedTexture):
-	if(hudUnobtainiumCount < globalCost[0] || hudFairyDustCount < globalCost[1]):
-		parentItem.disabled = true
-		parentItem.texture_normal = load(lockedTexture)
-		if(hudUnobtainiumCount < globalCost[0]):
-			setText(parentItem.get_node("Unobtainium Cost").get_node("Cost Number"), Color(1,0,0,1), str(globalCost[0]))
+	var amounts = [hudUnobtainiumCount, hudFairyDustCount, hudDragonOilCount]
+	var resourceCount = 0
+	var hasResourceCount = 0
+	for node in parentItem.get_children():
+		var index = -1
+		resourceCount += 1
+		match node.name: # Get the index of the global array for each resource
+			"Unobtainium Cost":
+				index = 0
+			"Fairy Dust Cost":
+				index = 1
+			"Dragon Oil Cost":
+				index = 2
+			_:
+				resourceCount -= 1 #remove one since checked node isn't a resource label
+				print("Not a resource node: " + str(node.name))
+				continue
+		if(amounts[index] < globalCost[index]):
+			setText(node.get_node("Cost Number"), Color(1,0,0,1), str(globalCost[index]))
 		else:
-			setText(parentItem.get_node("Unobtainium Cost").get_node("Cost Number"), Color(1,1,1,1), str(globalCost[0]))
-			
-		if(hudFairyDustCount < globalCost[1]):
-			setText(parentItem.get_node("Fairy Dust Cost").get_node("Cost Number"), Color(1,0,0,1), str(globalCost[1]))
-		else:
-			setText(parentItem.get_node("Fairy Dust Cost").get_node("Cost Number"), Color(1,1,1,1), str(globalCost[1]))
-	else:
+			setText(node.get_node("Cost Number"), Color(1,1,1,1), str(globalCost[index]))
+			hasResourceCount += 1
+	if(hasResourceCount == resourceCount):
 		parentItem.disabled = false
 		parentItem.texture_normal = load(normalTexture)
-		setText(parentItem.get_node("Unobtainium Cost").get_node("Cost Number"), Color(1,1,1,1), str(globalCost[0]))
-		setText(parentItem.get_node("Fairy Dust Cost").get_node("Cost Number"), Color(1,1,1,1), str(globalCost[1]))
+	else:
+		parentItem.disabled = true
+		parentItem.texture_normal = load(lockedTexture)
 
 
 func setText(node, color, text):
@@ -137,7 +155,7 @@ func _on_Fairy_Swatter_Lock_pressed():
 		fairySwatterLock.visible = false
 		fairySwatterCostObj.visible = false
 		emit_signal("unlocked_fairy_swatter")
-		emit_signal("just_purchased", hudUnobtainiumCount, hudFairyDustCount);
+		emit_signal("just_purchased", hudUnobtainiumCount, hudFairyDustCount, hudDragonOilCount);
 
 
 func _on_Player_is_interacting(player):
@@ -158,13 +176,31 @@ func _on_Player_place_structure(pos: Vector2):
 		if Global.selected_item == "drill":
 			hudUnobtainiumCount -= Global.unobtainiumDrillCost[0]
 			hudFairyDustCount -= Global.unobtainiumDrillCost[1]
-			if(hudUnobtainiumCount < Global.unobtainiumDrillCost[0] || hudFairyDustCount < Global.unobtainiumDrillCost[1]):
+			hudDragonOilCount -= Global.unobtainiumDrillCost[2]
+			if(hudUnobtainiumCount < Global.unobtainiumDrillCost[0] || hudFairyDustCount < Global.unobtainiumDrillCost[1] || hudDragonOilCount < Global.unobtainiumDrillCost[2]):
 				Global.selected_item = null
 				Input.set_custom_mouse_cursor(null)
 		elif Global.selected_item == "turret":
 			hudUnobtainiumCount -= Global.magicTurretCost[0]
 			hudFairyDustCount -= Global.magicTurretCost[1]
-			if(hudUnobtainiumCount < Global.magicTurretCost[0] || hudFairyDustCount < Global.magicTurretCost[1]):
+			hudDragonOilCount -= Global.magicTurretCost[2]
+			if(hudUnobtainiumCount < Global.magicTurretCost[0] || hudFairyDustCount < Global.magicTurretCost[1] || hudDragonOilCount < Global.magicTurretCost[2]):
 				Global.selected_item = null
 				Input.set_custom_mouse_cursor(null)
-		emit_signal("just_purchased", hudUnobtainiumCount, hudFairyDustCount);
+		elif Global.selected_item == "oilrig":
+			hudUnobtainiumCount -= Global.oilRigCost[0]
+			hudFairyDustCount -= Global.oilRigCost[1]
+			hudDragonOilCount -= Global.oilRigCost[2]
+			if(hudUnobtainiumCount < Global.oilRigCost[0] || hudFairyDustCount < Global.oilRigCost[1] || hudDragonOilCount < Global.oilRigCost[2]):
+				Global.selected_item = null
+				Input.set_custom_mouse_cursor(null)
+		emit_signal("just_purchased", hudUnobtainiumCount, hudFairyDustCount, hudDragonOilCount);
+
+
+func _on_Oil_Rig_Item_toggled(button_pressed):
+	if Global.selected_item != "oilrig":
+		Input.set_custom_mouse_cursor(OILRIG_IMG)
+		Global.selected_item = "oilrig"
+	else:
+		Input.set_custom_mouse_cursor(null)
+		Global.selected_item = null
