@@ -1,13 +1,53 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://assets/Structures/turret.png" type="Texture" id=1]
 [ext_resource path="res://assets/Resources/ore.png" type="Texture" id=2]
 [ext_resource path="res://src/Player Coordinates.gd" type="Script" id=3]
 [ext_resource path="res://assets/Resources/Fairy Dust.png" type="Texture" id=4]
 [ext_resource path="res://assets/Structures/drillupscaled.png" type="Texture" id=5]
-[ext_resource path="res://assets/Resources/Fairy Swatter.png" type="Texture" id=6]
+[ext_resource path="res://assets/Resources/fairyswatter.png" type="Texture" id=6]
 [ext_resource path="res://src/HUD.gd" type="Script" id=7]
-[ext_resource path="res://assets/Resources/Lock Icon.png" type="Texture" id=8]
+[ext_resource path="res://assets/Resources/lockred.png" type="Texture" id=8]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 6 )
+region = Rect2( 0, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 6 )
+region = Rect2( 64, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 6 )
+region = Rect2( 128, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 6 )
+region = Rect2( 192, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=5]
+atlas = ExtResource( 6 )
+region = Rect2( 256, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=6]
+atlas = ExtResource( 6 )
+region = Rect2( 320, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=7]
+atlas = ExtResource( 6 )
+region = Rect2( 384, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 6 )
+region = Rect2( 448, 0, 64, 64 )
+
+[sub_resource type="SpriteFrames" id=9]
+animations = [ {
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource( 7 )
@@ -24,32 +64,26 @@ scroll_active = false
 script = ExtResource( 3 )
 
 [node name="Border" type="ColorRect" parent="."]
-margin_top = 525.0
+margin_top = 496.0
 margin_right = 1024.0
 margin_bottom = 600.0
 color = Color( 0.764706, 0.556863, 0.00392157, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Drill Item" type="TextureButton" parent="."]
-margin_left = 368.0
-margin_top = 528.0
-margin_right = 504.0
-margin_bottom = 680.0
-rect_scale = Vector2( 0.35, 0.35 )
+margin_left = 352.0
+margin_top = 512.0
+margin_right = 488.0
+margin_bottom = 664.0
+rect_scale = Vector2( 0.5, 0.5 )
 toggle_mode = true
 texture_normal = ExtResource( 5 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Unobtainium Cost" type="TextureRect" parent="Drill Item"]
-margin_left = 14.2858
-margin_top = 154.286
-margin_right = 78.2858
-margin_bottom = 218.286
-rect_scale = Vector2( 0.4, 0.4 )
+margin_left = 137.143
+margin_top = 22.8571
+margin_right = 201.143
+margin_bottom = 86.8571
+rect_scale = Vector2( 0.6, 0.6 )
 texture = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -67,11 +101,11 @@ __meta__ = {
 }
 
 [node name="Fairy Dust Cost" type="TextureRect" parent="Drill Item"]
-margin_left = 14.2858
-margin_top = 180.0
-margin_right = 78.2858
-margin_bottom = 244.0
-rect_scale = Vector2( 0.4, 0.4 )
+margin_left = 137.143
+margin_top = 91.4286
+margin_right = 201.143
+margin_bottom = 155.429
+rect_scale = Vector2( 0.6, 0.6 )
 texture = ExtResource( 4 )
 expand = true
 __meta__ = {
@@ -90,23 +124,21 @@ __meta__ = {
 }
 
 [node name="Turret Item" type="TextureButton" parent="."]
-margin_left = 456.0
-margin_top = 528.0
-margin_right = 520.0
-margin_bottom = 592.0
-rect_scale = Vector2( 0.35, 0.35 )
+margin_left = 504.0
+margin_top = 512.0
+margin_right = 612.0
+margin_bottom = 656.0
+rect_scale = Vector2( 0.5, 0.5 )
 toggle_mode = true
 texture_normal = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Unobtainium Cost" type="TextureRect" parent="Turret Item"]
-margin_top = 154.286
-margin_right = 64.0
-margin_bottom = 218.286
+margin_left = 114.286
+margin_top = 22.8571
+margin_right = 178.286
+margin_bottom = 86.8571
 rect_rotation = 0.298413
-rect_scale = Vector2( 0.4, 0.4 )
+rect_scale = Vector2( 0.6, 0.6 )
 texture = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -124,15 +156,13 @@ __meta__ = {
 }
 
 [node name="Fairy Dust Cost" type="TextureRect" parent="Turret Item"]
-margin_top = 180.0
-margin_right = 64.0
-margin_bottom = 244.0
-rect_scale = Vector2( 0.4, 0.4 )
+margin_left = 114.286
+margin_top = 91.4286
+margin_right = 178.286
+margin_bottom = 155.429
+rect_scale = Vector2( 0.6, 0.6 )
 texture = ExtResource( 4 )
 expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Cost Number" type="RichTextLabel" parent="Turret Item/Fairy Dust Cost"]
 margin_left = 85.0
@@ -146,10 +176,10 @@ __meta__ = {
 }
 
 [node name="Health Bar" type="ColorRect" parent="."]
-margin_left = 53.0
-margin_top = 533.0
-margin_right = 259.0
-margin_bottom = 559.0
+margin_left = 56.0
+margin_top = 504.0
+margin_right = 262.0
+margin_bottom = 530.0
 color = Color( 0, 0, 0, 0.686275 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -172,9 +202,6 @@ margin_bottom = 23.0
 rect_pivot_offset = Vector2( 21, 6 )
 text = "###/100"
 scroll_active = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Bar" type="ColorRect" parent="Health Bar"]
 margin_left = 3.0
@@ -182,21 +209,15 @@ margin_top = 3.0
 margin_right = 203.0
 margin_bottom = 23.0
 color = Color( 0, 1, 0, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Unobtainium Display" type="TextureRect" parent="."]
 margin_left = 8.0
-margin_top = 568.0
+margin_top = 536.0
 margin_right = 328.0
-margin_bottom = 848.0
-rect_scale = Vector2( 0.1, 0.1 )
+margin_bottom = 816.0
+rect_scale = Vector2( 0.2, 0.2 )
 texture = ExtResource( 2 )
 expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Number" type="RichTextLabel" parent="Unobtainium Display"]
 margin_left = 370.0
@@ -206,21 +227,15 @@ margin_bottom = 92.0
 rect_scale = Vector2( 10, 10 )
 text = "###"
 scroll_active = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Fairy Dust Display" type="TextureRect" parent="."]
-margin_left = 80.0001
-margin_top = 568.0
-margin_right = 400.0
-margin_bottom = 848.0
-rect_scale = Vector2( 0.1, 0.1 )
+margin_left = 152.0
+margin_top = 536.0
+margin_right = 472.0
+margin_bottom = 816.0
+rect_scale = Vector2( 0.2, 0.2 )
 texture = ExtResource( 4 )
 expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Number" type="RichTextLabel" parent="Fairy Dust Display"]
 margin_left = 340.0
@@ -230,23 +245,21 @@ margin_bottom = 92.0
 rect_scale = Vector2( 10, 10 )
 text = "###"
 scroll_active = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="Mining Display" type="TextureRect" parent="."]
-margin_left = 152.0
-margin_top = 568.0
-margin_right = 472.0
-margin_bottom = 848.0
+[node name="Interact Display" type="TextureRect" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -112.0
+margin_top = -76.0
+margin_right = 208.0
+margin_bottom = 204.0
 rect_scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 2 )
 expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="Mining Time" type="RichTextLabel" parent="Mining Display"]
+[node name="Interact Time" type="RichTextLabel" parent="Interact Display"]
 margin_left = 370.0
 margin_top = 80.0
 margin_right = 434.0
@@ -254,61 +267,40 @@ margin_bottom = 92.0
 rect_scale = Vector2( 10, 10 )
 text = "###"
 scroll_active = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="Cooldown Display" type="ColorRect" parent="Mining Display"]
-margin_left = 10.0
-margin_top = -30.0005
-margin_right = 330.0
-margin_bottom = 290.0
+[node name="Cooldown Display" type="ColorRect" parent="Interact Display"]
+margin_right = 320.0
+margin_bottom = 320.0
 color = Color( 0.654902, 0.654902, 0.654902, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="Fairy Swatter" type="TextureRect" parent="."]
-margin_left = 224.0
-margin_top = 568.0
-margin_right = 544.0
-margin_bottom = 848.0
-rect_scale = Vector2( 0.1, 0.1 )
-texture = ExtResource( 6 )
-expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="Fairy Swatter" type="AnimatedSprite" parent="."]
+position = Vector2( 904, 544 )
+frames = SubResource( 9 )
+frame = 3
+playing = true
 
 [node name="Fairy Swatter Lock" type="TextureButton" parent="Fairy Swatter"]
-margin_right = 320.0
-margin_bottom = 280.0
+margin_left = -32.0
+margin_top = -29.6296
+margin_right = 32.0
+margin_bottom = 34.3704
 texture_normal = ExtResource( 8 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Cost Object" type="TextureRect" parent="Fairy Swatter"]
-margin_left = 350.0
-margin_top = 80.0
-margin_right = 414.0
-margin_bottom = 144.0
-rect_scale = Vector2( 2, 2 )
+margin_left = 32.0
+margin_top = -8.0
+margin_right = 96.0
+margin_bottom = 56.0
+rect_scale = Vector2( 0.4, 0.4 )
 texture = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Cost Number" type="RichTextLabel" parent="Fairy Swatter/Cost Object"]
-margin_left = 85.0
-margin_right = 149.0
+margin_left = 66.6667
+margin_right = 94.6667
 margin_bottom = 12.0
 rect_scale = Vector2( 5, 5 )
 text = "###"
 scroll_active = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [connection signal="toggled" from="Drill Item" to="." method="_on_Drill_Item_toggled"]
 [connection signal="toggled" from="Turret Item" to="." method="_on_Turret_Item_toggled"]

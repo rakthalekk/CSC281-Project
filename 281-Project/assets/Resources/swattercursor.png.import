@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/fairylog.png-7dacb60df93ec4b37ab8a78c533e162d.stex"
+path="res://.import/swattercursor.png-29685dd9ff938754d8b445aef6384e3b.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Structures/fairylog.png"
-dest_files=[ "res://.import/fairylog.png-7dacb60df93ec4b37ab8a78c533e162d.stex" ]
+source_file="res://assets/Resources/swattercursor.png"
+dest_files=[ "res://.import/swattercursor.png-29685dd9ff938754d8b445aef6384e3b.stex" ]
 
 [params]
 

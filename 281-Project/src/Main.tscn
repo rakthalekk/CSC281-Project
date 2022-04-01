@@ -7,7 +7,7 @@
 [ext_resource path="res://src/HUD.tscn" type="PackedScene" id=5]
 [ext_resource path="res://src/Player.tscn" type="PackedScene" id=6]
 [ext_resource path="res://assets/Map Elements/Tilesheet/tilesettest.png" type="Texture" id=7]
-[ext_resource path="res://src/BunnySpawner.gd" type="Script" id=8]
+[ext_resource path="res://src/Burrow.tscn" type="PackedScene" id=8]
 [ext_resource path="res://src/Fairy Dust Tree.tscn" type="PackedScene" id=9]
 
 [sub_resource type="NavigationPolygon" id=2]
@@ -322,36 +322,16 @@ script = ExtResource( 4 )
 
 [node name="HUD" parent="." instance=ExtResource( 5 )]
 
-[node name="BunnySpawner" type="Node2D" parent="."]
-position = Vector2( 3216, 2056 )
-script = ExtResource( 8 )
+[node name="Burrow" parent="." instance=ExtResource( 8 )]
+position = Vector2( 2312, 768 )
 
-[node name="ColorRect" type="ColorRect" parent="BunnySpawner"]
-margin_right = 40.0
-margin_bottom = 40.0
-color = Color( 0, 0, 0, 1 )
-
-[node name="Timer" type="Timer" parent="BunnySpawner"]
-wait_time = 5.0
-autostart = true
-
-[node name="BunnySpawner2" type="Node2D" parent="."]
-position = Vector2( 816, 3232 )
-script = ExtResource( 8 )
-
-[node name="ColorRect" type="ColorRect" parent="BunnySpawner2"]
-margin_right = 40.0
-margin_bottom = 40.0
-color = Color( 0, 0, 0, 1 )
-
-[node name="Timer" type="Timer" parent="BunnySpawner2"]
-wait_time = 5.0
-autostart = true
+[node name="Burrow2" parent="." instance=ExtResource( 8 )]
+position = Vector2( 3008, 2640 )
 
 [node name="Entities" type="YSort" parent="."]
 
 [node name="Player" parent="Entities" instance=ExtResource( 6 )]
-position = Vector2( 284, 208 )
+position = Vector2( 512, 304 )
 
 [node name="EnemyManager" type="YSort" parent="Entities"]
 
@@ -366,23 +346,20 @@ position = Vector2( 3080, 1440 )
 
 [node name="StructureManager" type="YSort" parent="Entities"]
 
+[node name="Fairy Dust Tree" parent="Entities" instance=ExtResource( 9 )]
+position = Vector2( 128, 0 )
+
 [node name="MiningTimer" type="Timer" parent="."]
 
 [node name="EnemyPathingTimer" type="Timer" parent="."]
 wait_time = 0.2
 autostart = true
 
-[node name="Fairy Dust Tree" parent="." instance=ExtResource( 9 )]
-position = Vector2( 128, 0 )
-
+[connection signal="update_resource_counts" from="." to="HUD" method="_on_Main_update_resource_counts"]
 [connection signal="just_purchased" from="HUD" to="Entities/Player" method="_on_HUD_just_purchased"]
 [connection signal="unlocked_fairy_swatter" from="HUD" to="Entities/Player" method="_on_HUD_unlocked_fairy_swatter"]
-[connection signal="spawn_bunny" from="BunnySpawner" to="." method="_on_BunnySpawner_spawn_bunny"]
-[connection signal="timeout" from="BunnySpawner/Timer" to="BunnySpawner" method="_on_Timer_timeout"]
-[connection signal="spawn_bunny" from="BunnySpawner2" to="." method="_on_BunnySpawner_spawn_bunny"]
-[connection signal="timeout" from="BunnySpawner2/Timer" to="BunnySpawner2" method="_on_Timer_timeout"]
+[connection signal="is_interacting" from="Entities/Player" to="HUD" method="_on_Player_is_interacting"]
 [connection signal="is_manual_mining" from="Entities/Player" to="HUD" method="_on_Player_is_manual_mining"]
 [connection signal="place_structure" from="Entities/Player" to="." method="_on_Player_place_structure"]
-[connection signal="place_structure" from="Entities/Player" to="HUD" method="_on_Player_place_structure"]
 [connection signal="player_stats_changed" from="Entities/Player" to="HUD" method="_on_Player_player_stats_changed"]
 [connection signal="timeout" from="EnemyPathingTimer" to="." method="_on_EnemyPathingTimer_timeout"]

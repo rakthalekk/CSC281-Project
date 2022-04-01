@@ -7,6 +7,7 @@ export(int) var knockback_speed = 400
 export(int) var dmg = 10
 export(int) var max_health = 100
 export(int) var manual_mining_time = 5
+export(int) var harvesting_time = 3
 export var onTile = "None"
 
 # Player Signals
@@ -22,22 +23,24 @@ signal is_manual_mining
 # Used to show when the player is interacting
 signal is_interacting
 
-#onready var gun_tip = $GunTip
 onready var anim_player = $AnimationPlayer
 onready var eff_anim_player = $EffectsAnimationPlayer
 onready var invincibility_timer = $InvincibilityTimer
 onready var manual_mining_timer = $ManualMiningTimer
+onready var harvest_timer = $HarvestTimer
 
 var direction := Vector2.ZERO
 var speed = run_speed
 var velocity := Vector2.ZERO
 
 # Current resources of the player
-var unobtainiumCount : int = 0
+var unobtainiumCount : int = 20
 var fairyDustCount : int = 0
 var knockback = false
 var attacking = false
 var manual_mining = false
+var interacting = false
+var harvest_fairy_dust = false
 
 # Current Health of the player
 var health : int = max_health
@@ -49,15 +52,6 @@ var prevHealth : int = health
 
 # Used to check whether the player has specific things
 var hasFairySwatter = false
-
-#Tiles accounted for:
-"""
-ID	||	NAME   ||	Reference
-------------------------------
--1		"NONE"		tileNone
-2		"Grass"		tileGrass
-3	"Unobtainium"	tileUnobtainium
-"""
 
 func _ready():
 	#emit the initial stats of the player,
@@ -103,9 +97,10 @@ func _process(delta):
 		if(onTile != "Unobtainium"):
 			#manual_mining = false
 			$ManualMiningTimer.stop()
-			$ManualMiningTimer.set_wait_time(5)
+			$ManualMiningTimer.set_wait_time(manual_mining_time)
 		emit_signal("is_manual_mining", self)
-	
+	elif interacting:
+		emit_signal("is_interacting", self)
 
 # Handles input
 func _unhandled_input(event):
@@ -113,17 +108,26 @@ func _unhandled_input(event):
 	if (event.is_action_pressed("manual_mine")):
 		manual_mining = true
 	if (event.is_action_pressed("interact_key")):
+		if harvest_fairy_dust && hasFairySwatter:
+			interacting = true
+			$HarvestTimer.start()
+
+	if (event.is_action_released("interact_key")):
+		interacting = false
+		$HarvestTimer.stop()
+		$HarvestTimer.set_wait_time(harvesting_time)
 		emit_signal("is_interacting", self)
+
 	#Stop mining when key is released
 	if (event.is_action_released("manual_mine")):
 		manual_mining = false
 		$ManualMiningTimer.stop()
-		$ManualMiningTimer.set_wait_time(5)
+		$ManualMiningTimer.set_wait_time(manual_mining_time)
 		emit_signal("is_manual_mining", self)
 	
 	if event.is_action_pressed("click"):
 		
-		if Global.selected_structure:
+		if Global.selected_item:
 			emit_signal("place_structure", get_global_mouse_position())
 		
 		elif !knockback && !manual_mining:
@@ -139,9 +143,6 @@ func _unhandled_input(event):
 				anim_player.play("attack_up")
 			else:
 				anim_player.play("attack_down")
-		
-#	if event.is_action_pressed("create_drill") && onTile == get_parent().tileUnobtainium: #on Unobtainium
-#		emit_signal("create_drill", global_position)
 
 
 # Damages the player and knocks them back in the given direction
@@ -196,3 +197,7 @@ func _on_HUD_just_purchased(hudUnobtainiumCount, hudFairyDustCount):
 	unobtainiumCount = hudUnobtainiumCount
 	fairyDustCount = hudFairyDustCount
 	emit_signal("player_stats_changed", self)
+
+
+func _on_HarvestTimer_timeout():
+	fairyDustCount += 1
