@@ -29,6 +29,7 @@ onready var turretItem = $"Turret Item"
 func _ready():
 	# Set price text box of fairy swatter
 	$"Fairy Swatter/Cost Object/Cost Number".set_text(str(Global.fairySwatterCost[0]))
+	
 
 
 func _unhandled_input(event):
@@ -139,23 +140,6 @@ func _on_Fairy_Swatter_Lock_pressed():
 		emit_signal("just_purchased", hudUnobtainiumCount, hudFairyDustCount);
 
 
-func _on_Main_update_resource_counts():
-	# Structure placing handled in main
-	if Global.selected_item == "drill":
-		hudUnobtainiumCount -= Global.unobtainiumDrillCost[0]
-		hudFairyDustCount -= Global.unobtainiumDrillCost[1]
-		if(hudUnobtainiumCount < Global.unobtainiumDrillCost[0] || hudFairyDustCount < Global.unobtainiumDrillCost[1]):
-			Global.selected_item = null
-			Input.set_custom_mouse_cursor(null)
-	elif Global.selected_item == "turret":
-		hudUnobtainiumCount -= Global.magicTurretCost[0]
-		hudFairyDustCount -= Global.magicTurretCost[1]
-		if(hudUnobtainiumCount < Global.magicTurretCost[0] || hudFairyDustCount < Global.magicTurretCost[1]):
-			Global.selected_item = null
-			Input.set_custom_mouse_cursor(null)
-	emit_signal("just_purchased", hudUnobtainiumCount, hudFairyDustCount);
-
-
 func _on_Player_is_interacting(player):
 	$"Interact Display".texture = DUST_IMG
 	if(player.harvest_timer.time_left == 0):
@@ -166,3 +150,21 @@ func _on_Player_is_interacting(player):
 		$"Interact Display".visible = true
 		cooldownDisplay.set_frame_color(Color(0.65,0.65,0.65,sqrt(player.harvest_timer.time_left/player.manual_mining_time)))
 		interactTime.set_text(str(stepify(player.harvest_timer.time_left,0.01)))
+
+
+func _on_Player_place_structure(pos: Vector2):
+	# Structure placing handled in player
+	if(get_parent().valid_place): #checks to make sure the place is valid before costing price
+		if Global.selected_item == "drill":
+			hudUnobtainiumCount -= Global.unobtainiumDrillCost[0]
+			hudFairyDustCount -= Global.unobtainiumDrillCost[1]
+			if(hudUnobtainiumCount < Global.unobtainiumDrillCost[0] || hudFairyDustCount < Global.unobtainiumDrillCost[1]):
+				Global.selected_item = null
+				Input.set_custom_mouse_cursor(null)
+		elif Global.selected_item == "turret":
+			hudUnobtainiumCount -= Global.magicTurretCost[0]
+			hudFairyDustCount -= Global.magicTurretCost[1]
+			if(hudUnobtainiumCount < Global.magicTurretCost[0] || hudFairyDustCount < Global.magicTurretCost[1]):
+				Global.selected_item = null
+				Input.set_custom_mouse_cursor(null)
+		emit_signal("just_purchased", hudUnobtainiumCount, hudFairyDustCount);

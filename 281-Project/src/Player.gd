@@ -40,7 +40,11 @@ var knockback = false
 var attacking = false
 var manual_mining = false
 var interacting = false
-var harvest_fairy_dust = false
+
+
+# Variables for detecting bein near fairy trees
+var harvest_fairy_dust = false #if the player is near a fairy tree
+var nearLog = null #reference to the fairy tree the player is near
 
 # Current Health of the player
 var health : int = max_health
@@ -115,6 +119,7 @@ func _unhandled_input(event):
 			emit_signal("is_manual_mining", self)
 
 	if (Input.is_action_just_pressed("interact_key")):
+		#harvest_fairy_dust is true when in the radius of a log
 		if harvest_fairy_dust && hasFairySwatter:
 			if !interacting:
 				interacting = true
@@ -204,4 +209,10 @@ func _on_HUD_just_purchased(hudUnobtainiumCount, hudFairyDustCount):
 
 
 func _on_HarvestTimer_timeout():
-	fairyDustCount += 1
+	if(nearLog != null):
+		if(nearLog.canHarvest):
+			fairyDustCount += Global.fairyDustReward
+			nearLog.harvested(self)
+	else:
+		print("SOMEHOW NEARTREE IS NULL??")
+	stop_interacting()

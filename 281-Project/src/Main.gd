@@ -5,7 +5,7 @@ const DRILL = preload("res://src/Drill.tscn")
 const TURRET = preload("res://src/Turret.tscn")
 const BUNNY = preload("res://src/Wonderbunny.tscn")
 
-signal update_resource_counts
+#signal update_resource_counts
 
 var structures = []
 var valid_place = false
@@ -94,7 +94,7 @@ func create_drill(pos: Vector2):
 	structure_manager.add_child(inst)
 	inst.position = pos
 	structures.append(inst)
-	emit_signal("update_resource_counts")
+	#emit_signal("update_resource_counts")
 
 
 func create_turret(pos: Vector2):
@@ -105,7 +105,7 @@ func create_turret(pos: Vector2):
 	inst.position = pos
 	structures.append(inst)
 	inst.connect("make_bullet", self, "_on_make_bullet")
-	emit_signal("update_resource_counts")
+	##emit_signal("update_resource_counts")
 
 
 func update_tile_navigation(pos: Vector2, disable_nav: bool):

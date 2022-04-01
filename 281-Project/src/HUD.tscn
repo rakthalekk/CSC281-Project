@@ -246,6 +246,9 @@ margin_bottom = 204.0
 rect_scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 2 )
 expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Interact Time" type="RichTextLabel" parent="Interact Display"]
 margin_left = 370.0
@@ -260,11 +263,14 @@ scroll_active = false
 margin_right = 320.0
 margin_bottom = 320.0
 color = Color( 0.654902, 0.654902, 0.654902, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Fairy Swatter" type="AnimatedSprite" parent="."]
 position = Vector2( 1048, 664 )
 frames = SubResource( 9 )
-frame = 3
+frame = 4
 playing = true
 
 [node name="Fairy Swatter Lock" type="TextureButton" parent="Fairy Swatter"]
@@ -273,6 +279,9 @@ margin_top = -29.6296
 margin_right = 32.0
 margin_bottom = 34.3704
 texture_normal = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Cost Object" type="TextureRect" parent="Fairy Swatter"]
 margin_left = 32.0
@@ -281,6 +290,9 @@ margin_right = 96.0
 margin_bottom = 56.0
 rect_scale = Vector2( 0.4, 0.4 )
 texture = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Cost Number" type="RichTextLabel" parent="Fairy Swatter/Cost Object"]
 margin_left = 66.6667
