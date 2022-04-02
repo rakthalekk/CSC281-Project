@@ -333,7 +333,6 @@ points = PoolVector2Array( 67, 68, 0, 68, 0, 0, 67, 0 )
 6/z_index = 0
 
 [node name="Main" type="Node2D"]
-position = Vector2( 48, -792 )
 script = ExtResource( 3 )
 
 [node name="Navigation2D" type="Navigation2D" parent="."]
