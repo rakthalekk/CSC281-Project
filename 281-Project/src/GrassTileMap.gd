@@ -2,12 +2,16 @@ extends TileMap
 
 # Declare member variables here. Examples:
 var rng = RandomNumberGenerator.new()
-var fieldWidth = 63
-var fieldLength = 63
+var startX = 0
+var startY = 0
+var fieldWidth = 64
+var fieldLength = 64
 var grassTileID = 2
 var stoneTileID = 3
 var grassNoNavID = 4
 var stoneNoNavID = 5
+var border = true
+var borderSize = 5
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -36,7 +40,7 @@ func generate():
 				tiley = 1
 			elif (tiley > 5):
 				tiley = 2
-			set_cell(x, y, grassTileID, false, false, false, Vector2(tilex, tiley))
+			set_cell(startX + x, startY + y, grassTileID, false, false, false, Vector2(tilex, tiley))
 	
 	
 	#Floor Stone Generation
@@ -63,10 +67,11 @@ func generate():
 						plusX = 0
 					if (plusY > 4):
 						plusY = 0
-					set_cell(x + plusX, y + plusY, stoneTileID, false, false, false, Vector2(0, 0))
+					set_cell(startX + (x + plusX), startY + (y + plusY), stoneTileID, false, false, false, Vector2(0, 0))
 	update_bitmask_region(Vector2(0, 0), Vector2(fieldLength, fieldWidth))
 	# Add the Border
-#	for x in range(-5, fieldLength+5):
-#		for y in range(-5, fieldWidth+5):
-#			if((x < 0 or x > fieldLength-1) or (y < 0 or y > fieldWidth)):
-#				set_cell(x, y, 2, false, false, false, Vector2(x, y))
+	if(border):
+		for x in range(-borderSize, fieldLength+borderSize):
+			for y in range(-borderSize, fieldWidth+borderSize):
+				if((x < 0 or x > fieldLength - 1) or (y < 0 or y > fieldWidth - 1)):
+					set_cell(startX + x, startY + y, 6, false, false, false, Vector2(x, y))

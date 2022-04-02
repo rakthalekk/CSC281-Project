@@ -368,6 +368,7 @@ __meta__ = {
 [node name="Fairy Swatter" type="AnimatedSprite" parent="."]
 position = Vector2( 1048, 664 )
 frames = SubResource( 9 )
+frame = 5
 playing = true
 
 [node name="Fairy Swatter Lock" type="TextureButton" parent="Fairy Swatter"]
