@@ -33,5 +33,17 @@ margin_right = 209.0
 margin_bottom = 44.0
 text = "Quit"
 
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+margin_left = 240.0
+margin_top = 176.0
+margin_right = 325.0
+margin_bottom = 206.0
+rect_scale = Vector2( 10, 10 )
+text = "Operation:
+Wonderland"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="pressed" from="MainButtons/StartButton" to="." method="_on_StartButton_pressed"]
 [connection signal="pressed" from="MainButtons/QuitButton" to="." method="_on_QuitButton_pressed"]

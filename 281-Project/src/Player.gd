@@ -67,7 +67,8 @@ func _ready():
 # Process function called every frame
 func _process(delta):
 	if health <= 0:
-		Global.reset_level()
+		#Global.reset_level()
+		get_tree().change_scene("res://src/DeathMenu.tscn")
 
 	if knockback:
 		velocity = direction * knockback_speed
