@@ -4,6 +4,7 @@ extends Node2D
 const DRILL = preload("res://src/Drill.tscn")
 const TURRET = preload("res://src/Turret.tscn")
 const OILRIG = preload("res://src/OilRig.tscn")
+const FIRETOWER = preload("res://src/FireTower.tscn")
 
 # Enemy References
 const BUNNY = preload("res://src/Wonderbunny.tscn")
@@ -122,6 +123,15 @@ func create_oilrig(pos: Vector2):
 	structures.append(inst)
 
 
+func create_firetower(pos: Vector2):
+	update_tile_navigation(pos, true)
+		
+	var inst = FIRETOWER.instance()
+	structure_manager.add_child(inst)
+	inst.position = pos
+	structures.append(inst)
+
+
 func update_tile_navigation(pos: Vector2, disable_nav: bool):
 	var tile_pos = tilemap.world_to_map(pos) - Vector2(1, 1)
 	
@@ -171,6 +181,8 @@ func _on_Player_place_structure(pos: Vector2):
 				create_turret(pos)
 			"oilrig":
 				create_oilrig(pos)
+			"firetower":
+				create_firetower(pos)
 			_:
 				print("Invalid structure being placed: " + str(Global.selected_item))
 

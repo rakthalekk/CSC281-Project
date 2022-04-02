@@ -1,14 +1,15 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://assets/Structures/turret.png" type="Texture" id=1]
 [ext_resource path="res://assets/Resources/ore.png" type="Texture" id=2]
-[ext_resource path="res://assets/Resources/Dragon Oil.png" type="Texture" id=3]
-[ext_resource path="res://assets/Resources/Fairy Dust.png" type="Texture" id=4]
+[ext_resource path="res://assets/Resources/oilbarrel.png" type="Texture" id=3]
+[ext_resource path="res://assets/Resources/fairydust.png" type="Texture" id=4]
 [ext_resource path="res://assets/Structures/drillupscaled.png" type="Texture" id=5]
 [ext_resource path="res://assets/Resources/fairyswatter.png" type="Texture" id=6]
 [ext_resource path="res://src/HUD.gd" type="Script" id=7]
 [ext_resource path="res://assets/Resources/lockred.png" type="Texture" id=8]
-[ext_resource path="res://assets/Structures/dragon oil rig.png" type="Texture" id=9]
+[ext_resource path="res://assets/Structures/oilpump.png" type="Texture" id=9]
+[ext_resource path="res://assets/Structures/flamethrower.png" type="Texture" id=10]
 
 [sub_resource type="AtlasTexture" id=1]
 atlas = ExtResource( 6 )
@@ -176,21 +177,18 @@ __meta__ = {
 
 [node name="Oil Rig Item" type="TextureButton" parent="."]
 margin_left = 640.0
-margin_top = 631.0
+margin_top = 624.0
 margin_right = 776.0
-margin_bottom = 783.0
+margin_bottom = 776.0
 rect_scale = Vector2( 0.5, 0.5 )
 toggle_mode = true
 texture_normal = ExtResource( 9 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Unobtainium Cost" type="TextureRect" parent="Oil Rig Item"]
-margin_left = 137.143
-margin_top = 22.8571
-margin_right = 201.143
-margin_bottom = 86.8571
+margin_left = 144.0
+margin_top = 32.0001
+margin_right = 208.0
+margin_bottom = 96.0001
 rect_scale = Vector2( 0.6, 0.6 )
 texture = ExtResource( 2 )
 __meta__ = {
@@ -209,10 +207,10 @@ __meta__ = {
 }
 
 [node name="Fairy Dust Cost" type="TextureRect" parent="Oil Rig Item"]
-margin_left = 137.143
-margin_top = 91.4286
-margin_right = 201.143
-margin_bottom = 155.429
+margin_left = 144.0
+margin_top = 112.0
+margin_right = 208.0
+margin_bottom = 176.0
 rect_scale = Vector2( 0.6, 0.6 )
 texture = ExtResource( 4 )
 expand = true
@@ -230,6 +228,51 @@ scroll_active = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Fire Tower Item" type="TextureButton" parent="."]
+margin_left = 792.0
+margin_top = 616.0
+margin_right = 952.0
+margin_bottom = 776.0
+rect_scale = Vector2( 0.5, 0.5 )
+toggle_mode = true
+texture_normal = ExtResource( 10 )
+
+[node name="Unobtainium Cost" type="TextureRect" parent="Fire Tower Item"]
+margin_left = 160.0
+margin_top = 48.0001
+margin_right = 224.0
+margin_bottom = 112.0
+rect_scale = Vector2( 0.6, 0.6 )
+texture = ExtResource( 2 )
+
+[node name="Cost Number" type="RichTextLabel" parent="Fire Tower Item/Unobtainium Cost"]
+margin_left = 85.0
+margin_right = 149.0
+margin_bottom = 12.0
+rect_scale = Vector2( 5, 5 )
+text = "10"
+scroll_active = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Oil Cost" type="TextureRect" parent="Fire Tower Item"]
+margin_left = 160.0
+margin_top = 128.0
+margin_right = 224.0
+margin_bottom = 192.0
+rect_scale = Vector2( 0.6, 0.6 )
+texture = ExtResource( 3 )
+expand = true
+
+[node name="Cost Number" type="RichTextLabel" parent="Fire Tower Item/Oil Cost"]
+margin_left = 85.0
+margin_right = 149.0
+margin_bottom = 12.0
+rect_scale = Vector2( 5, 5 )
+text = "10"
+scroll_active = false
 
 [node name="Health Bar" type="ColorRect" parent="."]
 margin_left = 56.0
@@ -309,28 +352,22 @@ text = "###"
 scroll_active = false
 
 [node name="Dragon Oil Display" type="TextureRect" parent="."]
-margin_left = 224.0
+margin_left = 232.0
 margin_top = 661.0
-margin_right = 544.0
+margin_right = 552.0
 margin_bottom = 941.0
 rect_scale = Vector2( 0.175, 0.175 )
 texture = ExtResource( 3 )
 expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Number" type="RichTextLabel" parent="Dragon Oil Display"]
-margin_left = 308.571
+margin_left = 348.571
 margin_top = 79.9995
-margin_right = 372.571
+margin_right = 412.571
 margin_bottom = 91.9995
 rect_scale = Vector2( 10, 10 )
 text = "###"
 scroll_active = false
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Interact Display" type="TextureRect" parent="."]
 anchor_left = 0.5
@@ -344,9 +381,6 @@ margin_bottom = 204.0
 rect_scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 2 )
 expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Interact Time" type="RichTextLabel" parent="Interact Display"]
 margin_left = 370.0
@@ -368,7 +402,7 @@ __meta__ = {
 [node name="Fairy Swatter" type="AnimatedSprite" parent="."]
 position = Vector2( 1048, 664 )
 frames = SubResource( 9 )
-frame = 5
+frame = 7
 playing = true
 
 [node name="Fairy Swatter Lock" type="TextureButton" parent="Fairy Swatter"]
@@ -403,4 +437,5 @@ scroll_active = false
 [connection signal="toggled" from="Drill Item" to="." method="_on_Drill_Item_toggled"]
 [connection signal="toggled" from="Turret Item" to="." method="_on_Turret_Item_toggled"]
 [connection signal="toggled" from="Oil Rig Item" to="." method="_on_Oil_Rig_Item_toggled"]
+[connection signal="toggled" from="Fire Tower Item" to="." method="_on_Fire_Tower_Item_toggled"]
 [connection signal="pressed" from="Fairy Swatter/Fairy Swatter Lock" to="." method="_on_Fairy_Swatter_Lock_pressed"]

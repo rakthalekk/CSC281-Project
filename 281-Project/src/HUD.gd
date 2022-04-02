@@ -3,9 +3,10 @@ extends CanvasLayer
 const DRILL_IMG = preload("res://assets/Resources/drillcursor.png")
 const TURRET_IMG = preload("res://assets/Resources/turretcursor.png")
 const OILRIG_IMG = preload("res://assets/Resources/oilrigcursor.png")
+const FIRETOWER_IMG = preload("res://icon.png")
 const ORE_IMG = preload("res://assets/Resources/ore.png")
-const DUST_IMG = preload("res://assets/Resources/Fairy Dust.png")
-const OIL_IMG = preload("res://assets/Resources/Dragon Oil.png")
+const DUST_IMG = preload("res://assets/Resources/fairydust.png")
+const OIL_IMG = preload("res://assets/Resources/oilbarrel.png")
 
 # Signal transmitted when the user unlocks the fairy swatter
 signal unlocked_fairy_swatter
@@ -76,7 +77,7 @@ func invalidPrices():
 	
 	cantAfford(drillItem,Global.unobtainiumDrillCost,"res://assets/Structures/drillupscaled.png","res://assets/Structures/drillupscaled grayscale.png")
 	cantAfford(turretItem,Global.magicTurretCost,"res://assets/Structures/turret.png","res://assets/Structures/turret grayscale.png")
-	cantAfford(oilRigItem,Global.oilRigCost,"res://assets/Structures/dragon oil rig.png", "res://assets/Structures/dragon oil rig grayscale.png")
+	cantAfford(oilRigItem,Global.oilRigCost,"res://assets/Structures/oilpump.png", "res://assets/Structures/oilpump.png")
 
 
 func cantAfford(parentItem, globalCost, normalTexture, lockedTexture):
@@ -194,6 +195,13 @@ func _on_Player_place_structure(pos: Vector2):
 			if(hudUnobtainiumCount < Global.oilRigCost[0] || hudFairyDustCount < Global.oilRigCost[1] || hudDragonOilCount < Global.oilRigCost[2]):
 				Global.selected_item = null
 				Input.set_custom_mouse_cursor(null)
+		elif Global.selected_item == "firetower":
+			hudUnobtainiumCount -= Global.fireTowerCost[0]
+			hudFairyDustCount -= Global.fireTowerCost[1]
+			hudDragonOilCount -= Global.fireTowerCost[2]
+			if(hudUnobtainiumCount < Global.fireTowerCost[0] || hudFairyDustCount < Global.fireTowerCost[1] || hudDragonOilCount < Global.fireTowerCost[2]):
+				Global.selected_item = null
+				Input.set_custom_mouse_cursor(null)
 		emit_signal("just_purchased", hudUnobtainiumCount, hudFairyDustCount, hudDragonOilCount);
 
 
@@ -201,6 +209,15 @@ func _on_Oil_Rig_Item_toggled(button_pressed):
 	if Global.selected_item != "oilrig":
 		Input.set_custom_mouse_cursor(OILRIG_IMG)
 		Global.selected_item = "oilrig"
+	else:
+		Input.set_custom_mouse_cursor(null)
+		Global.selected_item = null
+
+
+func _on_Fire_Tower_Item_toggled(button_pressed):
+	if Global.selected_item != "firetower":
+		Input.set_custom_mouse_cursor(FIRETOWER_IMG)
+		Global.selected_item = "firetower"
 	else:
 		Input.set_custom_mouse_cursor(null)
 		Global.selected_item = null

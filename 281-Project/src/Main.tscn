@@ -333,6 +333,7 @@ points = PoolVector2Array( 67, 68, 0, 68, 0, 0, 67, 0 )
 6/z_index = 0
 
 [node name="Main" type="Node2D"]
+position = Vector2( 48, -792 )
 script = ExtResource( 3 )
 
 [node name="Navigation2D" type="Navigation2D" parent="."]
@@ -469,34 +470,34 @@ position = Vector2( 1908, 342 )
 [node name="StructureManager" type="YSort" parent="Entities"]
 
 [node name="Fairy Log" parent="Entities" instance=ExtResource( 9 )]
-position = Vector2( 826, 3044 )
+position = Vector2( 832, 3008 )
 
 [node name="Fairy Log2" parent="Entities" instance=ExtResource( 9 )]
-position = Vector2( 1678, 1184 )
+position = Vector2( 1664, 1152 )
 
 [node name="Fairy Log3" parent="Entities" instance=ExtResource( 9 )]
 position = Vector2( 3277, 156 )
 
 [node name="Fairy Log4" parent="Entities" instance=ExtResource( 9 )]
-position = Vector2( 2305, 1192 )
+position = Vector2( 2304, 1216 )
 
 [node name="Fairy Log5" parent="Entities" instance=ExtResource( 9 )]
-position = Vector2( 3244, 956 )
+position = Vector2( 3264, 960 )
 
 [node name="Fairy Log6" parent="Entities" instance=ExtResource( 9 )]
-position = Vector2( 3151, 3044 )
+position = Vector2( 3136, 3008 )
 
 [node name="Fairy Log7" parent="Entities" instance=ExtResource( 9 )]
-position = Vector2( 1366, 2422 )
+position = Vector2( 1344, 2432 )
 
 [node name="Fairy Log8" parent="Entities" instance=ExtResource( 9 )]
-position = Vector2( 2663, 2358 )
+position = Vector2( 2688, 2368 )
 
 [node name="Fairy Log9" parent="Entities" instance=ExtResource( 9 )]
-position = Vector2( 656, 1477 )
+position = Vector2( 640, 1472 )
 
 [node name="Fairy Log10" parent="Entities" instance=ExtResource( 9 )]
-position = Vector2( 869, 997 )
+position = Vector2( 896, 1024 )
 
 [node name="Fairy Log11" parent="Entities" instance=ExtResource( 9 )]
 position = Vector2( 154, 631 )
@@ -505,10 +506,10 @@ position = Vector2( 154, 631 )
 position = Vector2( 548, 188 )
 
 [node name="Fairy Log13" parent="Entities" instance=ExtResource( 9 )]
-position = Vector2( 3666, 1448 )
+position = Vector2( 3648, 1472 )
 
 [node name="Fairy Log14" parent="Entities" instance=ExtResource( 9 )]
-position = Vector2( 3843, 647 )
+position = Vector2( 3840, 640 )
 
 [node name="MiningTimer" type="Timer" parent="."]
 
