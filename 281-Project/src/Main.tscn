@@ -1,7 +1,6 @@
-[gd_scene load_steps=69 format=2]
+[gd_scene load_steps=67 format=2]
 
 [ext_resource path="res://assets/Map Elements/Tilesheet/stonetilesheetup.png" type="Texture" id=1]
-[ext_resource path="res://src/Forg.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/Main.gd" type="Script" id=3]
 [ext_resource path="res://src/GrassTileMap.gd" type="Script" id=4]
 [ext_resource path="res://src/HUD.tscn" type="PackedScene" id=5]
@@ -9,7 +8,6 @@
 [ext_resource path="res://assets/Map Elements/Tilesheet/tilesettest.png" type="Texture" id=7]
 [ext_resource path="res://src/Burrow.tscn" type="PackedScene" id=8]
 [ext_resource path="res://src/Fairy Log.tscn" type="PackedScene" id=9]
-[ext_resource path="res://src/Wonderbunny.tscn" type="PackedScene" id=10]
 [ext_resource path="res://assets/Map Elements/Tilesheet/Border Block.png" type="Texture" id=11]
 [ext_resource path="res://src/BigBadBunny.tscn" type="PackedScene" id=12]
 [ext_resource path="res://src/TilesetAuto.gd" type="Script" id=13]
@@ -358,42 +356,6 @@ margin_bottom = 128.0
 mouse_filter = 2
 color = Color( 1, 1, 0, 0.215686 )
 
-[node name="Burrow" parent="." instance=ExtResource( 8 )]
-position = Vector2( 2009, 3221 )
-
-[node name="Burrow2" parent="." instance=ExtResource( 8 )]
-position = Vector2( 216, 3175 )
-
-[node name="Burrow3" parent="." instance=ExtResource( 8 )]
-position = Vector2( 3929, 3184 )
-
-[node name="Burrow4" parent="." instance=ExtResource( 8 )]
-position = Vector2( 333, 2193 )
-
-[node name="Burrow5" parent="." instance=ExtResource( 8 )]
-position = Vector2( 3011, 1754 )
-
-[node name="Burrow6" parent="." instance=ExtResource( 8 )]
-position = Vector2( 1119, 1750 )
-
-[node name="Burrow7" parent="." instance=ExtResource( 8 )]
-position = Vector2( 2013, 2053 )
-
-[node name="Burrow8" parent="." instance=ExtResource( 8 )]
-position = Vector2( 3903, 2197 )
-
-[node name="Burrow9" parent="." instance=ExtResource( 8 )]
-position = Vector2( 329, 1195 )
-
-[node name="Burrow10" parent="." instance=ExtResource( 8 )]
-position = Vector2( 599, 463 )
-
-[node name="Burrow11" parent="." instance=ExtResource( 8 )]
-position = Vector2( 3668, 1165 )
-
-[node name="Burrow12" parent="." instance=ExtResource( 8 )]
-position = Vector2( 3458, 470 )
-
 [node name="Entities" type="YSort" parent="."]
 
 [node name="Player" parent="Entities" instance=ExtResource( 6 )]
@@ -401,69 +363,6 @@ position = Vector2( 2024, 4047 )
 
 [node name="EnemyManager" type="YSort" parent="Entities"]
 position = Vector2( 0, 2 )
-
-[node name="Wonderbunny" parent="Entities/EnemyManager" instance=ExtResource( 10 )]
-position = Vector2( 3047, 3565 )
-
-[node name="Wonderbunny2" parent="Entities/EnemyManager" instance=ExtResource( 10 )]
-position = Vector2( 2002, 2766 )
-
-[node name="Wonderbunny3" parent="Entities/EnemyManager" instance=ExtResource( 10 )]
-position = Vector2( 1050, 3530 )
-
-[node name="Forg" parent="Entities/EnemyManager" instance=ExtResource( 2 )]
-position = Vector2( 2012, 3580 )
-
-[node name="Wonderbunny4" parent="Entities/EnemyManager" instance=ExtResource( 10 )]
-position = Vector2( 1123, 2752 )
-
-[node name="Wonderbunny5" parent="Entities/EnemyManager" instance=ExtResource( 10 )]
-position = Vector2( 2859, 2735 )
-
-[node name="Wonderbunny6" parent="Entities/EnemyManager" instance=ExtResource( 10 )]
-position = Vector2( 664, 1907 )
-
-[node name="Wonderbunny7" parent="Entities/EnemyManager" instance=ExtResource( 10 )]
-position = Vector2( 1566, 1873 )
-
-[node name="Wonderbunny8" parent="Entities/EnemyManager" instance=ExtResource( 10 )]
-position = Vector2( 2388, 1912 )
-
-[node name="Wonderbunny9" parent="Entities/EnemyManager" instance=ExtResource( 10 )]
-position = Vector2( 3477, 1946 )
-
-[node name="Wonderbunny10" parent="Entities/EnemyManager" instance=ExtResource( 10 )]
-position = Vector2( 425, 1111 )
-
-[node name="Wonderbunny11" parent="Entities/EnemyManager" instance=ExtResource( 10 )]
-position = Vector2( 3511, 1123 )
-
-[node name="Wonderbunny12" parent="Entities/EnemyManager" instance=ExtResource( 10 )]
-position = Vector2( 251, 488 )
-
-[node name="Wonderbunny13" parent="Entities/EnemyManager" instance=ExtResource( 10 )]
-position = Vector2( 3733, 372 )
-
-[node name="Wonderbunny14" parent="Entities/EnemyManager" instance=ExtResource( 10 )]
-position = Vector2( 341, 3859 )
-
-[node name="Wonderbunny15" parent="Entities/EnemyManager" instance=ExtResource( 10 )]
-position = Vector2( 3768, 3945 )
-
-[node name="Wonderbunny16" parent="Entities/EnemyManager" instance=ExtResource( 10 )]
-position = Vector2( 200, 2715 )
-
-[node name="Wonderbunny17" parent="Entities/EnemyManager" instance=ExtResource( 10 )]
-position = Vector2( 3713, 2715 )
-
-[node name="Wonderbunny18" parent="Entities/EnemyManager" instance=ExtResource( 10 )]
-position = Vector2( 805, 704 )
-
-[node name="Wonderbunny19" parent="Entities/EnemyManager" instance=ExtResource( 10 )]
-position = Vector2( 3295, 785 )
-
-[node name="Wonderbunny20" parent="Entities/EnemyManager" instance=ExtResource( 10 )]
-position = Vector2( 1959, 1269 )
 
 [node name="BigBadBunny" parent="Entities/EnemyManager" instance=ExtResource( 12 )]
 position = Vector2( 1908, 342 )
@@ -517,6 +416,9 @@ position = Vector2( 3840, 640 )
 [node name="EnemyPathingTimer" type="Timer" parent="."]
 wait_time = 0.2
 autostart = true
+
+[node name="Burrow" parent="." instance=ExtResource( 8 )]
+position = Vector2( 954, 3553 )
 
 [connection signal="just_purchased" from="HUD" to="Entities/Player" method="_on_HUD_just_purchased"]
 [connection signal="unlocked_fairy_swatter" from="HUD" to="Entities/Player" method="_on_HUD_unlocked_fairy_swatter"]

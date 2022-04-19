@@ -359,6 +359,9 @@ margin_bottom = 941.0
 rect_scale = Vector2( 0.175, 0.175 )
 texture = ExtResource( 3 )
 expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Number" type="RichTextLabel" parent="Dragon Oil Display"]
 margin_left = 348.571
@@ -433,6 +436,17 @@ margin_bottom = 12.0
 rect_scale = Vector2( 5, 5 )
 text = "###"
 scroll_active = false
+
+[node name="Coords" type="RichTextLabel" parent="."]
+margin_left = 11.0
+margin_top = 16.0
+margin_right = 202.0
+margin_bottom = 52.0
+text = "X: ########
+Y: ########"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [connection signal="toggled" from="Drill Item" to="." method="_on_Drill_Item_toggled"]
 [connection signal="toggled" from="Turret Item" to="." method="_on_Turret_Item_toggled"]

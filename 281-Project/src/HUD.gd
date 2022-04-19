@@ -34,7 +34,8 @@ func _ready():
 	# Set price text box of fairy swatter
 	$"Fairy Swatter/Cost Object/Cost Number".set_text(str(Global.fairySwatterCost[0]))
 	
-
+func _process(delta):
+	$"Coords".set_text("X: " + str(get_parent().playerCoords[0]) + "\nY: " + str(get_parent().playerCoords[1]))
 
 func _unhandled_input(event):
 	if(event.is_action_pressed("escape_key")):
