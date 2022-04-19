@@ -1,4 +1,4 @@
-[gd_scene load_steps=68 format=2]
+[gd_scene load_steps=69 format=2]
 
 [ext_resource path="res://assets/Map Elements/Tilesheet/stonetilesheetup.png" type="Texture" id=1]
 [ext_resource path="res://src/Forg.tscn" type="PackedScene" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://src/Wonderbunny.tscn" type="PackedScene" id=10]
 [ext_resource path="res://assets/Map Elements/Tilesheet/Border Block.png" type="Texture" id=11]
 [ext_resource path="res://src/BigBadBunny.tscn" type="PackedScene" id=12]
+[ext_resource path="res://src/TilesetAuto.gd" type="Script" id=13]
 
 [sub_resource type="NavigationPolygon" id=2]
 vertices = PoolVector2Array( 0, 0, 64, 0, 64, 64, 0, 64 )
@@ -331,6 +332,7 @@ points = PoolVector2Array( 67, 68, 0, 68, 0, 0, 67, 0 )
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 } ]
 6/z_index = 0
+script = ExtResource( 13 )
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 3 )
