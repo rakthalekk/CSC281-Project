@@ -5,6 +5,8 @@
 
 [node name="BigBadBunny" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+dmg = 20
+max_health = 100
 
 [node name="CollisionShape2D" parent="." index="0"]
 position = Vector2( 0, 64 )

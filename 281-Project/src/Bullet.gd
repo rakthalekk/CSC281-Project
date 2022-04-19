@@ -17,5 +17,5 @@ func _on_Timer_timeout():
 
 func _on_Bullet_body_entered(body):
 	if body is Enemy:
-		body.damage(5, Vector2.ZERO)
+		body.damage(10, Vector2.ZERO)
 	queue_free()

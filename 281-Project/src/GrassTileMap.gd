@@ -23,8 +23,8 @@ var burrows = true #Spawn burrows randomly
 var regionSize = 8 #region size squares of the burrows
 var bossRegionSqare = 2 #Size of boss region to not spawn burrows in
 var maxBurrowsPerSquare = 1 #The number of burrows that can spawn in a single square area
-var minChance = 0.25 #2/8 At the start of the map, this is the chance of burrows spawning
-var maxChance = 0.75 #6/8At the back part of the map
+var minChance = 0.1 #2/8 At the start of the map, this is the chance of burrows spawning
+var maxChance = 0.5 #6/8At the back part of the map
 
 
 # Called when the node enters the scene tree for the first time.
@@ -128,7 +128,7 @@ func generate():
 					
 					#Determine if the burrow will spawn
 					if(rng_val <= chance):
-						print("Spawning Burrow in square: " + "(" + str(x) + ", " + str(y) + ")" + " with coords: " + "(" + str(map_to_world(Vector2(x*8 + regionSize/2, actualY*8 + regionSize/2))[0]) + ", " + str(map_to_world(Vector2(x*8 + regionSize/2, actualY*8 + regionSize/2))[1]) + ")")
+						#print("Spawning Burrow in square: " + "(" + str(x) + ", " + str(y) + ")" + " with coords: " + "(" + str(map_to_world(Vector2(x*8 + regionSize/2, actualY*8 + regionSize/2))[0]) + ", " + str(map_to_world(Vector2(x*8 + regionSize/2, actualY*8 + regionSize/2))[1]) + ")")
 						#Uncomment Uone of the below createBurrow methods
 						##Spawn the burrow in the middle of the square
 						createBurrow(x*8 + regionSize/2,actualY*8 + regionSize/2)

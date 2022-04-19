@@ -28,6 +28,7 @@ onready var anim_player = $AnimationPlayer
 func _ready():
 	yield(parent, "ready")
 	nav = parent.nav
+	hp = max_health
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
