@@ -26,6 +26,12 @@ func damage(dmg):
 			parent.remove_structure(self)
 
 
+func heal(amount):
+	health += amount
+	if health > max_health:
+		health = max_health
+
+
 func end_invulnerability():
 	eff_anim_player.play("RESET")
 	set_collision_layer_bit(8, true)

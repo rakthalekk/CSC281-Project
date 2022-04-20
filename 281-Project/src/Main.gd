@@ -5,6 +5,8 @@ const DRILL = preload("res://src/Drill.tscn")
 const TURRET = preload("res://src/Turret.tscn")
 const OILRIG = preload("res://src/OilRig.tscn")
 const FIRETOWER = preload("res://src/FireTower.tscn")
+const HEALTOWER = preload("res://src/HealTower.tscn")
+const WALL = preload("res://src/Wall.tscn")
 
 # Enemy References
 const BUNNY = preload("res://src/Wonderbunny.tscn")
@@ -53,13 +55,23 @@ func _process(delta):
 	if Global.selected_item:
 		tile_highlight.visible = true
 		var mouse_tile_pos = tilemap.map_to_world(tilemap.world_to_map(get_global_mouse_position()))
-		tile_highlight.rect_global_position = mouse_tile_pos
+		
+		if Global.selected_item == "wall":
+			if Global.horizontal_wall:
+				tile_highlight.rect_size = Vector2(256, 64)
+				tile_highlight.rect_global_position = mouse_tile_pos - Vector2(64, 0)
+			else:
+				tile_highlight.rect_size = Vector2(64, 256)
+				tile_highlight.rect_global_position = mouse_tile_pos - Vector2(0, 64)
+		else:
+			tile_highlight.rect_size = Vector2(128, 128)
+			tile_highlight.rect_global_position = mouse_tile_pos
 		
 		## CHANGE OIL RIG WHEN OIL TILES ARE IMPLEMENTED
 		if (Global.selected_item == "drill" || Global.selected_item == "oilrig") && get_stone_tile_count(mouse_tile_pos) < 3:
 			tile_highlight.color = Color(1, 0, 0, 0.2)
 			valid_place = false
-		elif !check_no_nav_tiles(mouse_tile_pos):
+		elif Global.selected_item != "wall" && !check_no_nav_tiles(mouse_tile_pos) || Global.selected_item == "wall" && !check_no_nav_tiles_wall(mouse_tile_pos):
 			tile_highlight.color = Color(1, 0, 0, 0.2)
 			valid_place = false
 		else:
@@ -95,6 +107,21 @@ func check_no_nav_tiles(pos: Vector2):
 			if tilemap.get_cellv(p) != tilemap.stoneTileID && tilemap.get_cellv(p) != tilemap.grassTileID:
 				return false
 	return true
+
+
+func check_no_nav_tiles_wall(pos: Vector2):
+	if Global.horizontal_wall:
+		for i in range(4):
+			var p = tilemap.world_to_map(pos) + Vector2(i - 1, 0)
+			if tilemap.get_cellv(p) != tilemap.stoneTileID && tilemap.get_cellv(p) != tilemap.grassTileID:
+				return false
+		return true
+	else:
+		for j in range(4):
+			var p = tilemap.world_to_map(pos) + Vector2(0, j - 1)
+			if tilemap.get_cellv(p) != tilemap.stoneTileID && tilemap.get_cellv(p) != tilemap.grassTileID:
+				return false
+		return true
 
 
 # Create a drill at the location
@@ -135,7 +162,76 @@ func create_firetower(pos: Vector2):
 	structures.append(inst)
 
 
+func create_healtower(pos: Vector2):
+	update_tile_navigation(pos, true)
+		
+	var inst = HEALTOWER.instance()
+	structure_manager.add_child(inst)
+	inst.position = pos
+	structures.append(inst)
+
+
+func create_wall(pos: Vector2):
+	update_tile_navigation(pos, true)
+		
+	var inst = WALL.instance()
+	structure_manager.add_child(inst)
+	if !Global.horizontal_wall:
+		inst.rotation_degrees = 90
+		inst.position = pos - Vector2(32, 0)
+	else:
+		inst.position = pos - Vector2(0, 32)
+	
+	structures.append(inst)
+
+
+func update_wall_tile_navigation(pos: Vector2):
+	if Global.horizontal_wall:
+		var tile_pos = tilemap.world_to_map(pos) - Vector2(2, 1)
+		for i in range(4):
+			var p = tile_pos + Vector2(i, 0)
+			if tilemap.get_cellv(p) == tilemap.stoneTileID:
+				tilemap.set_cellv(p, tilemap.stoneNoNavID)
+			elif tilemap.get_cellv(p) == tilemap.grassTileID:
+				tilemap.set_cellv(p, tilemap.grassNoNavID)
+	else:
+		var tile_pos = tilemap.world_to_map(pos) - Vector2(1, 2)
+		for j in range(4):
+			var p = tile_pos + Vector2(0, j)
+			if tilemap.get_cellv(p) == tilemap.stoneTileID:
+				tilemap.set_cellv(p, tilemap.stoneNoNavID)
+			elif tilemap.get_cellv(p) == tilemap.grassTileID:
+				tilemap.set_cellv(p, tilemap.grassNoNavID)
+	
+	tilemap.update_bitmask_region()	
+
+
+func remove_wall_tile_navigation(pos: Vector2, horizontal: bool):
+	if horizontal:
+		var tile_pos = tilemap.world_to_map(pos) - Vector2(2, 0)
+		for i in range(4):
+			var p = tile_pos + Vector2(i, 0)
+			if tilemap.get_cellv(p) == tilemap.stoneNoNavID:
+				tilemap.set_cellv(p, tilemap.stoneTileID)
+			elif tilemap.get_cellv(p) == tilemap.grassNoNavID:
+				tilemap.set_cellv(p, tilemap.grassTileID)
+	else:
+		var tile_pos = tilemap.world_to_map(pos) - Vector2(0, 2)
+		for j in range(4):
+			var p = tile_pos + Vector2(0, j)
+			if tilemap.get_cellv(p) == tilemap.stoneNoNavID:
+				tilemap.set_cellv(p, tilemap.stoneTileID)
+			elif tilemap.get_cellv(p) == tilemap.grassNoNavID:
+				tilemap.set_cellv(p, tilemap.grassTileID)
+	
+	tilemap.update_bitmask_region()	
+
+
 func update_tile_navigation(pos: Vector2, disable_nav: bool):
+	if Global.selected_item == "wall":
+		update_wall_tile_navigation(pos)
+		return
+	
 	var tile_pos = tilemap.world_to_map(pos) - Vector2(1, 1)
 	
 	# Disable navigation in a 2x2 grid around the structure
@@ -160,9 +256,13 @@ func update_tile_navigation(pos: Vector2, disable_nav: bool):
 
 
 func remove_structure(struct):
-	structures.remove(structures.find(struct))
 	var pos = tilemap.map_to_world(tilemap.world_to_map(struct.global_position)) + Vector2(32, 32)
-	update_tile_navigation(pos, false)
+	if struct is Wall:
+		remove_wall_tile_navigation(pos, struct.rotation_degrees != 90)
+	else:
+		update_tile_navigation(pos, false)
+	structures.remove(structures.find(struct))
+	
 	struct.queue_free()
 
 
@@ -172,11 +272,6 @@ func _on_Player_place_structure(pos: Vector2):
 	if valid_place:
 		pos = tilemap.map_to_world(tilemap.world_to_map(pos)) + Vector2(64, 64)
 		
-		# Can't place another structure within 100 pixels of any existing ones
-		for s in structures:
-			if pos.distance_to(s.position) <= 100:
-				return;
-
 		match Global.selected_item:
 			"drill":
 				create_drill(pos)
@@ -186,6 +281,10 @@ func _on_Player_place_structure(pos: Vector2):
 				create_oilrig(pos)
 			"firetower":
 				create_firetower(pos)
+			"healtower":
+				create_healtower(pos)
+			"wall":
+				create_wall(pos)
 			_:
 				print("Invalid structure being placed: " + str(Global.selected_item))
 

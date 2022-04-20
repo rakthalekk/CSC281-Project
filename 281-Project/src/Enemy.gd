@@ -13,7 +13,6 @@ var direction = Vector2.ZERO
 var velocity = Vector2.ZERO
 var target = null
 var knockback = false
-var hp = max_health
 var targets = []
 var path = []
 var threshold = 16
@@ -21,6 +20,7 @@ var nav = null
 
 var walk_counter = 0
 
+onready var hp = max_health
 onready var parent = get_tree().get_root().get_node("Main")
 onready var anim_player = $AnimationPlayer
 
@@ -28,7 +28,6 @@ onready var anim_player = $AnimationPlayer
 func _ready():
 	yield(parent, "ready")
 	nav = parent.nav
-	hp = max_health
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -70,8 +69,7 @@ func pursue_target():
 	
 	# Directly target structures without pathing
 	else:
-		direction = global_position.direction_to(closest_target.global_position)
-		velocity = direction * run_speed
+		move_to_target(closest_target.global_position)
 
 
 # Target the player using navigation, pathing around structures and walls
@@ -79,8 +77,20 @@ func pursue_player():
 	if global_position.distance_to(path[0]) < threshold:
 		path.remove(0)
 	else:
-		direction = global_position.direction_to(path[0])
+		move_to_target(path[0])
+
+
+func move_to_target(target: Vector2):
+#	if anim_player.current_animation == "jump":
+		direction = global_position.direction_to(target)
 		velocity = direction * run_speed
+#	else:
+#		velocity = Vector2.ZERO
+#		anim_player.play("charge")
+
+
+func play_jump():
+	anim_player.play("jump")
 
 
 func wander(speed):

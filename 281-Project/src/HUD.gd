@@ -4,6 +4,8 @@ const DRILL_IMG = preload("res://assets/Resources/drillcursor.png")
 const TURRET_IMG = preload("res://assets/Resources/turretcursor.png")
 const OILRIG_IMG = preload("res://assets/Resources/oilrigcursor.png")
 const FIRETOWER_IMG = preload("res://icon.png")
+const HEALTOWER_IMG = preload("res://icon.png")
+const WALL_IMG = preload("res://icon.png")
 const ORE_IMG = preload("res://assets/Resources/ore.png")
 const DUST_IMG = preload("res://assets/Resources/fairydust.png")
 const OIL_IMG = preload("res://assets/Resources/oilbarrel.png")
@@ -29,6 +31,9 @@ onready var fairySwatterUCost = $"Fairy Swatter/Cost Object/Cost Number"
 onready var drillItem = $"Drill Item"
 onready var turretItem = $"Turret Item"
 onready var oilRigItem = $"Oil Rig Item"
+onready var fireTowerItem = $"Fire Tower Item"
+onready var healTowerItem = $"Heal Tower Item"
+onready var wallItem = $"Wall Item"
 
 func _ready():
 	# Set price text box of fairy swatter
@@ -36,6 +41,22 @@ func _ready():
 	
 func _process(delta):
 	$"Coords".set_text("X: " + str(get_parent().playerCoords[0]) + "\nY: " + str(get_parent().playerCoords[1]))
+	
+	if Global.selected_item:
+		if Global.selected_item == "drill":
+			Input.set_custom_mouse_cursor(DRILL_IMG)
+		elif Global.selected_item == "wall":
+			Input.set_custom_mouse_cursor(WALL_IMG)
+		elif Global.selected_item == "turret":
+			Input.set_custom_mouse_cursor(TURRET_IMG)
+		elif Global.selected_item == "healtower":
+			Input.set_custom_mouse_cursor(HEALTOWER_IMG)
+		elif Global.selected_item == "oilrig":
+			Input.set_custom_mouse_cursor(OILRIG_IMG)
+		elif Global.selected_item == "firetower":
+			Input.set_custom_mouse_cursor(FIRETOWER_IMG)
+	else:
+		Input.set_custom_mouse_cursor(null)
 
 func _unhandled_input(event):
 	if(event.is_action_pressed("escape_key")):
@@ -79,6 +100,9 @@ func invalidPrices():
 	cantAfford(drillItem,Global.unobtainiumDrillCost,"res://assets/Structures/drillupscaled.png","res://assets/Structures/drillupscaled grayscale.png")
 	cantAfford(turretItem,Global.magicTurretCost,"res://assets/Structures/turret.png","res://assets/Structures/turret grayscale.png")
 	cantAfford(oilRigItem,Global.oilRigCost,"res://assets/Structures/oilpump.png", "res://assets/Structures/oilpump.png")
+	cantAfford(fireTowerItem,Global.fireTowerCost,"res://assets/Structures/flamethrower.png", "res://assets/Structures/flamethrower.png")
+	cantAfford(healTowerItem,Global.healTowerCost,"res://icon.png", "res://icon.png")
+	cantAfford(wallItem,Global.wallCost,"res://icon.png", "res://icon.png")
 
 
 func cantAfford(parentItem, globalCost, normalTexture, lockedTexture):
@@ -93,7 +117,7 @@ func cantAfford(parentItem, globalCost, normalTexture, lockedTexture):
 				index = 0
 			"Fairy Dust Cost":
 				index = 1
-			"Dragon Oil Cost":
+			"Oil Cost":
 				index = 2
 			_:
 				resourceCount -= 1 #remove one since checked node isn't a resource label
@@ -121,7 +145,6 @@ func setText(node, color, text):
 
 func _on_Drill_Item_toggled(button_pressed):
 	if Global.selected_item != "drill":
-		Input.set_custom_mouse_cursor(DRILL_IMG)
 		Global.selected_item = "drill"
 	else:
 		Input.set_custom_mouse_cursor(null)
@@ -130,7 +153,6 @@ func _on_Drill_Item_toggled(button_pressed):
 
 func _on_Turret_Item_toggled(button_pressed):
 	if Global.selected_item != "turret":
-		Input.set_custom_mouse_cursor(TURRET_IMG)
 		Global.selected_item = "turret"
 	else:
 		Input.set_custom_mouse_cursor(null)
@@ -203,12 +225,18 @@ func _on_Player_place_structure(pos: Vector2):
 			if(hudUnobtainiumCount < Global.fireTowerCost[0] || hudFairyDustCount < Global.fireTowerCost[1] || hudDragonOilCount < Global.fireTowerCost[2]):
 				Global.selected_item = null
 				Input.set_custom_mouse_cursor(null)
+		elif Global.selected_item == "healtower":
+			hudUnobtainiumCount -= Global.healTowerCost[0]
+			hudFairyDustCount -= Global.healTowerCost[1]
+			hudDragonOilCount -= Global.healTowerCost[2]
+			if(hudUnobtainiumCount < Global.healTowerCost[0] || hudFairyDustCount < Global.healTowerCost[1] || hudDragonOilCount < Global.healTowerCost[2]):
+				Global.selected_item = null
+				Input.set_custom_mouse_cursor(null)
 		emit_signal("just_purchased", hudUnobtainiumCount, hudFairyDustCount, hudDragonOilCount);
 
 
 func _on_Oil_Rig_Item_toggled(button_pressed):
 	if Global.selected_item != "oilrig":
-		Input.set_custom_mouse_cursor(OILRIG_IMG)
 		Global.selected_item = "oilrig"
 	else:
 		Input.set_custom_mouse_cursor(null)
@@ -217,8 +245,21 @@ func _on_Oil_Rig_Item_toggled(button_pressed):
 
 func _on_Fire_Tower_Item_toggled(button_pressed):
 	if Global.selected_item != "firetower":
-		Input.set_custom_mouse_cursor(FIRETOWER_IMG)
 		Global.selected_item = "firetower"
+	else:
+		Global.selected_item = null
+
+
+func _on_Heal_Tower_Item_toggled(button_pressed):
+	if Global.selected_item != "healtower":
+		Global.selected_item = "healtower"
+	else:
+		Global.selected_item = null
+
+
+func _on_Wall_Item_toggled(button_pressed):
+	if Global.selected_item != "wall":
+		Global.selected_item = "wall"
 	else:
 		Input.set_custom_mouse_cursor(null)
 		Global.selected_item = null

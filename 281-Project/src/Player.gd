@@ -48,13 +48,13 @@ var harvest_fairy_dust = false #if the player is near a fairy tree
 var nearLog = null #reference to the fairy tree the player is near
 
 # Current Health of the player
-var health : int = max_health
+onready var health : int = max_health
 
 # Used to detect when the players' stats have changed to update the HUD
 var prevUCount : int = unobtainiumCount
 var prevFDCount : int = fairyDustCount
 var prevDOCount : int = dragonOilCount
-var prevHealth : int = health
+onready var prevHealth : int = health
 
 # Used to check whether the player has specific things
 var hasFairySwatter = false
@@ -125,7 +125,7 @@ func _unhandled_input(event):
 			$ManualMiningTimer.set_wait_time(manual_mining_time)
 			emit_signal("is_manual_mining", self)
 
-	if (Input.is_action_just_pressed("interact_key")):
+	elif (Input.is_action_just_pressed("interact_key")):
 		#harvest_fairy_dust is true when in the radius of a log
 		if harvest_fairy_dust && hasFairySwatter:
 			if !interacting:
@@ -134,7 +134,7 @@ func _unhandled_input(event):
 			else:
 				stop_interacting()
 	
-	if event.is_action_pressed("click"):
+	elif event.is_action_pressed("click"):
 		
 		if Global.selected_item:
 			emit_signal("place_structure", get_global_mouse_position())
@@ -152,6 +152,30 @@ func _unhandled_input(event):
 				anim_player.play("attack_up")
 			else:
 				anim_player.play("attack_down")
+	
+	elif event.is_action_pressed("right_click"):
+		if Global.selected_item == "wall":
+			Global.horizontal_wall = !Global.horizontal_wall
+	
+	elif event.is_action_pressed("structure_up"):
+		if Global.selected_item != null:
+			Global.move_queue(-1)
+	
+	elif event.is_action_pressed("structure_down"):
+		if Global.selected_item != null:
+			Global.move_queue(1)
+	elif event.is_action_pressed("1"):
+		Global.set_selected_item(0)
+	elif event.is_action_pressed("2"):
+		Global.set_selected_item(1)
+	elif event.is_action_pressed("3"):
+		Global.set_selected_item(2)
+	elif event.is_action_pressed("4"):
+		Global.set_selected_item(3)
+	elif event.is_action_pressed("5"):
+		Global.set_selected_item(4)
+	elif event.is_action_pressed("6"):
+		Global.set_selected_item(5)
 
 
 func stop_interacting():
@@ -175,6 +199,12 @@ func damage(dmg, dir):
 		direction = dir
 		health -= dmg
 		emit_signal("player_stats_changed", self)
+
+
+func heal(amount):
+	health += amount
+	if health > max_health:
+		health = max_health
 
 
 func end_attack_animation():
