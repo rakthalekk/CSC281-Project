@@ -232,6 +232,13 @@ func _on_Player_place_structure(pos: Vector2):
 			if(hudUnobtainiumCount < Global.healTowerCost[0] || hudFairyDustCount < Global.healTowerCost[1] || hudDragonOilCount < Global.healTowerCost[2]):
 				Global.selected_item = null
 				Input.set_custom_mouse_cursor(null)
+		elif Global.selected_item == "wall":
+			hudUnobtainiumCount -= Global.wallCost[0]
+			hudFairyDustCount -= Global.wallCost[1]
+			hudDragonOilCount -= Global.wallCost[2]
+			if(hudUnobtainiumCount < Global.wallCost[0] || hudFairyDustCount < Global.wallCost[1] || hudDragonOilCount < Global.wallCost[2]):
+				Global.selected_item = null
+				Input.set_custom_mouse_cursor(null)
 		emit_signal("just_purchased", hudUnobtainiumCount, hudFairyDustCount, hudDragonOilCount);
 
 
