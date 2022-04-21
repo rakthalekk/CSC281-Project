@@ -80,7 +80,9 @@ func _process(delta):
 	
 	# Play animation based on player walk direction
 	if !attacking && !knockback:
-		if direction.x > 0:
+		if manual_mining:
+			anim_player.play("jackhammer")
+		elif direction.x > 0:
 			anim_player.play("walk_right")
 		elif direction.x < 0:
 			anim_player.play("walk_left")
@@ -133,6 +135,8 @@ func _unhandled_input(event):
 				$HarvestTimer.start()
 			else:
 				stop_interacting()
+		for area in $InteractBox.get_overlapping_areas():
+			area.get_parent().interact()
 	
 	elif event.is_action_pressed("click"):
 		

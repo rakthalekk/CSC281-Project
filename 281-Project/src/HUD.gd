@@ -2,9 +2,9 @@ extends CanvasLayer
 
 const DRILL_IMG = preload("res://assets/Resources/drillcursor.png")
 const TURRET_IMG = preload("res://assets/Resources/turretcursor.png")
-const OILRIG_IMG = preload("res://assets/Resources/oilrigcursor.png")
-const FIRETOWER_IMG = preload("res://icon.png")
-const HEALTOWER_IMG = preload("res://icon.png")
+const OILRIG_IMG = preload("res://assets/Resources/oilpumpcursor.png")
+const FIRETOWER_IMG = preload("res://assets/Resources/flamethrowercursor.png")
+const HEALTOWER_IMG = preload("res://assets/Resources/healingtowercursor.png")
 const WALL_IMG = preload("res://icon.png")
 const ORE_IMG = preload("res://assets/Resources/ore.png")
 const DUST_IMG = preload("res://assets/Resources/fairydust.png")
@@ -66,7 +66,7 @@ func _unhandled_input(event):
 
 
 func _on_Player_player_stats_changed(var player):
-	$"Health Bar/Bar".rect_size.x = 200 * player.health / player.max_health
+	$"Health Bar/Bar".rect_size.x = 206 * player.health / player.max_health
 	
 	$"Health Bar/Number Label".set_text(str(player.health) + " / " + str(player.max_health))
 	
@@ -100,8 +100,8 @@ func invalidPrices():
 	cantAfford(drillItem,Global.unobtainiumDrillCost,"res://assets/Structures/drillupscaled.png","res://assets/Structures/drillupscaled grayscale.png")
 	cantAfford(turretItem,Global.magicTurretCost,"res://assets/Structures/turret.png","res://assets/Structures/turret grayscale.png")
 	cantAfford(oilRigItem,Global.oilRigCost,"res://assets/Structures/oilpump.png", "res://assets/Structures/oilpump.png")
-	cantAfford(fireTowerItem,Global.fireTowerCost,"res://assets/Structures/flamethrower.png", "res://assets/Structures/flamethrower.png")
-	cantAfford(healTowerItem,Global.healTowerCost,"res://icon.png", "res://icon.png")
+	cantAfford(fireTowerItem,Global.fireTowerCost,"res://assets/Structures/flamethrowerv2up.png", "res://assets/Structures/flamethrowerv2up.png")
+	cantAfford(healTowerItem,Global.healTowerCost,"res://assets/Structures/healingtower.png", "res://assets/Structures/healingtower.png")
 	cantAfford(wallItem,Global.wallCost,"res://icon.png", "res://icon.png")
 
 

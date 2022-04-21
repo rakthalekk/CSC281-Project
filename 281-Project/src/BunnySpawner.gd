@@ -8,20 +8,41 @@ export(int) var nearby_entity_spawn_time = 6;
 export(int) var no_nearby_entity_spawn_time = 12;
 
 var entities_in_range = []
+var raid_spawns = 0
+var max_spawns
 
 onready var parent = $".."
 
 func _ready():
 	connect("spawn_bunny", parent, "_on_Burrow_spawn_bunny")
+	max_spawns = int(rand_range(6, 9))
+	#$AnimationPlayer.play("normal")
+
+
+# Initiates Goku Mode
+func interact():
+	$SpawnTimer.stop()
+	$AlertTimer.stop()
+	$AnimationPlayer.play("raid")
+
+
+func raid_spawn():
+	if raid_spawns < max_spawns:
+		emit_signal("spawn_bunny", global_position)
+		raid_spawns += 1
+	else:
+		$Alert.visible = false
+		$AnimationPlayer.stop()
+		rotation_degrees = 180
 
 
 func _on_Timer_timeout():
 	# Won't spawn more enemies if there are 4 or more within the radius
 	if $SpawnRadius.get_overlapping_bodies().size() < 4:
-		$Timer2.start()
+		$AlertTimer.start()
 		$Alert.visible = true
 	else:
-		$Timer.start()
+		$SpawnTimer.start()
 
 
 func _on_Timer2_timeout():
@@ -32,7 +53,7 @@ func _on_Timer2_timeout():
 	if entities_in_range.size() > 0:
 		time = nearby_entity_spawn_time * rand_range(1, 1.5)
 		
-	$Timer.start(time)
+	$SpawnTimer.start(time)
 
 
 func _on_EntityDetectionField_body_entered(body):
