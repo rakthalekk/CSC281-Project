@@ -15,7 +15,7 @@ var fieldWidth = 64
 var fieldLength = 64
 
 # Border Variables
-var border = true
+var border = false
 var borderSize = 5
 
 # path Variables
@@ -27,7 +27,7 @@ var burrows = true #Spawn burrows randomly
 var regionSize = 8 #region size squares of the burrows
 var bossRegionSqare = 2 #Size of boss region to not spawn burrows in
 var maxBurrowsPerSquare = 1 #The number of burrows that can spawn in a single square area
-var minChance = 0.1 #2/8 At the start of the map, this is the chance of burrows spawning
+var minChance = 0.05 #2/8 At the start of the map, this is the chance of burrows spawning
 var maxChance = 0.5 #6/8At the back part of the map
 
 
@@ -118,7 +118,7 @@ func generate():
 				#Acount for board orientation
 				var actualY = (((fieldWidth / regionSize) - 1) - y)
 				## Quadratic Equation Difficulty Scaling
-				var chance = pow(y/7.0, 2.0) + 0.25
+				var chance = pow(y/7.0, 2.0) + 0.1
 				## Square Root Equation Difficulty Scaling
 				# var chance = sqrt(y/8.75)
 				
