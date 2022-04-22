@@ -18,6 +18,10 @@ var fieldLength = 64
 var border = true
 var borderSize = 5
 
+# path Variables
+var pathCount = 4
+var paths = true
+
 # Burrow Variables
 var burrows = true #Spawn burrows randomly
 var regionSize = 8 #region size squares of the burrows
@@ -93,7 +97,18 @@ func generate():
 			for y in range(-borderSize, fieldWidth+borderSize):
 				if((x < 0 or x > fieldLength - 1) or (y < 0 or y > fieldWidth - 1)):
 					set_cell(startX + x, startY + y, 6, false, false, false, Vector2(x, y))
-	
+					
+	#Paths
+	if(paths):
+		for a in range (pathCount):
+			var pathX = rng.randi_range(1, fieldWidth)
+			for y in range (fieldLength):
+				for i in range (-1, 2):
+					for j in range (-1, 2):
+						set_cell(pathX + i, y + j, 7, false, false, false, Vector2(0, 0))
+				pathX += rng.randi_range(-1, 1)
+	update_bitmask_region(Vector2(0, 0), Vector2(fieldLength, fieldWidth))
+
 	#Generate Burrows
 	if(burrows):
 		#Squares in the X direction
