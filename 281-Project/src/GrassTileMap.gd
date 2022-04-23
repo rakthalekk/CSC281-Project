@@ -106,16 +106,6 @@ func generate():
 				var rand = noise_map.openSimplex2D(x/8.0, y/8.0)
 				if( rand < -0.3 ):
 					set_cell(x, y, 8, false, false, false, Vector2(0, 0))
-		for x in range (fieldLength):
-			for y in range (fieldWidth):
-				var count = 0
-				for i in range (-1, 2):
-					for j in range (-1, 2):
-						if( get_cell(x + i, y + j) == 8 ):
-							count = count + 1
-				if(count < 3 && count > 1):
-					set_cell(x, y, grassTileID, false, false, false, Vector2(0, 0))
-	update_bitmask_region(Vector2(0, 0), Vector2(fieldLength, fieldWidth))
 	
 	#Tall Grass
 	
@@ -128,6 +118,19 @@ func generate():
 					for j in range (-1, 2):
 						set_cell(pathX + i, y + j, 7, false, false, false, Vector2(0, 0))
 				pathX += rng.randi_range(-1, 1)
+	update_bitmask_region(Vector2(0, 0), Vector2(fieldLength, fieldWidth))
+	
+	#Remove Small Lakes
+	if(lakes):
+		for x in range (fieldLength):
+			for y in range (fieldWidth):
+				var count = 0
+				for i in range (-1, 2):
+					for j in range (-1, 2):
+						if( get_cell(x + i, y + j) == 8 ):
+							count = count + 1
+				if(count < 3 && count > 1):
+					set_cell(x, y, grassTileID, false, false, false, Vector2(0, 0))
 	update_bitmask_region(Vector2(0, 0), Vector2(fieldLength, fieldWidth))
 
 	# Add the Border
