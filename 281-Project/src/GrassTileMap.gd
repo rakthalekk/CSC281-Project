@@ -2,6 +2,8 @@ extends TileMap
 
 # Static Variables
 var BURROW = preload("res://src/Burrow.tscn")
+var TALLGRASS = preload("res://src/TallGrass.gd")
+var perlin = preload("res://src/softnoise.gd")
 var rng = RandomNumberGenerator.new()
 var startX = 0
 var startY = 0
@@ -17,6 +19,10 @@ var fieldLength = 64
 # Border Variables
 var border = false
 var borderSize = 5
+
+#lake variables
+var lakes = true
+var noise_map
 
 # path Variables
 var pathCount = 4
@@ -91,13 +97,28 @@ func generate():
 						plusY = 0
 					set_cell(startX + (x + plusX), startY + (y + plusY), stoneTileID, false, false, false, Vector2(0, 0))
 	update_bitmask_region(Vector2(0, 0), Vector2(fieldLength, fieldWidth))
-	# Add the Border
-	if(border):
-		for x in range(-borderSize, fieldLength+borderSize):
-			for y in range(-borderSize, fieldWidth+borderSize):
-				if((x < 0 or x > fieldLength - 1) or (y < 0 or y > fieldWidth - 1)):
-					set_cell(startX + x, startY + y, 6, false, false, false, Vector2(x, y))
-					
+
+	#Lakes
+	if(lakes):
+		noise_map = perlin.SoftNoise.new(1700)
+		for x in range (fieldLength):
+			for y in range (fieldWidth):
+				var rand = noise_map.openSimplex2D(x/8.0, y/8.0)
+				if( rand < -0.3 ):
+					set_cell(x, y, 8, false, false, false, Vector2(0, 0))
+		for x in range (fieldLength):
+			for y in range (fieldWidth):
+				var count = 0
+				for i in range (-1, 2):
+					for j in range (-1, 2):
+						if( get_cell(x + i, y + j) == 8 ):
+							count = count + 1
+				if(count < 3 && count > 1):
+					set_cell(x, y, grassTileID, false, false, false, Vector2(0, 0))
+	update_bitmask_region(Vector2(0, 0), Vector2(fieldLength, fieldWidth))
+	
+	#Tall Grass
+	
 	#Paths
 	if(paths):
 		for a in range (pathCount):
@@ -108,6 +129,13 @@ func generate():
 						set_cell(pathX + i, y + j, 7, false, false, false, Vector2(0, 0))
 				pathX += rng.randi_range(-1, 1)
 	update_bitmask_region(Vector2(0, 0), Vector2(fieldLength, fieldWidth))
+
+	# Add the Border
+	if(border):
+		for x in range(-borderSize, fieldLength+borderSize):
+			for y in range(-borderSize, fieldWidth+borderSize):
+				if((x < 0 or x > fieldLength - 1) or (y < 0 or y > fieldWidth - 1)):
+					set_cell(startX + x, startY + y, 6, false, false, false, Vector2(x, y))
 
 	#Generate Burrows
 	if(burrows):

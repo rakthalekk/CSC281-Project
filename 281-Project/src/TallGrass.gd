@@ -7,10 +7,7 @@ var perlin = preload("res://src/softnoise.gd")
 var noise_map
 
 func _ready():
-	noise_map = perlin.SoftNoise.new()
-	generate()
-
-func generate():
+	noise_map = perlin.SoftNoise.new(1700)
 	for x in range (fieldLength):
 		for y in range (fieldWidth):
 			var rand = noise_map.openSimplex2D(x/8.0, y/8.0)
