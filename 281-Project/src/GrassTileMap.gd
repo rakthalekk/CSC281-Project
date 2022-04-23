@@ -167,6 +167,8 @@ func generate():
 				elif((x == ((fieldLength / regionSize)/2)-1 || x == (fieldLength / regionSize)/2 + 0) && y >= (fieldWidth/regionSize)-2):
 					# Don't spawn burrows in the boss area
 					pass
+				elif (get_cell(x, y) == 8):
+					print("no burrows?")
 				else:
 					#RNG to determine if it will spawn
 					var rng_val = rng.randf() #rng.randi_range(1, 8) #VALUES ARE INCLUSIVE
