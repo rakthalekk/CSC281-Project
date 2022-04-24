@@ -6,6 +6,7 @@ var fieldLength = 64
 var perlin = preload("res://src/softnoise.gd")
 var noise_map
 
+"""
 func _ready():
 	noise_map = perlin.SoftNoise.new(1700)
 	for x in range (fieldLength):
@@ -14,3 +15,4 @@ func _ready():
 			if( rand > 0.5 ):
 				set_cell(x, y, 0, false, false, false, Vector2(0, 0))
 	update_bitmask_region(Vector2(0, 0), Vector2(fieldLength, fieldWidth))
+"""

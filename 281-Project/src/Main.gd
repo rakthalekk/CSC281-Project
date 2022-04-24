@@ -34,7 +34,7 @@ onready var tileUnobtainium = "Unobtainium"
 onready var playerCoords = Vector2(0,0)
 
 func _process(delta):
-	playerCoords = player.global_position
+	playerCoords = Vector2(2*tilemap.world_to_map(player.global_position)[0], 63) - tilemap.world_to_map(player.global_position)#player.global_position
 	var cell = tilemap.world_to_map(player.global_position)
 	var tile_id = tilemap.get_cellv(cell)
 	# -1 if out of bounds, 0 if on the grass, 1 if on the stone

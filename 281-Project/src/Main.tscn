@@ -1,4 +1,4 @@
-[gd_scene load_steps=187 format=2]
+[gd_scene load_steps=186 format=2]
 
 [ext_resource path="res://assets/Map Elements/Tilesheet/stonetilesheetup.png" type="Texture" id=1]
 [ext_resource path="res://assets/Map Elements/Tilesheet/heavygrasstilesheet.png" type="Texture" id=2]
@@ -7,7 +7,6 @@
 [ext_resource path="res://src/HUD.tscn" type="PackedScene" id=5]
 [ext_resource path="res://src/Player.tscn" type="PackedScene" id=6]
 [ext_resource path="res://assets/Map Elements/Tilesheet/tilesettest.png" type="Texture" id=7]
-[ext_resource path="res://src/Burrow.tscn" type="PackedScene" id=8]
 [ext_resource path="res://src/Fairy Log.tscn" type="PackedScene" id=9]
 [ext_resource path="res://src/TallGrass.gd" type="Script" id=10]
 [ext_resource path="res://assets/Map Elements/Tilesheet/Border Block.png" type="Texture" id=11]
@@ -1244,9 +1243,6 @@ color = Color( 1, 1, 0, 0.215686 )
 
 [node name="Burrows" type="Node2D" parent="."]
 
-[node name="Burrow" parent="Burrows" instance=ExtResource( 8 )]
-position = Vector2( 954, 3553 )
-
 [node name="Entities" type="YSort" parent="."]
 
 [node name="Player" parent="Entities" instance=ExtResource( 6 )]
@@ -1261,46 +1257,7 @@ position = Vector2( 1908, 342 )
 [node name="StructureManager" type="YSort" parent="Entities"]
 
 [node name="Fairy Log" parent="Entities" instance=ExtResource( 9 )]
-position = Vector2( 832, 3008 )
-
-[node name="Fairy Log2" parent="Entities" instance=ExtResource( 9 )]
-position = Vector2( 1664, 1152 )
-
-[node name="Fairy Log3" parent="Entities" instance=ExtResource( 9 )]
-position = Vector2( 3277, 156 )
-
-[node name="Fairy Log4" parent="Entities" instance=ExtResource( 9 )]
-position = Vector2( 2304, 1216 )
-
-[node name="Fairy Log5" parent="Entities" instance=ExtResource( 9 )]
-position = Vector2( 3264, 960 )
-
-[node name="Fairy Log6" parent="Entities" instance=ExtResource( 9 )]
-position = Vector2( 3136, 3008 )
-
-[node name="Fairy Log7" parent="Entities" instance=ExtResource( 9 )]
-position = Vector2( 1344, 2432 )
-
-[node name="Fairy Log8" parent="Entities" instance=ExtResource( 9 )]
-position = Vector2( 2688, 2368 )
-
-[node name="Fairy Log9" parent="Entities" instance=ExtResource( 9 )]
-position = Vector2( 640, 1472 )
-
-[node name="Fairy Log10" parent="Entities" instance=ExtResource( 9 )]
-position = Vector2( 896, 1024 )
-
-[node name="Fairy Log11" parent="Entities" instance=ExtResource( 9 )]
-position = Vector2( 154, 631 )
-
-[node name="Fairy Log12" parent="Entities" instance=ExtResource( 9 )]
-position = Vector2( 548, 188 )
-
-[node name="Fairy Log13" parent="Entities" instance=ExtResource( 9 )]
-position = Vector2( 3648, 1472 )
-
-[node name="Fairy Log14" parent="Entities" instance=ExtResource( 9 )]
-position = Vector2( 3840, 640 )
+position = Vector2( 2188, 3750 )
 
 [node name="MiningTimer" type="Timer" parent="."]
 
@@ -1309,7 +1266,6 @@ wait_time = 0.2
 autostart = true
 
 [node name="Worm" type="Node2D" parent="."]
-visible = false
 position = Vector2( 2100, 3000 )
 script = ExtResource( 17 )
 
