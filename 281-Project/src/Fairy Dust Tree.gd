@@ -9,6 +9,7 @@ var cooldownTexture = load("res://assets/Map Elements/fairylog.png")
 
 
 onready var sprite = $Sprite
+onready var particles = $Particles2D
 onready var parent = $"../.."
 onready var respawnTimer = $"Respawn Timer"
 
@@ -23,6 +24,7 @@ var canHarvest = true
 
 func _ready():
 	yield(parent, "ready")
+	canHarvest = true
 	parent.update_log_navigation(global_position)
 
 func harvested(body):
@@ -30,6 +32,8 @@ func harvested(body):
 	canHarvest = false
 	body.harvest_fairy_dust = false
 	sprite.texture = cooldownTexture
+	particles.emitting = false
+	particles.amount = 0
 	var waitTime = rng.randi_range(logCooldown[0],logCooldown[1])
 	respawnTimer.wait_time = waitTime
 	respawnTimer.start()
@@ -38,7 +42,8 @@ func _on_Respawn_Timer_timeout():
 	if(entity != null):
 		entity.harvest_fairy_dust = true
 	canHarvest = true
-	sprite.texture = spawnedTexture
+	sprite.texture = cooldownTexture
+	particles.emitting = true
 
 
 func _on_HarvestArea_body_entered(body):
