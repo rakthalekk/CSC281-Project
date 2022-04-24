@@ -22,7 +22,7 @@ onready var burrowsReference = get_node("../../Burrows") #Check here for conflic
 var fieldWidth = 64 #Y Variable
 var fieldLength = 64 #X Variable
 var filter = true #Smooths out map generation a bit and clear
-var filterPower = 2 #2 is normal filtering, 4 is max filtering.
+var filterPower = 4 #2 is normal filtering, 4 is max filtering.
 
 # Border Variables
 var border = false
@@ -223,6 +223,7 @@ func generate2():
 				for i in range (-1, 2):
 					for j in range (-1, 2):
 						set_cell(pathX + i, y + j, pathTileID, false, false, false, Vector2(0, 0))
+						tallGrassReference.set_cell(pathX + i, y + j, -1, false, false, false, Vector2(0, 0))
 				pathX += rng.randi_range(-1, 1)
 	
 	#Filter some noise from map generation - Stops individual blocks and single block beam shoots?
