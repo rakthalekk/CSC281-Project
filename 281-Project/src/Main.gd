@@ -104,7 +104,7 @@ func check_no_nav_tiles(pos: Vector2):
 	for i in range(2):
 		for j in range(2):
 			var p = tilemap.world_to_map(pos) + Vector2(i, j)
-			if tilemap.get_cellv(p) != tilemap.stoneTileID && tilemap.get_cellv(p) != tilemap.grassTileID:
+			if tilemap.get_cellv(p) != tilemap.stoneTileID && tilemap.get_cellv(p) != tilemap.grassTileID && tilemap.get_cellv(p) != tilemap.pathTileID:
 				return false
 	return true
 
@@ -113,13 +113,13 @@ func check_no_nav_tiles_wall(pos: Vector2):
 	if Global.horizontal_wall:
 		for i in range(4):
 			var p = tilemap.world_to_map(pos) + Vector2(i - 1, 0)
-			if tilemap.get_cellv(p) != tilemap.stoneTileID && tilemap.get_cellv(p) != tilemap.grassTileID:
+			if tilemap.get_cellv(p) != tilemap.stoneTileID && tilemap.get_cellv(p) != tilemap.grassTileID && tilemap.get_cellv(p) != tilemap.pathTileID:
 				return false
 		return true
 	else:
 		for j in range(4):
 			var p = tilemap.world_to_map(pos) + Vector2(0, j - 1)
-			if tilemap.get_cellv(p) != tilemap.stoneTileID && tilemap.get_cellv(p) != tilemap.grassTileID:
+			if tilemap.get_cellv(p) != tilemap.stoneTileID && tilemap.get_cellv(p) != tilemap.grassTileID && tilemap.get_cellv(p) != tilemap.pathTileID:
 				return false
 		return true
 
@@ -177,7 +177,7 @@ func create_wall(pos: Vector2):
 	var inst = WALL.instance()
 	structure_manager.add_child(inst)
 	if !Global.horizontal_wall:
-		inst.rotation_degrees = 90
+		inst.set_vertical()
 		inst.position = pos - Vector2(32, 0)
 	else:
 		inst.position = pos - Vector2(0, 32)
@@ -194,6 +194,8 @@ func update_wall_tile_navigation(pos: Vector2):
 				tilemap.set_cellv(p, tilemap.stoneNoNavID)
 			elif tilemap.get_cellv(p) == tilemap.grassTileID:
 				tilemap.set_cellv(p, tilemap.grassNoNavID)
+			elif tilemap.get_cellv(p) == tilemap.pathTileID:
+				tilemap.set_cellv(p, tilemap.pathNoNavID)
 	else:
 		var tile_pos = tilemap.world_to_map(pos) - Vector2(1, 2)
 		for j in range(4):
@@ -202,6 +204,8 @@ func update_wall_tile_navigation(pos: Vector2):
 				tilemap.set_cellv(p, tilemap.stoneNoNavID)
 			elif tilemap.get_cellv(p) == tilemap.grassTileID:
 				tilemap.set_cellv(p, tilemap.grassNoNavID)
+			elif tilemap.get_cellv(p) == tilemap.pathTileID:
+				tilemap.set_cellv(p, tilemap.pathNoNavID)
 	
 	tilemap.update_bitmask_region()	
 
@@ -215,6 +219,8 @@ func remove_wall_tile_navigation(pos: Vector2, horizontal: bool):
 				tilemap.set_cellv(p, tilemap.stoneTileID)
 			elif tilemap.get_cellv(p) == tilemap.grassNoNavID:
 				tilemap.set_cellv(p, tilemap.grassTileID)
+			elif tilemap.get_cellv(p) == tilemap.pathNoNavID:
+				tilemap.set_cellv(p, tilemap.pathTileID)
 	else:
 		var tile_pos = tilemap.world_to_map(pos) - Vector2(0, 2)
 		for j in range(4):
@@ -223,6 +229,8 @@ func remove_wall_tile_navigation(pos: Vector2, horizontal: bool):
 				tilemap.set_cellv(p, tilemap.stoneTileID)
 			elif tilemap.get_cellv(p) == tilemap.grassNoNavID:
 				tilemap.set_cellv(p, tilemap.grassTileID)
+			elif tilemap.get_cellv(p) == tilemap.pathNoNavID:
+				tilemap.set_cellv(p, tilemap.pathTileID)
 	
 	tilemap.update_bitmask_region()	
 
@@ -243,6 +251,8 @@ func update_tile_navigation(pos: Vector2, disable_nav: bool):
 					tilemap.set_cellv(p, tilemap.stoneNoNavID)
 				elif tilemap.get_cellv(p) == tilemap.grassTileID:
 					tilemap.set_cellv(p, tilemap.grassNoNavID)
+				elif tilemap.get_cellv(p) == tilemap.pathTileID:
+					tilemap.set_cellv(p, tilemap.pathNoNavID)
 	# Enable navigation in a 2x2 grid around the structure
 	else:
 		for i in range(2):
@@ -252,13 +262,15 @@ func update_tile_navigation(pos: Vector2, disable_nav: bool):
 					tilemap.set_cellv(p, tilemap.stoneTileID)
 				elif tilemap.get_cellv(p) == tilemap.grassNoNavID:
 					tilemap.set_cellv(p, tilemap.grassTileID)
+				elif tilemap.get_cellv(p) == tilemap.pathNoNavID:
+					tilemap.set_cellv(p, tilemap.pathTileID)
 	tilemap.update_bitmask_region()
 
 
 func remove_structure(struct):
 	var pos = tilemap.map_to_world(tilemap.world_to_map(struct.global_position)) + Vector2(32, 32)
 	if struct is Wall:
-		remove_wall_tile_navigation(pos, struct.rotation_degrees != 90)
+		remove_wall_tile_navigation(pos, !struct.vertical)
 	else:
 		update_tile_navigation(pos, false)
 	structures.remove(structures.find(struct))
@@ -308,3 +320,5 @@ func update_log_navigation(pos: Vector2):
 				tilemap.set_cellv(p, tilemap.stoneNoNavID)
 			elif tilemap.get_cellv(p) == tilemap.grassTileID:
 				tilemap.set_cellv(p, tilemap.grassNoNavID)
+			elif tilemap.get_cellv(p) == tilemap.pathTileID:
+				tilemap.set_cellv(p, tilemap.pathNoNavID)

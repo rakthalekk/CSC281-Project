@@ -99,10 +99,10 @@ func invalidPrices():
 	
 	cantAfford(drillItem,Global.unobtainiumDrillCost,"res://assets/Structures/drillupscaled.png","res://assets/Structures/drillupscaled grayscale.png")
 	cantAfford(turretItem,Global.magicTurretCost,"res://assets/Structures/turret.png","res://assets/Structures/turret grayscale.png")
-	cantAfford(oilRigItem,Global.oilRigCost,"res://assets/Structures/oilpump.png", "res://assets/Structures/oilpump.png")
+	cantAfford(oilRigItem,Global.oilRigCost,"res://assets/Structures/oilpump.png", "res://assets/Structures/oilpumpgrey.png")
 	cantAfford(fireTowerItem,Global.fireTowerCost,"res://assets/Structures/flamethrowerv2up.png", "res://assets/Structures/flamethrowerv2up.png")
 	cantAfford(healTowerItem,Global.healTowerCost,"res://assets/Structures/healingtower.png", "res://assets/Structures/healingtower.png")
-	cantAfford(wallItem,Global.wallCost,"res://icon.png", "res://icon.png")
+	cantAfford(wallItem,Global.wallCost,"res://assets/Structures/sandbagshorizontal.png", "res://assets/Structures/sandbagshorizontal.png")
 
 
 func cantAfford(parentItem, globalCost, normalTexture, lockedTexture):

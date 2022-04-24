@@ -4,5 +4,6 @@ extends Area2D
 var count : int = 1
 
 func _on_Unobtainium_body_entered(body):
-	queue_free() #this deletes the entity when it is collected
-	body.unobtainiumCount += count
+	if body is Player:
+		queue_free() #this deletes the entity when it is collected
+		body.unobtainiumCount += count

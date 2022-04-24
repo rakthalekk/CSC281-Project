@@ -37,11 +37,14 @@ func _process(delta):
 	if knockback:
 		velocity = direction * knockback_speed
 	elif targets.size() > 0:
-		$Sprite.texture = ANGRY
+		#$Sprite.texture = ANGRY
 		pursue_target()
 	else:
-		$Sprite.texture = CALM
+		#$Sprite.texture = CALM
 		wander(walk_speed)
+	
+	if !knockback:
+		anim_player.play("jump")
 	
 	velocity = move_and_slide(velocity)
 

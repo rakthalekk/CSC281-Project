@@ -12,6 +12,11 @@ var inst = null
 
 func _ready():
 	$"Timer".wait_time = drillCooldownTime;
+	anim_player.play("place")
+
+
+func play_idle():
+	anim_player.play("idle")
 
 
 func _on_Timer_timeout():

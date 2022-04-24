@@ -11,7 +11,7 @@ var entities_in_range = []
 var raid_spawns = 0
 var max_spawns
 
-onready var parent = $".."
+onready var parent = $"../.."
 
 func _ready():
 	connect("spawn_bunny", parent, "_on_Burrow_spawn_bunny")

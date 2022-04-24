@@ -11,6 +11,9 @@ var grassTileID = 2
 var stoneTileID = 3
 var grassNoNavID = 4
 var stoneNoNavID = 5
+var pathTileID = 7
+var waterTileID = 8
+var pathNoNavID = 9
 
 # Field Size Variables
 var fieldWidth = 64
@@ -47,7 +50,7 @@ func createBurrow(tileX, tileY):
 	#print("Creating Burrow...")
 	var inst = BURROW.instance()
 	inst.position = map_to_world(Vector2(tileX, tileY))
-	get_parent().get_parent().call_deferred("add_child", inst)
+	get_parent().get_parent().get_node("Burrows").call_deferred("add_child", inst)
 	#print("Spawn Location: " + str(map_to_world(Vector2(tileX, tileY))))
 	#print(str(get_parent().get_parent().get_children()))
 
@@ -105,7 +108,7 @@ func generate():
 			for y in range (fieldWidth):
 				var rand = noise_map.openSimplex2D(x/8.0, y/8.0)
 				if( rand < -0.3 ):
-					set_cell(x, y, 8, false, false, false, Vector2(0, 0))
+					set_cell(x, y, waterTileID, false, false, false, Vector2(0, 0))
 	
 	#Tall Grass
 	
@@ -116,7 +119,7 @@ func generate():
 			for y in range (fieldLength):
 				for i in range (-1, 2):
 					for j in range (-1, 2):
-						set_cell(pathX + i, y + j, 7, false, false, false, Vector2(0, 0))
+						set_cell(pathX + i, y + j, pathTileID, false, false, false, Vector2(0, 0))
 				pathX += rng.randi_range(-1, 1)
 	update_bitmask_region(Vector2(0, 0), Vector2(fieldLength, fieldWidth))
 	
@@ -127,7 +130,7 @@ func generate():
 				var count = 0
 				for i in range (-1, 2):
 					for j in range (-1, 2):
-						if( get_cell(x + i, y + j) == 8 ):
+						if( get_cell(x + i, y + j) == waterTileID ):
 							count = count + 1
 				if(count < 3 && count > 1):
 					set_cell(x, y, grassTileID, false, false, false, Vector2(0, 0))
@@ -167,7 +170,7 @@ func generate():
 				elif((x == ((fieldLength / regionSize)/2)-1 || x == (fieldLength / regionSize)/2 + 0) && y >= (fieldWidth/regionSize)-2):
 					# Don't spawn burrows in the boss area
 					pass
-				elif (get_cell(x, y) == 8):
+				elif (get_cell(x*8 + regionSize/2, actualY*8 + regionSize/2) == waterTileID):
 					print("no burrows?")
 				else:
 					#RNG to determine if it will spawn
