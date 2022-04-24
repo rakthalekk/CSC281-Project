@@ -308,10 +308,12 @@ func generate2():
 										break #Stop the for loop since the burrow was created
 	#Generate Fairy Logs
 	if(fairyLogs):
+		#Border Size to account for log size
+		var fairyLogBorder = 2
 		#Squares in the X direction
-		for x in range(fieldLength):
+		for x in range(fairyLogBorder, fieldLength - fairyLogBorder):
 			#Squares in the Y direction
-			for y in range(fieldWidth):
+			for y in range(fairyLogBorder, fieldWidth - fairyLogBorder):
 				#Acount for board orientation
 				var actualY = fieldWidth - 1 - y
 				## Quadratic Equation Difficulty Scaling
@@ -363,6 +365,10 @@ func generate2():
 									var spawnLoc = Vector2(x + rng.randi_range(-4,4),actualY + rng.randi_range(-4,4))
 									#Try up to 32 times to place the fairy log
 									for i in range(32):
+										# Check if the log is spawning outside of the border
+										if(spawnLoc[0] < fairyLogBorder || spawnLoc[1] < fairyLogBorder 
+											|| spawnLoc[0] >= fieldLength - fairyLogBorder || spawnLoc[1] >= fieldWidth - fairyLogBorder):
+												spawnLoc = Vector2(x + rng.randi_range(-4,4),actualY + rng.randi_range(-4,4))
 										# Check if the burrow can spawn
 										if(!canSpawnObject(spawnLoc)):
 										#if(get_cellv(spawnLoc) == waterTileID):
