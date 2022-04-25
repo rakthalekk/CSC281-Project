@@ -33,3 +33,7 @@ func _on_Timer_timeout():
 
 func _on_InvincibilityTimer_timeout():
 	end_invulnerability()
+
+
+func _on_HealRingTimer_timeout():
+	$HealRing.visible = false

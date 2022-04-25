@@ -14,3 +14,7 @@ func _on_HealZone_body_entered(body):
 
 func _on_ActivateInterval_timeout():
 	anim_player.play("heal")
+
+
+func _on_HealRingTimer_timeout():
+	$HealRing.visible = false

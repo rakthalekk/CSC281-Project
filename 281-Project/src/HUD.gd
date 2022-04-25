@@ -5,7 +5,7 @@ const TURRET_IMG = preload("res://assets/Resources/turretcursor.png")
 const OILRIG_IMG = preload("res://assets/Resources/oilpumpcursor.png")
 const FIRETOWER_IMG = preload("res://assets/Resources/flamethrowercursor.png")
 const HEALTOWER_IMG = preload("res://assets/Resources/healingtowercursor.png")
-const WALL_IMG = preload("res://icon.png")
+const WALL_IMG = preload("res://assets/Resources/wallcursor.png")
 const ORE_IMG = preload("res://assets/Resources/ore.png")
 const DUST_IMG = preload("res://assets/Resources/fairydust.png")
 const OIL_IMG = preload("res://assets/Resources/oilbarrel.png")
@@ -102,7 +102,7 @@ func invalidPrices():
 	cantAfford(oilRigItem,Global.oilRigCost,"res://assets/Structures/oilpump.png", "res://assets/Structures/oilpumpgrey.png")
 	cantAfford(fireTowerItem,Global.fireTowerCost,"res://assets/Structures/flamethrowerv2up.png", "res://assets/Structures/flamethrowerv2up.png")
 	cantAfford(healTowerItem,Global.healTowerCost,"res://assets/Structures/healingtower.png", "res://assets/Structures/healingtower.png")
-	cantAfford(wallItem,Global.wallCost,"res://assets/Structures/sandbagshorizontal.png", "res://assets/Structures/sandbagshorizontal.png")
+	cantAfford(wallItem,Global.wallCost,"res://assets/Structures/wallicon.png", "res://assets/Structures/wallicon.png")
 
 
 func cantAfford(parentItem, globalCost, normalTexture, lockedTexture):

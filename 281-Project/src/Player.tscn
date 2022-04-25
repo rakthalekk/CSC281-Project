@@ -1,7 +1,8 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://src/Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/Player/player_sheet_2.png" type="Texture" id=2]
+[ext_resource path="res://assets/Structures/healring.png" type="Texture" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 24, 20 )
@@ -613,7 +614,14 @@ wait_time = 5.0
 [node name="HarvestTimer" type="Timer" parent="."]
 wait_time = 3.0
 
+[node name="HealRing" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 3 )
+
+[node name="HealRingTimer" type="Timer" parent="."]
+
 [connection signal="body_entered" from="AttackHitbox" to="." method="_on_AttackHitbox_body_entered"]
 [connection signal="timeout" from="InvincibilityTimer" to="." method="_on_InvincibilityTimer_timeout"]
 [connection signal="timeout" from="ManualMiningTimer" to="." method="_on_ManualMiningTimer_timeout"]
 [connection signal="timeout" from="HarvestTimer" to="." method="_on_HarvestTimer_timeout"]
+[connection signal="timeout" from="HealRingTimer" to="." method="_on_HealRingTimer_timeout"]

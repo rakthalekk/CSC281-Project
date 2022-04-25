@@ -206,6 +206,10 @@ func damage(dmg, dir):
 
 
 func heal(amount):
+	if health < max_health:
+		$HealRing.visible = true
+		$HealRingTimer.start()
+	
 	health += amount
 	if health > max_health:
 		health = max_health
@@ -258,3 +262,7 @@ func _on_HarvestTimer_timeout():
 	else:
 		print("SOMEHOW NEARTREE IS NULL??")
 	stop_interacting()
+
+
+func _on_HealRingTimer_timeout():
+	$HealRing.visible = false

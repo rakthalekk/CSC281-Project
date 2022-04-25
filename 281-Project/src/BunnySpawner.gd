@@ -4,6 +4,10 @@ extends Node2D
 signal spawn_bunny
 
 
+export(Texture) var NORMAL_SPRITE
+export(Texture) var CLOSED_SPRITE
+export(Texture) var READY_SPRITE
+
 export(int) var nearby_entity_spawn_time = 6;
 export(int) var no_nearby_entity_spawn_time = 12;
 
@@ -16,7 +20,6 @@ onready var parent = $"../.."
 func _ready():
 	connect("spawn_bunny", parent, "_on_Burrow_spawn_bunny")
 	max_spawns = int(rand_range(6, 9))
-	#$AnimationPlayer.play("normal")
 
 
 # Initiates Goku Mode
@@ -24,6 +27,7 @@ func interact():
 	$SpawnTimer.stop()
 	$AlertTimer.stop()
 	$AnimationPlayer.play("raid")
+	$Sprite.texture = READY_SPRITE
 
 
 func raid_spawn():
@@ -32,22 +36,23 @@ func raid_spawn():
 		raid_spawns += 1
 	else:
 		$Alert.visible = false
+		$Sprite.texture = CLOSED_SPRITE
 		$AnimationPlayer.stop()
-		rotation_degrees = 180
+		$BurrowInteractArea/CollisionShape2D.disabled = true
 
 
 func _on_Timer_timeout():
 	# Won't spawn more enemies if there are 4 or more within the radius
 	if $SpawnRadius.get_overlapping_bodies().size() < 4:
 		$AlertTimer.start()
-		$Alert.visible = true
+		$Sprite.texture = READY_SPRITE
 	else:
 		$SpawnTimer.start()
 
 
 func _on_Timer2_timeout():
 	emit_signal("spawn_bunny", global_position)
-	$Alert.visible = false
+	$Sprite.texture = NORMAL_SPRITE
 	
 	var time = no_nearby_entity_spawn_time * rand_range(1, 1.5)
 	if entities_in_range.size() > 0:

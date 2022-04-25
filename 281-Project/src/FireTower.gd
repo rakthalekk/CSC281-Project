@@ -4,6 +4,7 @@ extends Structure
 
 func disable_attack():
 	$DamageInterval.stop()
+	anim_player.play("idle")
 
 
 func _on_InvincibilityTimer_timeout():
@@ -24,3 +25,7 @@ func _on_DamageInterval_timeout():
 func _on_FireZone_body_entered(body):
 	if body is Enemy:
 		body.damage(10, Vector2.ZERO)
+
+
+func _on_HealRingTimer_timeout():
+	$HealRing.visible = false

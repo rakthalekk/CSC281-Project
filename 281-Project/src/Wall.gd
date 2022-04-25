@@ -26,3 +26,7 @@ func _on_Button_pressed():
 		active = true
 		$CollisionShape2D.disabled = false
 		$Sprite.modulate = Color(1, 1, 1, 1)
+
+
+func _on_HealRingTimer_timeout():
+	$HealRing.visible = false

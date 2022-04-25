@@ -10,7 +10,7 @@
 [ext_resource path="res://assets/Resources/lockred.png" type="Texture" id=8]
 [ext_resource path="res://assets/Structures/oilpump.png" type="Texture" id=9]
 [ext_resource path="res://assets/Structures/flamethrowerv2up.png" type="Texture" id=10]
-[ext_resource path="res://assets/Structures/sandbagshorizontal.png" type="Texture" id=11]
+[ext_resource path="res://assets/Structures/wallicon.png" type="Texture" id=11]
 [ext_resource path="res://assets/Structures/healingtower.png" type="Texture" id=12]
 
 [sub_resource type="AtlasTexture" id=1]
@@ -125,10 +125,11 @@ rect_scale = Vector2( 0.5, 0.5 )
 toggle_mode = true
 texture_normal = ExtResource( 11 )
 expand = true
+stretch_mode = 3
 
 [node name="Unobtainium Cost" type="TextureRect" parent="Wall Item"]
-margin_left = 160.0
-margin_right = 224.0
+margin_left = 144.0
+margin_right = 208.0
 margin_bottom = 64.0
 rect_scale = Vector2( 0.7, 0.7 )
 texture = ExtResource( 2 )
@@ -145,9 +146,9 @@ __meta__ = {
 }
 
 [node name="Fairy Dust Cost" type="TextureRect" parent="Wall Item"]
-margin_left = 160.0
+margin_left = 144.0
 margin_top = 80.0
-margin_right = 224.0
+margin_right = 208.0
 margin_bottom = 144.0
 rect_scale = Vector2( 0.7, 0.7 )
 texture = ExtResource( 4 )
@@ -453,7 +454,7 @@ __meta__ = {
 [node name="Fairy Swatter" type="AnimatedSprite" parent="."]
 position = Vector2( 1368, 696 )
 frames = SubResource( 9 )
-frame = 7
+frame = 6
 playing = true
 
 [node name="Fairy Swatter Lock" type="TextureButton" parent="Fairy Swatter"]

@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
-[ext_resource path="res://assets/Structures/flamethrowerv2up.png" type="Texture" id=1]
+[ext_resource path="res://assets/Structures/flamethrowerv3.png" type="Texture" id=1]
 [ext_resource path="res://src/FireTower.gd" type="Script" id=2]
+[ext_resource path="res://assets/Structures/healring.png" type="Texture" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 32, 20 )
@@ -31,6 +32,18 @@ tracks/1/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Sprite:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0 ]
 }
 
 [sub_resource type="Animation" id=19]
@@ -73,6 +86,23 @@ tracks/2/keys = {
 "args": [  ],
 "method": "disable_attack"
 } ]
+}
+
+[sub_resource type="Animation" id=21]
+resource_name = "idle"
+length = 0.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5 ]
 }
 
 [sub_resource type="Animation" id=16]
@@ -123,10 +153,13 @@ shape = SubResource( 1 )
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 0, -24 )
 texture = ExtResource( 1 )
+hframes = 6
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "idle"
 anims/RESET = SubResource( 18 )
 anims/fire = SubResource( 19 )
+anims/idle = SubResource( 21 )
 
 [node name="EffectsAnimationPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 16 )
@@ -160,7 +193,14 @@ autostart = true
 [node name="DamageInterval" type="Timer" parent="."]
 wait_time = 0.5
 
+[node name="HealRing" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 3 )
+
+[node name="HealRingTimer" type="Timer" parent="."]
+
 [connection signal="timeout" from="InvincibilityTimer" to="." method="_on_InvincibilityTimer_timeout"]
 [connection signal="body_entered" from="FireZone" to="." method="_on_FireZone_body_entered"]
 [connection signal="timeout" from="ActivateInterval" to="." method="_on_ActivateInterval_timeout"]
 [connection signal="timeout" from="DamageInterval" to="." method="_on_DamageInterval_timeout"]
+[connection signal="timeout" from="HealRingTimer" to="." method="_on_HealRingTimer_timeout"]

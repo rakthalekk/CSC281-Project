@@ -27,6 +27,10 @@ func damage(dmg):
 
 
 func heal(amount):
+	if health < max_health:
+		$HealRing.visible = true
+		$HealRingTimer.start()
+	
 	health += amount
 	if health > max_health:
 		health = max_health

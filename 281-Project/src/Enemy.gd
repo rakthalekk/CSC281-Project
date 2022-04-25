@@ -1,8 +1,6 @@
 class_name Enemy
 extends KinematicBody2D
 
-export(Texture) var CALM
-export(Texture) var ANGRY
 export(int) var dmg = 10
 export(int) var walk_speed = 100
 export(int) var run_speed = 200
@@ -26,27 +24,38 @@ onready var anim_player = $AnimationPlayer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	anim_player.play("RESET")
 	yield(parent, "ready")
 	nav = parent.nav
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
+	normal_behavior()
+
+
+func normal_behavior():
 	if hp <= 0:
-		queue_free()
+		anim_player.play("die")
+		return
+	
 	if knockback:
 		velocity = direction * knockback_speed
 	elif targets.size() > 0:
-		#$Sprite.texture = ANGRY
 		pursue_target()
 	else:
-		#$Sprite.texture = CALM
 		wander(walk_speed)
 	
-	if !knockback:
-		anim_player.play("jump")
+	manage_animation()
 	
 	velocity = move_and_slide(velocity)
+
+
+func manage_animation():
+	if !knockback && anim_player.current_animation != "bite":
+		anim_player.play("jump")
+	elif !knockback && anim_player.current_animation == "bite":
+		velocity = Vector2.ZERO
 
 
 func pursue_target():
@@ -84,16 +93,8 @@ func pursue_player():
 
 
 func move_to_target(target: Vector2):
-#	if anim_player.current_animation == "jump":
-		direction = global_position.direction_to(target)
-		velocity = direction * run_speed
-#	else:
-#		velocity = Vector2.ZERO
-#		anim_player.play("charge")
-
-
-func play_jump():
-	anim_player.play("jump")
+	direction = global_position.direction_to(target)
+	velocity = direction * run_speed
 
 
 func wander(speed):
@@ -135,6 +136,23 @@ func disable_knockback():
 	knockback = false
 
 
+func reset_animation():
+	anim_player.play("RESET")
+
+
+func deal_damage():
+	for body in $Hitbox.get_overlapping_bodies():
+		if body is Player:
+			var dir = (body.position - position).normalized()
+			body.damage(dmg, dir)
+		elif body is Structure:
+			body.damage(dmg)
+
+
+func perish():
+	queue_free()
+
+
 func _on_VisionRadius_body_entered(body):
 	if body is Player:
 		target = body
@@ -150,11 +168,3 @@ func _on_VisionRadius_body_exited(body):
 
 	if body is Player:
 		target = null
-
-
-func _on_Hitbox_body_entered(body):
-	if body is Player:
-		var dir = (body.position - position).normalized()
-		body.damage(dmg, dir)
-	elif body is Structure:
-		body.damage(dmg)

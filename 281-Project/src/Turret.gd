@@ -57,3 +57,7 @@ func _on_RotateAnimationFrame_timeout():
 			var direction = (target.global_position - global_position).normalized()
 			emit_signal("make_bullet", global_position, direction)
 			bullet_queue = false
+
+
+func _on_HealRingTimer_timeout():
+	$HealRing.visible = false
