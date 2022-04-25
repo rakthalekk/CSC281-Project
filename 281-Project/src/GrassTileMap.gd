@@ -3,6 +3,7 @@ extends TileMap
 # Static Variables
 var BURROW = preload("res://src/Burrow.tscn")
 var FAIRYLOG = preload("res://src/Fairy Log.tscn")
+var DRAGONBONES = preload("res://src/Dragon Bones.tscn")
 var perlin = preload("res://src/softnoise.gd")
 var rng = RandomNumberGenerator.new()
 var startX = 0
@@ -53,6 +54,18 @@ var fairyLogStartY = 21#fieldWidth/3 #At what point in the map fairy logs start 
 var maxFairyLogsPerSquare = 1 #The number of fairy logs that can spawn in a single square area
 var logLocations = [] #Locations of logs that have been spawned for updating tile navigation
 
+# Dragon Bones Variables
+var dragonBones = true #Spawn Dragon Bones randomly
+var dragonBonesRegionSize = 16 #region size squares of the Dragon Bones to spawn in
+var dragonBonesMinChance = 0.05 #Min chance for Dragon Bones to spawn when at the start Y
+var dragonBonesMaxChance = 0.15 #Max chacne for Dragon Bones to spawn when at the end of the map
+var dragonBonesStartY = 48#fieldWidth/3 #At what point in the map Dragon Bones start spawning
+var maxDragonBonesPerSquare = 1 #The number of Dragon Bones that can spawn in a single square area
+var dragonBonesLocations = [] #Locations of dragon bones that have been spawned for checking for placement
+var dragonBonesSpawnedCount = 0 #Keeps track of the number of dragon bones spawned
+var minDragonBonesSpawned = 2 #Spawn at least this many dragon bones
+var maxTries = 100 #Maximum tries that the engine will try spawning the min number of dragon bones before giving up
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	rng.randomize()
@@ -69,12 +82,23 @@ func createBurrow(tileX, tileY):
 
 #This function will create a fairyLog at the specified tile
 func createFairyLog(tileX, tileY):
-	#print("Creating Burrow...")
 	var inst = FAIRYLOG.instance()
 	inst.position = map_to_world(Vector2(tileX, tileY))
 	logLocations.append(inst.position)
 	get_parent().get_parent().get_node("Entities").call_deferred("add_child", inst)
 	#print("Spawn Location: " + str(map_to_world(Vector2(tileX, tileY))))
+	#print("Spawn Location: " + str(Vector2(tileX, tileY)))
+	#print(str(get_parent().get_parent().get_children()))
+
+#This function will create Dragon Bones at the specified tile
+func createDragonBones(tileX, tileY):
+	#Places the bones at the bottom right corner of them
+	var inst = DRAGONBONES.instance()
+	inst.position = map_to_world(Vector2(tileX, tileY))
+	#dragonBonesLocations.append(Vector2(tileX, tileY)) #--> Moved to "Dragon Bones.gd"
+	get_parent().get_parent().get_node("Entities").call_deferred("add_child", inst)
+	print("Spawn Location: " + str(map_to_world(Vector2(tileX, tileY))))
+	dragonBonesSpawnedCount += 1
 	#print("Spawn Location: " + str(Vector2(tileX, tileY)))
 	#print(str(get_parent().get_parent().get_children()))
 
@@ -371,29 +395,92 @@ func generate2():
 										if(spawnLoc[0] < fairyLogBorder || spawnLoc[1] < fairyLogBorder 
 											|| spawnLoc[0] >= fieldLength - fairyLogBorder || spawnLoc[1] >= fieldWidth - fairyLogBorder):
 												spawnLoc = Vector2(x + rng.randi_range(-4,4),actualY + rng.randi_range(-4,4))
-										# Check if the burrow can spawn
+										# Check if the fairy log can spawn
 										if(!canSpawnObject(spawnLoc)):
 										#if(get_cellv(spawnLoc) == waterTileID):
 											#Try again if the spot it was attempted to be placed on is water
 											spawnLoc = Vector2(x + rng.randi_range(-4,4),actualY + rng.randi_range(-4,4))
 										else:
-											#Spawn the burrow if it's in a valid space
+											#Spawn the fairy log if it's in a valid space
 											createFairyLog(spawnLoc[0], spawnLoc[1])
-											break #Stop the for loop since the burrow was created
-		
-		"""
-		var rng_val = rng.randf()
-		var chance = ((fairyLogMaxChance-fairyLogMaxChance)/pow(fieldLength, 2.0))*pow(y, 2.0) + fairyLogMinChance
-		# Check Scaling by min/max
-		if(chance < fairyLogMinChance):
-			chance = fairyLogMinChance
-		elif(chance > fairyLogMaxChance):
-			chance = fairyLogMaxChance
-		if(rng_val <= chance):
-				willSpawn = true
-		else:
-				willSpawn = false
-	"""
+											break #Stop the for loop since the fairy log was created
+	#Generate Dragon Bones
+	if(dragonBones):
+		var tries = 0 #Tracks the tries the game takes to spawn dragon bones
+		#Ensures that dragon bones are spawned the min number of times
+		while(dragonBonesSpawnedCount < minDragonBonesSpawned || tries > maxTries): 
+			tries += 1 #increments tries
+			#Border Size to account for log size
+			var dragonBonesBorder = 2
+			#Squares in the X direction
+			for x in range(dragonBonesBorder, fieldLength - dragonBonesBorder):
+				#Squares in the Y direction
+				for y in range(dragonBonesBorder, fieldWidth - dragonBonesBorder):
+					#Acount for board orientation
+					var actualY = fieldWidth - 1 - y
+					## Quadratic Equation Difficulty Scaling
+					var chance = ((dragonBonesMaxChance-dragonBonesMinChance)/pow(fieldLength - dragonBonesStartY, 2.0))*pow(y, 2.0) + dragonBonesMinChance
+					# Check Scaling by min/max
+					if(y <= dragonBonesStartY):
+						chance = 0
+					elif(chance < dragonBonesMinChance):
+						chance = dragonBonesMinChance
+					elif(chance > dragonBonesMaxChance):
+						chance = dragonBonesMaxChance
+					#Should be the size of the region, since it's a square region
+					if(rng.randf() <= 1/pow(dragonBonesRegionSize, 2.0)):
+						#Player Spawn Area - Don't spawn anything in it -- BOXES 3,4
+						if((x == ((fieldLength / regionSize)/2)-1 || x == (fieldLength / regionSize)/2 + 0) && y == 0):
+							# This is the spawn area-- Do not put anything here
+							pass
+						elif((x == ((fieldLength / regionSize)/2)-1 || x == (fieldLength / regionSize)/2 + 0) && y >= (fieldWidth/regionSize)-2):
+							# Don't spawn burrows in the boss area
+							pass
+						else:
+							#RNG to determine if it will spawn
+							var rng_val = rng.randf()
+							#Determine if the dragonBones will spawn
+							#print("RNG VAL: " + str(rng_val) + " AND CHANCE: " + str(chance) + " - " + str(Vector2(x, y)))
+							if(rng_val <= chance):
+								#Spawn at least 1, and then chance spawn as many as needed
+								for spawns in range(maxDragonBonesPerSquare):
+									var willSpawn = true
+									if(spawns > 0):
+										#Run the RNG to spawn another one
+										rng_val = rng.randf()
+										#Scale chance
+										chance = ((dragonBonesMaxChance-dragonBonesMinChance)/pow(fieldLength - dragonBonesStartY, 2.0))*pow(y, 2.0) + fairyLogMinChance
+										# Check Scaling by min/max
+										if(actualY <= dragonBonesStartY):
+											chance = 0
+										elif(chance < dragonBonesMinChance):
+											chance = dragonBonesMinChance
+										elif(chance > dragonBonesMaxChance):
+											chance = dragonBonesMaxChance
+										#Check if the chance is good to spawn another one
+										if(rng_val <= chance):
+												willSpawn = true
+										else:
+												willSpawn = false
+									if(willSpawn):
+										#Initial spawn location
+										var spawnLoc = Vector2(x + rng.randi_range(-4,4),actualY + rng.randi_range(-4,4))
+										#Try up to 32 times to place the fairy log
+										for i in range(32):
+											# Check if the log is spawning outside of the border
+											if(spawnLoc[0] < dragonBonesBorder || spawnLoc[1] < dragonBonesBorder 
+												|| spawnLoc[0] >= fieldLength - dragonBonesBorder || spawnLoc[1] >= fieldWidth - dragonBonesBorder):
+													spawnLoc = Vector2(x + rng.randi_range(-4,4),actualY + rng.randi_range(-4,4))
+											# Check if the burrow can spawn
+											if(!canSpawnObject(spawnLoc)):
+											#if(get_cellv(spawnLoc) == waterTileID):
+												#Try again if the spot it was attempted to be placed on is water
+												spawnLoc = Vector2(x + rng.randi_range(-4,4),actualY + rng.randi_range(-4,4))
+											else:
+												#Spawn the burrow if it's in a valid space
+												createDragonBones(spawnLoc[0], spawnLoc[1])
+												tries = 0 #reset the tries
+												break #Stop the for loop since the burrow was created
 
 func generate():
 	

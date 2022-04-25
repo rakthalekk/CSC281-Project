@@ -38,8 +38,8 @@ func _ready():
 	for pos in tilemap.logLocations:
 		update_log_navigation(pos)
 
-
 func _process(delta):
+	#Vector2(tilemap.world_to_map(player.global_position))
 	playerCoords = Vector2(2*tilemap.world_to_map(player.global_position)[0], 63) - tilemap.world_to_map(player.global_position)#player.global_position
 	var cell = tilemap.world_to_map(player.global_position)
 	var tile_id = tilemap.get_cellv(cell)
@@ -78,7 +78,11 @@ func _process(delta):
 			tile_highlight.rect_global_position = mouse_tile_pos
 		
 		## CHANGE OIL RIG WHEN OIL TILES ARE IMPLEMENTED
-		if (Global.selected_item == "drill" || Global.selected_item == "oilrig") && get_stone_tile_count(mouse_tile_pos) < 3:
+		if (Global.selected_item == "drill") && get_stone_tile_count(mouse_tile_pos) < 3:
+			tile_highlight.color = Color(1, 0, 0, 0.2)
+			valid_place = false
+		elif(Global.selected_item == "oilrig" && get_near_dragon_bones_count(mouse_tile_pos) < 4):
+			print("BONES COUNT: " + str(get_near_dragon_bones_count(mouse_tile_pos)))
 			tile_highlight.color = Color(1, 0, 0, 0.2)
 			valid_place = false
 		elif Global.selected_item != "wall" && !check_no_nav_tiles(mouse_tile_pos) || Global.selected_item == "wall" && !check_no_nav_tiles_wall(mouse_tile_pos):
@@ -108,6 +112,26 @@ func get_stone_tile_count(pos: Vector2):
 				count += 1
 	return count
 
+#Checks for dragon bones near the position. Pos is a tile location
+func checkForDragonBones(pos: Vector2):
+	var dragon_bones_range = Global.oilRigTileRadius#2 #Radius around bones where oil things can be placed
+	for dragonBonesPos in tilemap.dragonBonesLocations:
+		for block in [Vector2(0,0), Vector2(-1,0), Vector2(-1,-1), Vector2(0,-1)]:
+			#Check around each block
+			if((pos[0] <= dragonBonesPos[0] + block[0] + dragon_bones_range && pos[0] >= dragonBonesPos[0] + block[0] - dragon_bones_range)
+				&& (pos[1] <= dragonBonesPos[1] + block[1] + dragon_bones_range && pos[1] >= dragonBonesPos[1] + block[1] - dragon_bones_range)):
+				return true
+	return false
+
+# Check number of stone tiles at location
+func get_near_dragon_bones_count(pos: Vector2):
+	var count = 0
+	for i in range(2):
+		for j in range(2):
+			var p = tilemap.world_to_map(pos) + Vector2(i, j)
+			if(checkForDragonBones(p)):
+				count += 1
+	return count
 
 # Check to ensure all tiles have navigation
 func check_no_nav_tiles(pos: Vector2):

@@ -15,6 +15,8 @@ var wallCost = [2,0,0]
 
 var structure_queue = ["drill", "wall", "turret", "healtower", "oilrig", "firetower"]
 
+#Dragon Bones Oil Rig Placement Range (tile radius around dragon bones where oil rigs can be placed)
+var oilRigTileRadius = 2
 
 func reset_level():
 	get_tree().change_scene("res://src/Main.tscn")
