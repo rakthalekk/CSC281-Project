@@ -51,6 +51,7 @@ var fairyLogMinChance = 0.15 #Min chance for a fairy log to spawn when at the st
 var fairyLogMaxChance = 0.35 #Max chacne for a fairy log to spawn when at the end of the map
 var fairyLogStartY = 21#fieldWidth/3 #At what point in the map fairy logs start spawning
 var maxFairyLogsPerSquare = 1 #The number of fairy logs that can spawn in a single square area
+var logLocations = [] #Locations of logs that have been spawned for updating tile navigation
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -71,6 +72,7 @@ func createFairyLog(tileX, tileY):
 	#print("Creating Burrow...")
 	var inst = FAIRYLOG.instance()
 	inst.position = map_to_world(Vector2(tileX, tileY))
+	logLocations.append(inst.position)
 	get_parent().get_parent().get_node("Entities").call_deferred("add_child", inst)
 	#print("Spawn Location: " + str(map_to_world(Vector2(tileX, tileY))))
 	#print("Spawn Location: " + str(Vector2(tileX, tileY)))

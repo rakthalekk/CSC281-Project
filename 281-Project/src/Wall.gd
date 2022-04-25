@@ -10,6 +10,7 @@ func set_vertical():
 	vertical = true
 	$CollisionShape2D.rotation_degrees = 90
 	$Sprite.texture = VERTICAL_IMG
+	$ButtonControl.rotation_degrees = 90
 
 
 func _on_InvincibilityTimer_timeout():

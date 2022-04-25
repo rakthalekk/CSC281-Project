@@ -112,7 +112,16 @@ func get_target_path():
 	if nav == null:
 		nav = parent.nav
 	if targets.size() > 0:
-		path = nav.get_simple_path(global_position, targets[0].global_position, false)
+		# Some nonsense to prevent the game from lagging when the player is not reachable
+		# Finds the path to the player and sets it to the path variable
+		if Global.the_chosen_one == null:
+			path = nav.get_simple_path(global_position, targets[0].global_position, false)
+			if path.size() == 0:
+				Global.the_chosen_one = self
+		elif Global.the_chosen_one == self:
+			path = nav.get_simple_path(global_position, targets[0].global_position, false)
+			if path.size() != 0:
+				Global.the_chosen_one = null
 
 
 func damage(dmg, dir):

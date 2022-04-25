@@ -30,8 +30,14 @@ onready var tile_highlight = $TileHighlight
 onready var tileNone = "None"
 onready var tileGrass = "Grass"
 onready var tileUnobtainium = "Unobtainium"
+onready var tilePath = "Path"
 
 onready var playerCoords = Vector2(0,0)
+
+func _ready():
+	for pos in tilemap.logLocations:
+		update_log_navigation(pos)
+
 
 func _process(delta):
 	playerCoords = Vector2(2*tilemap.world_to_map(player.global_position)[0], 63) - tilemap.world_to_map(player.global_position)#player.global_position
@@ -51,6 +57,10 @@ func _process(delta):
 			player.onTile = tileGrass
 		5: #On Stone (no nav)
 			player.onTile = tileUnobtainium
+		7:
+			player.onTile = tilePath
+		9:
+			player.onTile = tilePath
 	
 	if Global.selected_item:
 		tile_highlight.visible = true
@@ -196,6 +206,7 @@ func update_wall_tile_navigation(pos: Vector2):
 				tilemap.set_cellv(p, tilemap.grassNoNavID)
 			elif tilemap.get_cellv(p) == tilemap.pathTileID:
 				tilemap.set_cellv(p, tilemap.pathNoNavID)
+		tilemap.update_bitmask_region(tile_pos, tile_pos + Vector2(3, 0))
 	else:
 		var tile_pos = tilemap.world_to_map(pos) - Vector2(1, 2)
 		for j in range(4):
@@ -206,8 +217,7 @@ func update_wall_tile_navigation(pos: Vector2):
 				tilemap.set_cellv(p, tilemap.grassNoNavID)
 			elif tilemap.get_cellv(p) == tilemap.pathTileID:
 				tilemap.set_cellv(p, tilemap.pathNoNavID)
-	
-	tilemap.update_bitmask_region()	
+		tilemap.update_bitmask_region(tile_pos, tile_pos + Vector2(0, 3))
 
 
 func remove_wall_tile_navigation(pos: Vector2, horizontal: bool):
@@ -221,6 +231,7 @@ func remove_wall_tile_navigation(pos: Vector2, horizontal: bool):
 				tilemap.set_cellv(p, tilemap.grassTileID)
 			elif tilemap.get_cellv(p) == tilemap.pathNoNavID:
 				tilemap.set_cellv(p, tilemap.pathTileID)
+		tilemap.update_bitmask_region(tile_pos, tile_pos + Vector2(3, 0))
 	else:
 		var tile_pos = tilemap.world_to_map(pos) - Vector2(0, 2)
 		for j in range(4):
@@ -231,8 +242,7 @@ func remove_wall_tile_navigation(pos: Vector2, horizontal: bool):
 				tilemap.set_cellv(p, tilemap.grassTileID)
 			elif tilemap.get_cellv(p) == tilemap.pathNoNavID:
 				tilemap.set_cellv(p, tilemap.pathTileID)
-	
-	tilemap.update_bitmask_region()	
+		tilemap.update_bitmask_region(tile_pos, tile_pos + Vector2(0, 3))
 
 
 func update_tile_navigation(pos: Vector2, disable_nav: bool):
@@ -264,7 +274,7 @@ func update_tile_navigation(pos: Vector2, disable_nav: bool):
 					tilemap.set_cellv(p, tilemap.grassTileID)
 				elif tilemap.get_cellv(p) == tilemap.pathNoNavID:
 					tilemap.set_cellv(p, tilemap.pathTileID)
-	tilemap.update_bitmask_region()
+	tilemap.update_bitmask_region(tile_pos, tile_pos + Vector2(1, 1))
 
 
 func remove_structure(struct):
