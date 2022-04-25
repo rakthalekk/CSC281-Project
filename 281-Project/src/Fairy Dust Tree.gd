@@ -33,7 +33,6 @@ func harvested(body):
 	body.harvest_fairy_dust = false
 	sprite.texture = cooldownTexture
 	particles.emitting = false
-	particles.amount = 0
 	var waitTime = rng.randi_range(logCooldown[0],logCooldown[1])
 	respawnTimer.wait_time = waitTime
 	respawnTimer.start()

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/frog2.png-c7df066b399f365b61148bd23b408fda.stex"
+path="res://.import/frogleap.png-e12453816f3abfef31686f6b3fdaad6c.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Enemies/frog2.png"
-dest_files=[ "res://.import/frog2.png-c7df066b399f365b61148bd23b408fda.stex" ]
+source_file="res://assets/Enemies/frogleap.png"
+dest_files=[ "res://.import/frogleap.png-e12453816f3abfef31686f6b3fdaad6c.stex" ]
 
 [params]
 
