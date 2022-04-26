@@ -2,7 +2,7 @@ extends Enemy
 
 
 var queue_attack = false
-
+var tounge_target = null
 
 func play_jump():
 	anim_player.play("hop")
@@ -22,7 +22,11 @@ func manage_animation():
 
 func _on_EntityDetect_body_entered(body):
 	queue_attack = true
-	$Tounge.look_at(body.global_position - Vector2(0, 20))
+	tounge_target = body
+
+
+func get_tounge_direction():
+	$Tounge.look_at(tounge_target.global_position - Vector2(0, 20))
 
 
 func _on_Tounge_body_entered(body):

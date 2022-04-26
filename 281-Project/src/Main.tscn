@@ -1274,6 +1274,8 @@ position = Vector2( 2100, 3000 )
 script = ExtResource( 17 )
 
 [node name="Worm_Head" type="KinematicBody2D" parent="Worm"]
+collision_layer = 0
+collision_mask = 16
 script = ExtResource( 18 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Worm/Worm_Head"]
