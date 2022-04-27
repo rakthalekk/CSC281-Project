@@ -21,6 +21,8 @@ onready var tallGrassReference = get_node("../../TallGrass")
 onready var entitiesReference = get_node("../../Entities") #Check here for conflicting logs
 onready var burrowsReference = get_node("../../Burrows") #Check here for conflicting burrows
 
+export(bool) var randomizeMap = true
+
 # Field Size Variables
 var fieldWidth = 64 #Y Variable
 var fieldLength = 64 #X Variable
@@ -32,19 +34,19 @@ var border = false
 var borderSize = 5
 
 #lake variables
-var lakes = true
+export(bool) var lakes = true
 var noise_map
 
 # path Variables
 var pathCount = 4
-var paths = true
+export(bool) var paths = true
 var canSpawnOnRoad = false #controls things spawning on the road
 
 #Misc Variables
 var maxTries = 100 #Maximum tries that the engine will try spawning the min number of something before giving up
 
 # Burrow Variables
-var burrows = true #Spawn burrows randomly
+export(bool) var burrows = true #Spawn burrows randomly
 var regionSize = 8 #region size squares of the burrows
 var bossRegionSqare = 2 #Size of boss region to not spawn burrows in
 var maxBurrowsPerSquare = 1 #The number of burrows that can spawn in a single square area
@@ -54,7 +56,7 @@ var minBurrowsSpawned = 20 #Spawn at least this many burrows
 var maxBurrowsSpawned = -1 #Spawn at most this many burrows - use -1 for no limit
 
 # Fairy Log Variables
-var fairyLogs = true #Spawn Fairy Logs randomly
+export(bool) var fairyLogs = true #Spawn Fairy Logs randomly
 var fairyLogRegionSize = 8 #region size squares of the fairy logs to spawn in
 var fairyLogBorder = 2 #Border Size to account for log size
 var fairyLogMinChance = 0.15 #Min chance for a fairy log to spawn when at the start Y
@@ -65,7 +67,7 @@ var minFairyLogsSpawned = 1 #Spawn at least this many fairy logs
 var maxFairyLogsSpawned = -1 #Spawn at most this many fairy logs - use -1 for no limit
 
 # Dragon Bones Variables
-var dragonBones = true #Spawn Dragon Bones randomly
+export(bool) var dragonBones = true #Spawn Dragon Bones randomly
 var dragonBonesRegionSize = 16 #region size squares of the Dragon Bones to spawn in
 var dragonBonesBorder = 4 #Border Size to account for dragon bones size
 var dragonBonesMinChance = 0.05 #Min chance for Dragon Bones to spawn when at the start Y
@@ -86,8 +88,9 @@ var dragonBonesSpawnedCount = 0 #Keeps track of the number of dragon bones spawn
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	rng.randomize()
-	generate2()
+	if randomizeMap:
+		rng.randomize()
+		generate2()
 	#Check for anomalies
 	#for locations in [burrowLocations, logLocations, dragonBonesLocations]: #These are all arrays of Vector2s
 #	for entityLocation in burrowLocations: #These are Vector2s
@@ -124,7 +127,7 @@ func createDragonBones(tileX, tileY):
 	var inst = DRAGONBONES.instance()
 	inst.position = map_to_world(Vector2(tileX, tileY))
 	dragonBonesLocations.append(inst.position) #--> Moved to "Dragon Bones.gd" Vector2(tileX, tileY)
-	get_parent().get_parent().get_node("Entities").call_deferred("add_child", inst)
+	get_parent().get_parent().get_node("Bones").call_deferred("add_child", inst)
 	#print("Spawn Location: " + str(map_to_world(Vector2(tileX, tileY))))
 	dragonBonesSpawnedCount += 1
 	#print("Spawn Location: " + str(Vector2(tileX, tileY)))

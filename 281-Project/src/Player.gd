@@ -34,9 +34,9 @@ var speed = run_speed
 var velocity := Vector2.ZERO
 
 # Current resources of the player
-var unobtainiumCount : int = 20
-var fairyDustCount : int = 20
-var dragonOilCount : int = 20
+export(int) var unobtainiumCount : int = 20
+export(int) var fairyDustCount : int = 20
+export(int) var dragonOilCount : int = 20
 var knockback = false
 var attacking = false
 var manual_mining = false
@@ -108,12 +108,16 @@ func _process(delta):
 		if(onTile == "Unobtainium" && $ManualMiningTimer.time_left == 0):
 			$ManualMiningTimer.start(manual_mining_time)
 		if(onTile != "Unobtainium"):
-			manual_mining = false
-			$ManualMiningTimer.stop()
-			$ManualMiningTimer.set_wait_time(manual_mining_time)
+			stop_manual_mining()
 		emit_signal("is_manual_mining", self)
 	elif interacting:
 		emit_signal("is_interacting", self)
+
+
+func stop_manual_mining():
+	manual_mining = false
+	$ManualMiningTimer.stop()
+	$ManualMiningTimer.set_wait_time(manual_mining_time)
 
 # Handles input
 func _unhandled_input(event):
@@ -122,9 +126,7 @@ func _unhandled_input(event):
 		if !manual_mining:
 			manual_mining = true
 		else:
-			manual_mining = false
-			$ManualMiningTimer.stop()
-			$ManualMiningTimer.set_wait_time(manual_mining_time)
+			stop_manual_mining()
 			emit_signal("is_manual_mining", self)
 
 	elif (Input.is_action_just_pressed("interact_key")):

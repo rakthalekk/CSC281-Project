@@ -115,7 +115,6 @@ anims/raid = SubResource( 6 )
 [node name="SpawnTimer" type="Timer" parent="."]
 wait_time = 8.0
 one_shot = true
-autostart = true
 
 [node name="AlertTimer" type="Timer" parent="."]
 one_shot = true

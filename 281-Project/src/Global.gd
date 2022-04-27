@@ -3,6 +3,7 @@ extends Node
 var selected_item = null
 var horizontal_wall = true
 var the_chosen_one = null
+var kill_count = 0
 
 #HUD Item Costs [unobtainium cost, fairy dust cost, dragon oil?]
 var fairySwatterCost = [10,0,0]

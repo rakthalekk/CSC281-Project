@@ -19,7 +19,7 @@ var nav = null
 var walk_counter = 0
 
 onready var hp = max_health
-onready var parent = get_tree().get_root().get_node("Main")
+onready var parent = $"../../.."
 onready var anim_player = $AnimationPlayer
 
 # Called when the node enters the scene tree for the first time.
@@ -150,6 +150,7 @@ func deal_damage():
 
 
 func perish():
+	Global.kill_count += 1
 	queue_free()
 
 

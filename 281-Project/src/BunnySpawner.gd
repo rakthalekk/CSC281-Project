@@ -8,6 +8,7 @@ export(Texture) var NORMAL_SPRITE
 export(Texture) var CLOSED_SPRITE
 export(Texture) var READY_SPRITE
 
+export(bool) var enabled = true
 export(int) var nearby_entity_spawn_time = 6;
 export(int) var no_nearby_entity_spawn_time = 12;
 
@@ -20,6 +21,13 @@ onready var parent = $"../.."
 func _ready():
 	connect("spawn_bunny", parent, "_on_Burrow_spawn_bunny")
 	max_spawns = int(rand_range(6, 9))
+	if enabled:
+		$SpawnTimer.start()
+
+
+func enable():
+	enabled = true
+	$SpawnTimer.start(2)
 
 
 # Initiates Goku Mode

@@ -4,7 +4,7 @@ extends StaticBody2D
 export(int) var max_health = 100
 onready var health = max_health
 
-onready var parent = get_tree().get_root().get_node("Main")
+onready var parent = $"../../.."
 onready var anim_player = $AnimationPlayer
 onready var eff_anim_player = $EffectsAnimationPlayer
 onready var invincibility_timer = $InvincibilityTimer

@@ -20,6 +20,9 @@ var hudUnobtainiumCount = 0
 var hudFairyDustCount = 0
 var hudDragonOilCount = 0
 
+# For use in tutorial
+var disable_pause = false
+
 # Misc Constants for HUD
 onready var cooldownDisplay = $"Interact Display/Cooldown Display"
 onready var interactTime = $"Interact Display/Interact Time"
@@ -59,7 +62,7 @@ func _process(delta):
 		Input.set_custom_mouse_cursor(null)
 
 func _unhandled_input(event):
-	if(event.is_action_pressed("escape_key")):
+	if(event.is_action_pressed("deselect_item")):
 		if(Global.selected_item != null):
 			Input.set_custom_mouse_cursor(null)
 			Global.selected_item = null
