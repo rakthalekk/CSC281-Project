@@ -7,7 +7,6 @@ var fairyDustReward = 1 #Amount of fairy dust collected from logs
 var spawnedTexture = load("res://assets/Map Elements/fairylogColored.png")
 var cooldownTexture = load("res://assets/Map Elements/fairylog.png")
 
-
 onready var sprite = $Sprite
 onready var particles = $Particles2D
 onready var parent = $"../.."
@@ -21,6 +20,12 @@ var entity = null
 
 # Keeps track of if the dust can be harvested
 var canHarvest = true
+
+#Get tile area covered- relative to tile spawnpoint
+static func getTileAreaCoverage():
+	var tileAreaMin = [-2,-2] #Top left corner of the object ACTUAL SIZE: [-2,-1]
+	var tileAreaMax = [1,0] #Bottom right corner of the object [1,0]
+	return [tileAreaMin,tileAreaMax]
 
 func _ready():
 	yield(parent, "ready")

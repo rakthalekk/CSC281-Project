@@ -81,8 +81,8 @@ func _process(delta):
 		if (Global.selected_item == "drill") && get_stone_tile_count(mouse_tile_pos) < 3:
 			tile_highlight.color = Color(1, 0, 0, 0.2)
 			valid_place = false
-		elif(Global.selected_item == "oilrig" && get_near_dragon_bones_count(mouse_tile_pos) < 4):
-			print("BONES COUNT: " + str(get_near_dragon_bones_count(mouse_tile_pos)))
+		elif(Global.selected_item == "oilrig" && get_near_dragon_bones_count(mouse_tile_pos) < 3):
+			#print("BONES COUNT: " + str(get_near_dragon_bones_count(mouse_tile_pos)))
 			tile_highlight.color = Color(1, 0, 0, 0.2)
 			valid_place = false
 		elif Global.selected_item != "wall" && !check_no_nav_tiles(mouse_tile_pos) || Global.selected_item == "wall" && !check_no_nav_tiles_wall(mouse_tile_pos):
@@ -116,11 +116,14 @@ func get_stone_tile_count(pos: Vector2):
 func checkForDragonBones(pos: Vector2):
 	var dragon_bones_range = Global.oilRigTileRadius#2 #Radius around bones where oil things can be placed
 	for dragonBonesPos in tilemap.dragonBonesLocations:
-		for block in [Vector2(0,0), Vector2(-1,0), Vector2(-1,-1), Vector2(0,-1)]:
-			#Check around each block
-			if((pos[0] <= dragonBonesPos[0] + block[0] + dragon_bones_range && pos[0] >= dragonBonesPos[0] + block[0] - dragon_bones_range)
-				&& (pos[1] <= dragonBonesPos[1] + block[1] + dragon_bones_range && pos[1] >= dragonBonesPos[1] + block[1] - dragon_bones_range)):
+		if((pos[0] <= dragonBonesPos[0] + 1 && pos[0] >= dragonBonesPos[0] - 2)
+				&& (pos[1] <= dragonBonesPos[1] + 1 && pos[1] >= dragonBonesPos[1] - 2)):
 				return true
+		#for block in [Vector2(0,0), Vector2(-1,0), Vector2(-1,-1), Vector2(0,-1)]:
+		#	#Check around each block
+		#	if((pos[0] <= dragonBonesPos[0] + block[0] + dragon_bones_range && pos[0] >= dragonBonesPos[0] + block[0] - dragon_bones_range)
+		#		&& (pos[1] <= dragonBonesPos[1] + block[1] + dragon_bones_range && pos[1] >= dragonBonesPos[1] + block[1] - dragon_bones_range)):
+		#		return true
 	return false
 
 # Check number of stone tiles at location
