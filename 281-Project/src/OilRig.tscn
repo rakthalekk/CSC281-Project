@@ -4,7 +4,7 @@
 [ext_resource path="res://assets/Structures/oilpumpanimation.png" type="Texture" id=2]
 [ext_resource path="res://assets/Structures/healring.png" type="Texture" id=3]
 [ext_resource path="res://assets/Sounds/208111__planman__poof-of-smoke.wav" type="AudioStream" id=4]
-[ext_resource path="res://assets/Sounds/523259__sheyvan__metal-squeak.wav" type="AudioStream" id=5]
+[ext_resource path="res://assets/Sounds/243400__freakinbehemoth__woosh.wav" type="AudioStream" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 24, 26 )
@@ -128,6 +128,8 @@ texture = ExtResource( 3 )
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 4 )
+max_distance = 600.0
+attenuation = 2.63902
 bus = "Structure"
 
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

@@ -4,9 +4,9 @@
 [ext_resource path="res://assets/Player/player_sheet_3.png" type="Texture" id=2]
 [ext_resource path="res://assets/Structures/healring.png" type="Texture" id=3]
 [ext_resource path="res://assets/Sounds/514261__jtn191__footstep5.wav" type="AudioStream" id=4]
-[ext_resource path="res://assets/Sounds/88466__davidou__marteaupiqueur.wav" type="AudioStream" id=5]
 [ext_resource path="res://assets/Sounds/394452__inspectorj__bamboo-swing-c1.wav" type="AudioStream" id=6]
 [ext_resource path="res://assets/Sounds/523898__klankbeeld__forest-summer-roond-002-200619-0186.wav" type="AudioStream" id=7]
+[ext_resource path="res://assets/Sounds/317361__mrauralization__jackhammer.wav" type="AudioStream" id=8]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 24, 20 )
@@ -497,20 +497,6 @@ tracks/1/keys = {
 "update": 0,
 "values": [ Vector2( 0, -50 ), Vector2( 0, -45 ), Vector2( 0, -50 ), Vector2( 0, -45 ), Vector2( 0, -50 ) ]
 }
-tracks/2/type = "audio"
-tracks/2/path = NodePath("PlayerAudio")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"clips": [ {
-"end_offset": 0.0,
-"start_offset": 0.0,
-"stream": ExtResource( 5 )
-} ],
-"times": PoolRealArray( 0 )
-}
 
 [sub_resource type="Animation" id=6]
 resource_name = "walk_down"
@@ -767,13 +753,16 @@ texture = ExtResource( 3 )
 [node name="HealRingTimer" type="Timer" parent="."]
 
 [node name="PlayerAudio" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 4 )
+volume_db = 0.29
 
 [node name="Ambient" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 7 )
 volume_db = -14.383
 autoplay = true
 mix_target = 2
+
+[node name="Jackhammer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 8 )
 
 [connection signal="body_entered" from="AttackHitbox" to="." method="_on_AttackHitbox_body_entered"]
 [connection signal="timeout" from="InvincibilityTimer" to="." method="_on_InvincibilityTimer_timeout"]

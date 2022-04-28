@@ -24,7 +24,7 @@ signal is_manual_mining
 signal is_interacting
 
 onready var anim_player = $AnimationPlayer
-onready var sound_player = $PlayerAudio
+onready var sound_player = $Jackhammer
 onready var eff_anim_player = $EffectsAnimationPlayer
 onready var invincibility_timer = $InvincibilityTimer
 onready var manual_mining_timer = $ManualMiningTimer
@@ -81,8 +81,13 @@ func _process(delta):
 	
 	# Play animation based on player walk direction
 	if !attacking && !knockback:
+		if !manual_mining:
+			if sound_player.playing:
+				sound_player.stop()
 		if manual_mining:
 			anim_player.play("jackhammer")
+			if !sound_player.playing:
+				sound_player.play()
 		elif direction.x > 0:
 			anim_player.play("walk_right")
 		elif direction.x < 0:

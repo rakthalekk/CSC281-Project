@@ -40,7 +40,7 @@ export(bool) var lakes = true
 var noise_map
 
 # path Variables
-var pathCount = 4
+var pathCount = 2
 export(bool) var paths = true
 var canSpawnOnRoad = false #controls things spawning on the road
 
@@ -352,14 +352,25 @@ func generate2():
 
 	#Paths
 	if(paths):
+		var pathX = -1
 		for a in range (pathCount):
-			var pathX = rng.randi_range(1, fieldWidth)
+			if pathX == -1:
+				pathX = rng.randi_range(5, fieldWidth - 5)
+			else:
+				pathX = (pathX + ( fieldWidth - 10 / 2 )) % (fieldWidth - 10) + 5
 			for y in range (fieldLength):
 				for i in range (-1, 2):
 					for j in range (-1, 2):
-						set_cell(pathX + i, y + j, pathTileID, false, false, false, Vector2(0, 0))
-						tallGrassReference.set_cell(pathX + i, y + j, -1, false, false, false, Vector2(0, 0))
-				pathX += rng.randi_range(-1, 1)
+						if(y + j < fieldLength && y + j > -1):
+							set_cell(pathX + i, y + j, pathTileID, false, false, false, Vector2(0, 0))
+							tallGrassReference.set_cell(pathX + i, y + j, -1, false, false, false, Vector2(0, 0))
+				if pathX > 5:
+					if pathX < fieldWidth - 5:
+						pathX += rng.randi_range(-1, 1)
+					else:
+						pathX += -1
+				else:
+					pathX += 1
 	
 	#Filter some noise from map generation - Stops individual blocks and single block beam shoots?
 	if(filter):
