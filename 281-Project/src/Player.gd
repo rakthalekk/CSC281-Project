@@ -24,6 +24,7 @@ signal is_manual_mining
 signal is_interacting
 
 onready var anim_player = $AnimationPlayer
+onready var sound_player = $PlayerAudio
 onready var eff_anim_player = $EffectsAnimationPlayer
 onready var invincibility_timer = $InvincibilityTimer
 onready var manual_mining_timer = $ManualMiningTimer
@@ -92,6 +93,7 @@ func _process(delta):
 			anim_player.play("walk_up")
 		else:
 			anim_player.play("idle")
+			sound_player.stop()
 	
 	move_and_slide(velocity)
 	
