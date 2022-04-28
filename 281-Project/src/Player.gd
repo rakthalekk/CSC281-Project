@@ -208,8 +208,11 @@ func damage(dmg, dir):
 		if attacking:
 			attacking = false
 			end_attack_animation()
-		anim_player.play("damaged")
 		direction = dir
+		if dir.angle_to(Vector2.UP) > 0:
+			anim_player.play("damaged_right")
+		else:
+			anim_player.play("damaged_left")
 		health -= dmg
 		emit_signal("player_stats_changed", self)
 

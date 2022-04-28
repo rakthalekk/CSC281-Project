@@ -1,9 +1,10 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://src/Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/Player/player_sheet_3.png" type="Texture" id=2]
 [ext_resource path="res://assets/Structures/healring.png" type="Texture" id=3]
 [ext_resource path="res://assets/Sounds/514261__jtn191__footstep5.wav" type="AudioStream" id=4]
+[ext_resource path="res://assets/Sounds/573378__johnloser__cyber-punch-03.wav" type="AudioStream" id=5]
 [ext_resource path="res://assets/Sounds/394452__inspectorj__bamboo-swing-c1.wav" type="AudioStream" id=6]
 [ext_resource path="res://assets/Sounds/523898__klankbeeld__forest-summer-roond-002-200619-0186.wav" type="AudioStream" id=7]
 [ext_resource path="res://assets/Sounds/317361__mrauralization__jackhammer.wav" type="AudioStream" id=8]
@@ -452,6 +453,118 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 0.886275, 0.192157, 0.192157, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
+[sub_resource type="Animation" id=18]
+resource_name = "damaged_left"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 52, 53, 52, 53, 52 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0.882353, 0.141176, 0.141176, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "disable_knockback"
+} ]
+}
+tracks/3/type = "audio"
+tracks/3/path = NodePath("PlayerAudio")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"clips": [ {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource( 5 )
+} ],
+"times": PoolRealArray( 0 )
+}
+
+[sub_resource type="Animation" id=19]
+resource_name = "damaged_right"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 54, 55, 54, 55, 54 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0.92549, 0.0901961, 0.0901961, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "disable_knockback"
+} ]
+}
+tracks/3/type = "audio"
+tracks/3/path = NodePath("PlayerAudio")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"clips": [ {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource( 5 )
+} ],
+"times": PoolRealArray( 0 )
+}
+
 [sub_resource type="Animation" id=7]
 resource_name = "idle"
 length = 0.2
@@ -692,7 +805,7 @@ shape = SubResource( 1 )
 position = Vector2( 0, -50 )
 texture = ExtResource( 2 )
 hframes = 6
-vframes = 9
+vframes = 10
 region_rect = Rect2( 0, 0, 56, 132 )
 
 [node name="GunTip" type="Position2D" parent="."]
@@ -708,6 +821,8 @@ anims/attack_left = SubResource( 13 )
 anims/attack_right = SubResource( 11 )
 anims/attack_up = SubResource( 12 )
 anims/damaged = SubResource( 5 )
+anims/damaged_left = SubResource( 18 )
+anims/damaged_right = SubResource( 19 )
 anims/idle = SubResource( 7 )
 anims/jackhammer = SubResource( 16 )
 anims/walk_down = SubResource( 6 )

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/573378__johnloser__cyber-punch-03.wav-b10da8e0ce796a157d353352457250a8.sample"
+
+[deps]
+
+source_file="res://assets/Sounds/573378__johnloser__cyber-punch-03.wav"
+dest_files=[ "res://.import/573378__johnloser__cyber-punch-03.wav-b10da8e0ce796a157d353352457250a8.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
