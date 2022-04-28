@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://src/Snake Head.gd" type="Script" id=1]
+[ext_resource path="res://src/Snake Controller.gd" type="Script" id=2]
+[ext_resource path="res://assets/Enemies/snakehead.png" type="Texture" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 84.25, 83 )
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 755.0
+
+[node name="Snake" type="YSort"]
+script = ExtResource( 2 )
+
+[node name="Snake Head" type="KinematicBody2D" parent="."]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Snake Head"]
+position = Vector2( 0, -1 )
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="Snake Head"]
+position = Vector2( 9.53674e-06, -0.499983 )
+texture = ExtResource( 3 )
+vframes = 4
+
+[node name="VisionRadius" type="Area2D" parent="Snake Head"]
+
+[node name="Vision" type="CollisionShape2D" parent="Snake Head/VisionRadius"]
+shape = SubResource( 2 )
+
+[connection signal="body_entered" from="Snake Head/VisionRadius" to="Snake Head" method="_on_VisionRadius_body_entered"]
+[connection signal="body_exited" from="Snake Head/VisionRadius" to="Snake Head" method="_on_VisionRadius_body_exited"]

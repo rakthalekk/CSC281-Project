@@ -21,6 +21,7 @@ onready var tallGrassReference = get_node("../../TallGrass")
 onready var entitiesReference = get_node("../../Entities") #Check here for conflicting logs
 onready var burrowsReference = get_node("../../Burrows") #Check here for conflicting burrows
 
+# Random Map Gen?
 export(bool) var randomizeMap = true
 
 # Field Size Variables
@@ -28,6 +29,7 @@ var fieldWidth = 64 #Y Variable
 var fieldLength = 64 #X Variable
 var filter = true #Smooths out map generation a bit and clear
 var filterPower = 4 #2 is normal filtering, 4 is max filtering.
+#Boss limits on field are controlled in its own scene
 
 # Border Variables
 var border = false

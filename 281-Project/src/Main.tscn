@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://src/TileMap.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/Trees.tscn" type="PackedScene" id=2]
@@ -6,14 +6,9 @@
 [ext_resource path="res://src/TallGrass.tscn" type="PackedScene" id=4]
 [ext_resource path="res://src/HUD.tscn" type="PackedScene" id=5]
 [ext_resource path="res://src/Player.tscn" type="PackedScene" id=6]
+[ext_resource path="res://src/Snake.tscn" type="PackedScene" id=7]
 [ext_resource path="res://src/Forg.tscn" type="PackedScene" id=8]
-[ext_resource path="res://assets/Enemies/snakehead.png" type="Texture" id=9]
 [ext_resource path="res://src/BigBadBunny.tscn" type="PackedScene" id=12]
-[ext_resource path="res://src/Worm_Controller.gd" type="Script" id=17]
-[ext_resource path="res://src/Worm_Head.gd" type="Script" id=18]
-
-[sub_resource type="RectangleShape2D" id=202]
-extents = Vector2( 84.25, 83 )
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 3 )
@@ -63,23 +58,9 @@ position = Vector2( 1752, 2902 )
 wait_time = 0.2
 autostart = true
 
-[node name="Worm" type="YSort" parent="."]
-position = Vector2( 2100, 3000 )
-script = ExtResource( 17 )
-
-[node name="Worm_Head" type="KinematicBody2D" parent="Worm"]
-collision_layer = 0
-collision_mask = 16
-script = ExtResource( 18 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Worm/Worm_Head"]
-position = Vector2( 0, -1 )
-shape = SubResource( 202 )
-
-[node name="Sprite" type="Sprite" parent="Worm/Worm_Head"]
-position = Vector2( 9.53674e-06, -0.499983 )
-texture = ExtResource( 9 )
-vframes = 4
+[node name="Snake" parent="." instance=ExtResource( 7 )]
+position = Vector2( 2497, 3674 )
+rotation = 0.0742534
 
 [connection signal="just_purchased" from="HUD" to="Entities/Player" method="_on_HUD_just_purchased"]
 [connection signal="unlocked_fairy_swatter" from="HUD" to="Entities/Player" method="_on_HUD_unlocked_fairy_swatter"]

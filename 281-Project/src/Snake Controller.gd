@@ -1,7 +1,7 @@
 extends Node2D
 
-onready var body: PackedScene = preload("res://src/worm_body.tscn")
-onready var head: KinematicBody2D = $Worm_Head
+onready var body: PackedScene = preload("res://src/Snake Body.tscn")
+onready var head: KinematicBody2D = $"Snake Head"
 
 var bodies: Array = []
 
