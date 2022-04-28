@@ -2,6 +2,8 @@ extends Structure
 
 signal make_bullet
 
+onready var sound = $AudioStreamPlayer2D
+
 var targets = []
 var target = null
 var frame = 0
@@ -19,6 +21,7 @@ func _on_VisionRadius_body_exited(body):
 
 func _on_ShootInterval_timeout():
 	if target:
+		sound.play()
 		bullet_queue = true
 
 

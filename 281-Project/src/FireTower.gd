@@ -2,6 +2,8 @@ extends Structure
 
 var targets = []
 
+onready var sound = $AudioStreamPlayer2D
+
 func disable_attack():
 	$DamageInterval.stop()
 	anim_player.play("idle")
@@ -22,6 +24,7 @@ func _on_FireZone_body_entered(body):
 		$DamageInterval.start()
 	
 	anim_player.play("fire")
+	sound.play()
 	targets.append(body)
 
 
@@ -33,4 +36,5 @@ func _on_FireZone_body_exited(body):
 	if body in targets:
 		targets.erase(body)
 	if targets.size() == 0:
+		sound.stop()
 		disable_attack()

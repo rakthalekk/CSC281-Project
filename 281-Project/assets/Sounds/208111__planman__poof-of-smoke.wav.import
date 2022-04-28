@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/208111__planman__poof-of-smoke.wav-8233c738e39b0c4d36b0ce8f181c234d.sample"
+
+[deps]
+
+source_file="res://assets/Sounds/208111__planman__poof-of-smoke.wav"
+dest_files=[ "res://.import/208111__planman__poof-of-smoke.wav-8233c738e39b0c4d36b0ce8f181c234d.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

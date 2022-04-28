@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/523898__klankbeeld__forest-summer-roond-002-200619-0186.wav-e2477e64d61d7b4f3771f5f6b487ed4a.sample"
+
+[deps]
+
+source_file="res://assets/Sounds/523898__klankbeeld__forest-summer-roond-002-200619-0186.wav"
+dest_files=[ "res://.import/523898__klankbeeld__forest-summer-roond-002-200619-0186.wav-e2477e64d61d7b4f3771f5f6b487ed4a.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/370189__238310__stationary-truck.wav-0f758d225c396ce589011f1ea138cd80.sample"
+
+[deps]
+
+source_file="res://assets/Sounds/370189__238310__stationary-truck.wav"
+dest_files=[ "res://.import/370189__238310__stationary-truck.wav-0f758d225c396ce589011f1ea138cd80.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

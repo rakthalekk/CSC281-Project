@@ -8,6 +8,7 @@ var spawnedTexture = load("res://assets/Map Elements/fairylogColored.png")
 var cooldownTexture = load("res://assets/Map Elements/fairylog.png")
 
 onready var sprite = $Sprite
+onready var sound = $AudioStreamPlayer2D
 onready var particles = $Particles2D
 onready var parent = $"../.."
 onready var respawnTimer = $"Respawn Timer"
@@ -38,6 +39,7 @@ func harvested(body):
 	body.harvest_fairy_dust = false
 	sprite.texture = cooldownTexture
 	particles.emitting = false
+	sound.play()
 	var waitTime = rng.randi_range(logCooldown[0],logCooldown[1])
 	respawnTimer.wait_time = waitTime
 	respawnTimer.start()
