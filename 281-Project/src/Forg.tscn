@@ -1,8 +1,11 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=17 format=2]
 
+[ext_resource path="res://assets/Sounds/562197__gristi__snd-jump-flip.wav" type="AudioStream" id=1]
 [ext_resource path="res://assets/Enemies/frog_full.png" type="Texture" id=2]
 [ext_resource path="res://src/Forg.gd" type="Script" id=3]
+[ext_resource path="res://assets/Sounds/529925__scifisounds__whip-crack.wav" type="AudioStream" id=4]
 [ext_resource path="res://assets/Enemies/tounge.png" type="Texture" id=5]
+[ext_resource path="res://assets/Sounds/395350__ihitokage__slap-1.wav" type="AudioStream" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 32, 28 )
@@ -232,6 +235,20 @@ tracks/7/keys = {
 "method": "get_tounge_direction"
 } ]
 }
+tracks/8/type = "audio"
+tracks/8/path = NodePath("AudioStreamPlayer2D")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"clips": [ {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource( 4 )
+} ],
+"times": PoolRealArray( 0.55 )
+}
 
 [sub_resource type="Animation" id=4]
 resource_name = "damaged"
@@ -309,6 +326,20 @@ tracks/5/keys = {
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 0.929412, 0.133333, 0.133333, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/6/type = "audio"
+tracks/6/path = NodePath("AudioStreamPlayer2D")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"clips": [ {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource( 6 )
+} ],
+"times": PoolRealArray( 0 )
 }
 
 [sub_resource type="Animation" id=8]
@@ -388,6 +419,20 @@ tracks/5/keys = {
 "update": 1,
 "values": [ true ]
 }
+tracks/6/type = "audio"
+tracks/6/path = NodePath("AudioStreamPlayer2D")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"clips": [ {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource( 6 )
+} ],
+"times": PoolRealArray( 0 )
+}
 
 [sub_resource type="Animation" id=10]
 resource_name = "hop"
@@ -416,6 +461,20 @@ tracks/1/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ 0.0 ]
+}
+tracks/2/type = "audio"
+tracks/2/path = NodePath("AudioStreamPlayer2D")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"clips": [ {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource( 1 )
+} ],
+"times": PoolRealArray( 0 )
 }
 
 [sub_resource type="Animation" id=9]
@@ -511,6 +570,11 @@ texture = ExtResource( 5 )
 centered = false
 offset = Vector2( 0, -8 )
 hframes = 3
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+max_distance = 1000.0
+attenuation = 1.8025
+bus = "Enemy"
 
 [connection signal="body_entered" from="VisionRadius" to="." method="_on_VisionRadius_body_entered"]
 [connection signal="body_exited" from="VisionRadius" to="." method="_on_VisionRadius_body_exited"]
