@@ -129,7 +129,6 @@ texture = ExtResource( 3 )
 stream = ExtResource( 4 )
 volume_db = -10.511
 attenuation = 1.7411
-bus = "Structure"
 
 [connection signal="body_entered" from="VisionRadius" to="." method="_on_VisionRadius_body_entered"]
 [connection signal="body_exited" from="VisionRadius" to="." method="_on_VisionRadius_body_exited"]

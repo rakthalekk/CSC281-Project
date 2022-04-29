@@ -243,7 +243,10 @@ func disable_knockback():
 # Damages whatever's in the attack hitbox
 func _on_AttackHitbox_body_entered(body):
 	var dir = (body.position - position).normalized()
-	body.damage(dmg, dir)
+	if(body.has_method("isBoss")): #If the attacked entity is a boss
+		body.damage(dmg, dir, true) #Let the boss know the player attacked it
+	else:
+		body.damage(dmg, dir)
 
 
 func _on_InvincibilityTimer_timeout():

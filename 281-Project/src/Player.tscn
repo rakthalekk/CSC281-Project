@@ -1,13 +1,14 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://src/Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/Player/player_sheet_3.png" type="Texture" id=2]
 [ext_resource path="res://assets/Structures/healring.png" type="Texture" id=3]
 [ext_resource path="res://assets/Sounds/514261__jtn191__footstep5.wav" type="AudioStream" id=4]
-[ext_resource path="res://assets/Sounds/573378__johnloser__cyber-punch-03.wav" type="AudioStream" id=5]
+[ext_resource path="res://assets/Sounds/88466__davidou__marteaupiqueur.wav" type="AudioStream" id=5]
 [ext_resource path="res://assets/Sounds/394452__inspectorj__bamboo-swing-c1.wav" type="AudioStream" id=6]
 [ext_resource path="res://assets/Sounds/523898__klankbeeld__forest-summer-roond-002-200619-0186.wav" type="AudioStream" id=7]
 [ext_resource path="res://assets/Sounds/317361__mrauralization__jackhammer.wav" type="AudioStream" id=8]
+[ext_resource path="res://assets/Sounds/573378__johnloser__cyber-punch-03.wav" type="AudioStream" id=9]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 24, 20 )
@@ -504,7 +505,7 @@ tracks/3/keys = {
 "clips": [ {
 "end_offset": 0.0,
 "start_offset": 0.0,
-"stream": ExtResource( 5 )
+"stream": ExtResource( 9 )
 } ],
 "times": PoolRealArray( 0 )
 }
@@ -560,7 +561,7 @@ tracks/3/keys = {
 "clips": [ {
 "end_offset": 0.0,
 "start_offset": 0.0,
-"stream": ExtResource( 5 )
+"stream": ExtResource( 9 )
 } ],
 "times": PoolRealArray( 0 )
 }
@@ -579,7 +580,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ 0 ]
+"values": [ 2 ]
 }
 
 [sub_resource type="Animation" id=16]
@@ -609,6 +610,20 @@ tracks/1/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 0, -50 ), Vector2( 0, -45 ), Vector2( 0, -50 ), Vector2( 0, -45 ), Vector2( 0, -50 ) ]
+}
+tracks/2/type = "audio"
+tracks/2/path = NodePath("PlayerAudio")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"clips": [ {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource( 5 )
+} ],
+"times": PoolRealArray( 0 )
 }
 
 [sub_resource type="Animation" id=6]
@@ -836,7 +851,7 @@ anims/invulnerable = SubResource( 15 )
 
 [node name="AttackHitbox" type="Area2D" parent="."]
 collision_layer = 0
-collision_mask = 2
+collision_mask = 514
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackHitbox"]
 position = Vector2( 0, -5 )

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://src/TileMap.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/Trees.tscn" type="PackedScene" id=2]
@@ -8,7 +8,6 @@
 [ext_resource path="res://src/Player.tscn" type="PackedScene" id=6]
 [ext_resource path="res://src/Snake.tscn" type="PackedScene" id=7]
 [ext_resource path="res://src/Forg.tscn" type="PackedScene" id=8]
-[ext_resource path="res://src/BigBadBunny.tscn" type="PackedScene" id=12]
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 3 )
@@ -44,11 +43,8 @@ position = Vector2( 2024, 4047 )
 [node name="EnemyManager" type="YSort" parent="Entities"]
 position = Vector2( 0, 2 )
 
-[node name="BigBadBunny" parent="Entities/EnemyManager" instance=ExtResource( 12 )]
-position = Vector2( 1908, 342 )
-
 [node name="Forg" parent="Entities/EnemyManager" instance=ExtResource( 8 )]
-position = Vector2( 1752, 2902 )
+position = Vector2( 1985, 2857 )
 
 [node name="StructureManager" type="YSort" parent="Entities"]
 
@@ -59,7 +55,7 @@ wait_time = 0.2
 autostart = true
 
 [node name="Snake" parent="." instance=ExtResource( 7 )]
-position = Vector2( 2497, 3674 )
+position = Vector2( 1876, 473 )
 rotation = 0.0742534
 
 [connection signal="just_purchased" from="HUD" to="Entities/Player" method="_on_HUD_just_purchased"]
