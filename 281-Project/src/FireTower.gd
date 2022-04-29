@@ -15,7 +15,7 @@ func _on_InvincibilityTimer_timeout():
 
 func _on_DamageInterval_timeout():
 	for e in $FireZone.get_overlapping_bodies():
-		if e is Enemy:
+		if e is Enemy || e.is_in_group("Snake"):
 			e.damage(5, Vector2.ZERO)
 
 

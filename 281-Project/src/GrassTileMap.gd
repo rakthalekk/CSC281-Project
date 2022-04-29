@@ -461,12 +461,12 @@ func generate2():
 											#Spawn the burrow if it's in a valid space
 											createBurrow(spawnLoc[0], spawnLoc[1])
 											break #Stop the for loop since the burrow was created
-		#			if(burrowLocations.size() >= maxBurrowsSpawned):
-		#				break
-		#		if(burrowLocations.size() >= maxBurrowsSpawned):
-		#			break
-		#	if(burrowLocations.size() >= maxBurrowsSpawned):
-		#		break
+					if(burrowLocations.size() >= maxBurrowsSpawned):
+						break
+				if(burrowLocations.size() >= maxBurrowsSpawned):
+					break
+			if(burrowLocations.size() >= maxBurrowsSpawned):
+				break
 
 	#Generate Fairy Logs
 	if(fairyLogs):

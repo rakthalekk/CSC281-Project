@@ -16,6 +16,6 @@ func _on_Timer_timeout():
 
 
 func _on_Bullet_body_entered(body):
-	if body is Enemy:
+	if body is Enemy || body.is_in_group("Snake"):
 		body.damage(10, Vector2.ZERO)
 	queue_free()

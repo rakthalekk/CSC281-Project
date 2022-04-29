@@ -22,6 +22,10 @@ func is_snake_body_segment():
 func getInvincibilityTimer():
 	return $InvincibilityTimer
 
+#Returns the hitbox for the segment
+func getHitbox():
+	return $Hitbox
+
 func follow_parent() -> void:
 	self.global_transform.origin = lerp(self.global_transform.origin, 
 		parent.global_transform.origin, get_physics_process_delta_time() * 1.5)
@@ -34,11 +38,11 @@ func _process(delta: float) -> void:
 
 #If the segment attacks something
 func _on_Hitbox_body_entered(attackedBody):
+	#this works
 	emit_signal("segment_attack", index, attackedBody)
 
 #If it takes damage
 func damage(dmg, knockback = Vector2(0,0), hitByPlayer = false):
-	print("SEGMENT HIT BY SOMETHING")
 	emit_signal("segment_damaged", index, dmg)
 
 

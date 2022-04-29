@@ -17,18 +17,18 @@ var maxX = 64 #The X where the snake will start to turn around
 
 #Combat Variables
 var speed = 200 #The Speed at which the snake moves
-var dmg = 10 #Damage dealt by the snake head
+var dmg = 20 #Damage dealt by the snake head
 var segmentDmg = 10 #Damage dealt by the segments
 var segmentAttackCooldownTime = 1 #Time between then the sement attacks going through
 var max_head_health = 100 #Max health of the snake head
-var max_segment_health = 30 #Health of each individual segment
+var max_segment_health = 20 #Health of each individual segment
 #Total health = head_health + segment_health * segments
-var runAfterHitChance = 0.5 #If the snake gets hit, this is the chance it will retreat before attacking again
+var runAfterHitChance = 1#0.5 #If the snake gets hit, this is the chance it will retreat before attacking again
 var attackCooldownTime = 3 #After the snake attacks something, it will wait this long before going for another attack
 var attackStructureTime = 1 #Time the snake moves quickly after attacking a structure
 var directPathVariance = PI/8 #Variance in the approach path of the snake
 var fasterSpeedScale = 2  #When the snake moves faster, how fast will it move relative to normal speed
-var chanceToRunWhenAttacked = 1 #0.5#When the snake is hit in the head, this is the chance it will run from the player momentarily
+var chanceToRunWhenAttacked = 0.5#When the snake is hit in the head, this is the chance it will run from the player momentarily
 var fleeTime = 3 #How long the snake flees after getting hit
 var fleeSpeedScale = 2 #When the snake is fleeing, how fast it travels relative to normal
 var invincibilityTime = 1.3 #The invincibility time of the head when attacked
@@ -148,23 +148,27 @@ func _process(delta):
 	velocity = direction * actualSpeed
 	move_and_slide(velocity)
 
-# When the snake takes damage
+# When the snake head takes damage
 func damage(dmg, knockback = Vector2(0,0), hitByPlayer = false):
 	#Knockback isn't used by the snake
 	if invincibilityTimer.is_stopped():
 		#eff_anim_player.play("invulnerable")
-		start_invulnerability()
-		health -= dmg
-		if health <= 0:
-			queue_free()
-			get_tree().change_scene("res://src/WinMenu.tscn")
-		#If the snake is hit by the player, chance that it will flee
-		if(hitByPlayer && rng.randf() <= chanceToRunWhenAttacked):
-			isFleeing = true
-			print("IS FLEEING")
-			actualSpeed = speed * fleeSpeedScale
-			fleeTarget = targets[0]
-			fleeTimer.start()
+		if(bodies.size() == 0):
+			start_invulnerability()
+			health -= dmg
+			if health <= 0:
+				queue_free()
+				get_tree().change_scene("res://src/WinMenu.tscn")
+			#If the snake is hit by the player, chance that it will flee
+			if(is_instance_valid(targets[0]) && hitByPlayer && rng.randf() <= chanceToRunWhenAttacked):
+				isFleeing = true
+				actualSpeed = speed * fleeSpeedScale
+				fleeTarget = targets[0]
+				fleeTimer.start()
+		else:
+			#Do something here if the snake still has a tail.
+			#Here, the snake takes no damage
+			pass
 
 #When the snake is attacked
 func start_invulnerability(body = self):
@@ -179,8 +183,6 @@ func start_invulnerability(body = self):
 func end_invulnerability(body = self):
 	#eff_anim_player.play("RESET")
 	body.set_collision_layer_bit(9, true)
-	#for body in bodies:
-	#	body.set_collision_layer_bit(9, true)
 
 #Add things to queue to be attacked if in vision radius
 func _on_VisionRadius_body_entered(body):
@@ -206,7 +208,7 @@ func _on_VisionRadius_body_exited(body):
 # 2: Put the snake in a state of recoil/delay before going back in again to attack
 func _on_HitBox_body_entered(body):
 	#Check if the body is one that can take damage
-	if(!isInAttackCooldown && body.has_method("damage") && !body.has_method("is_snake_body_segment")):
+	if(!isInAttackCooldown && body.has_method("damage") && (body is Player || body is Structure)):#&& !body.has_method("is_snake_body_segment")):
 		for body in $Hitbox.get_overlapping_bodies():
 			if body is Player:
 				var dir = (body.position - position).normalized()
@@ -232,24 +234,23 @@ func _on_InvincibilityTimer_timeout():
 	end_invulnerability()
 
 #Segment invincibility ending
-func _on_segment_end_invencibility(index):
+func _on_segment_end_invincibility(index):
 	end_invulnerability(bodies[index])
 
 #Time it takes before the snake stops fleeing
 func _on_FleeTimer_timeout():
-	print("STOPPED FLEEING")
 	isFleeing = false
 	actualSpeed = speed
 	fleeTarget = null
 
 #Method run when a segment attacks
-func _on_segment_attack(index, body):
+func _on_segment_attack(index, attackBody):
 	#Body is the attacked body, Index is the index of the segment in the array
 	#Check if the body is one that can take damage
-	if(!hasSegmentAttackCooldown && !body.has_method("damage") && !body.has_method("is_snake_body_segment")):
+	if(index < bodies.size() && !hasSegmentAttackCooldown && attackBody.has_method("damage") && (attackBody is Player || attackBody is Structure)):#&& !attackBody.has_method("is_snake_body_segment") && !attackBody.has_method("isBoss")):
 		#get the segment that hits the attack
 		var segment = bodies[index]
-		for body in $Hitbox.get_overlapping_bodies():
+		for body in segment.getHitbox().get_overlapping_bodies():
 			if body is Player:
 				var dir = (body.position - position).normalized()
 				body.damage(segmentDmg, dir)
@@ -263,14 +264,17 @@ func _on_segment_attack(index, body):
 #Method run when a segment gets damaged
 func _on_segment_damaged(index, dmg):
 	#Knockback isn't used by the snake
+	if(index >= bodies.size()):
+		index = bodies.size() - 1
 	var segment = bodies[index]
 	if segment.getInvincibilityTimer().is_stopped():
 		#eff_anim_player.play("invulnerable")
 		start_invulnerability(segment)
-		#Handles segment death
+		#Handles Segment health loss
 		segment.health -= dmg
+		#Handles segment death
 		if segment.health <= 0:
-			#If it's the last in the array
+			#If it's the only thing in the array
 			if(bodies.size() == 1):
 				bodies.remove(0)
 			#If the segment is at the front of the array
@@ -284,23 +288,26 @@ func _on_segment_damaged(index, dmg):
 			else:
 				bodies[index + 1].parent = bodies[index - 1]
 				bodies.remove(index)
+			#Update all segment indexes
+			for i in range(bodies.size()):
+				bodies[i].index = i
 			#Kill the segment
 			segment.queue_free()
 
-#Whent the bodies of the snake have been made, it passes the head a reference
+#When the bodies of the snake have been made, it passes the head a reference
 func _on_Snake_bodies_ready(bodiesArray):
 	bodies = bodiesArray
 	for body in bodies:
 		#Attach the signals from the bodies to the head
 		body.connect("segment_attack", self, "_on_segment_attack")
 		body.connect("segment_damaged", self, "_on_segment_damaged")
-		body.connect("segment_end_invincibility", self, "_on_segment_end_invencibility")
+		body.connect("segment_end_invincibility", self, "_on_segment_end_invincibility")
 		#Set the invincibility Timer time for the segment
 		body.getInvincibilityTimer().wait_time = segmentInvincibilityTime
 		#Set the segment health
 		body.health = max_segment_health
 	#print(str(bodies))
 
-
+#When segment cooldown runs out
 func _on_SegmentAttackCooldown_timeout():
 	hasSegmentAttackCooldown = false
