@@ -12,11 +12,13 @@ var sound = 0.5
 #HUD Item Costs [unobtainium cost, fairy dust cost, dragon oil?]
 var fairySwatterCost = [10,0,0]
 var unobtainiumDrillCost = [2,0,0]
+var wallCost = [2,0,0]
 var magicTurretCost = [5,5,0]
+var healTowerCost = [5,10,0]
 var oilRigCost = [2,5,0]
 var fireTowerCost = [5,0,5]
-var healTowerCost = [5,10,0]
-var wallCost = [2,0,0]
+
+var cost_list = [unobtainiumDrillCost, wallCost, magicTurretCost, healTowerCost, oilRigCost, fireTowerCost]
 
 var structure_queue = ["drill", "wall", "turret", "healtower", "oilrig", "firetower"]
 
@@ -28,13 +30,16 @@ func reset_level():
 
 
 func move_queue(offset):
+	selected_item = structure_queue[get_structure_idx(offset)]
+
+
+func get_structure_idx(offset):
 	var idx = structure_queue.find(selected_item) + offset
 	if idx == -1:
 		idx = structure_queue.size() - 1
 	elif idx == structure_queue.size():
 		idx = 0
-	selected_item = structure_queue[idx]
-
+	return idx
 
 func set_selected_item(idx: int):
 	selected_item = structure_queue[idx]

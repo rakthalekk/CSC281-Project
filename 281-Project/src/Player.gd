@@ -42,6 +42,7 @@ var knockback = false
 var attacking = false
 var manual_mining = false
 var interacting = false
+var can_attack = true
 
 
 # Variables for detecting bein near fairy trees
@@ -153,18 +154,21 @@ func _unhandled_input(event):
 			emit_signal("place_structure", get_global_mouse_position())
 		
 		elif !knockback && !manual_mining:
-			var dir = (get_global_mouse_position() - global_position).normalized()
-			
-			attacking = true
-			
-			if dir.x >= 0.6:
-				anim_player.play("attack_right")
-			elif dir.x <= -0.6:
-				anim_player.play("attack_left")
-			elif dir.y <= 0:
-				anim_player.play("attack_up")
-			else:
-				anim_player.play("attack_down")
+			if can_attack:
+				var dir = (get_global_mouse_position() - global_position).normalized()
+				
+				attacking = true
+				can_attack = false
+				$AttackCooldown.start()
+				
+				if dir.x >= 0.6:
+					anim_player.play("attack_right")
+				elif dir.x <= -0.6:
+					anim_player.play("attack_left")
+				elif dir.y <= 0:
+					anim_player.play("attack_up")
+				else:
+					anim_player.play("attack_down")
 	
 	elif event.is_action_pressed("right_click"):
 		if Global.selected_item == "wall":
@@ -173,22 +177,37 @@ func _unhandled_input(event):
 	elif event.is_action_pressed("structure_up"):
 		if Global.selected_item != null:
 			Global.move_queue(-1)
+			while !check_afford(Global.get_structure_idx(0)):
+				Global.move_queue(-1)
 	
 	elif event.is_action_pressed("structure_down"):
 		if Global.selected_item != null:
 			Global.move_queue(1)
+			while !check_afford(Global.get_structure_idx(0)):
+				Global.move_queue(1)
 	elif event.is_action_pressed("1"):
-		Global.set_selected_item(0)
+		if check_afford(0):
+			Global.set_selected_item(0)
 	elif event.is_action_pressed("2"):
-		Global.set_selected_item(1)
+		if check_afford(1):
+			Global.set_selected_item(1)
 	elif event.is_action_pressed("3"):
-		Global.set_selected_item(2)
+		if check_afford(2):
+			Global.set_selected_item(2)
 	elif event.is_action_pressed("4"):
-		Global.set_selected_item(3)
+		if check_afford(3):
+			Global.set_selected_item(3)
 	elif event.is_action_pressed("5"):
-		Global.set_selected_item(4)
+		if check_afford(4):
+			Global.set_selected_item(4)
 	elif event.is_action_pressed("6"):
-		Global.set_selected_item(5)
+		if check_afford(5):
+			Global.set_selected_item(5)
+
+
+func check_afford(idx):
+	var costs = Global.cost_list[idx]
+	return !(unobtainiumCount < costs[0] || fairyDustCount < costs[1] || fairyDustCount < costs[2])
 
 
 func stop_interacting():
@@ -281,3 +300,7 @@ func _on_HarvestTimer_timeout():
 
 func _on_HealRingTimer_timeout():
 	$HealRing.visible = false
+
+
+func _on_AttackCooldown_timeout():
+	can_attack = true

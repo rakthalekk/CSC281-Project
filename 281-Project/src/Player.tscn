@@ -861,6 +861,10 @@ wait_time = 5.0
 [node name="HarvestTimer" type="Timer" parent="."]
 wait_time = 3.0
 
+[node name="AttackCooldown" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
 [node name="HealRing" type="Sprite" parent="."]
 visible = false
 texture = ExtResource( 3 )
@@ -869,7 +873,6 @@ texture = ExtResource( 3 )
 
 [node name="PlayerAudio" type="AudioStreamPlayer2D" parent="."]
 volume_db = 0.29
-bus = "Player"
 
 [node name="Ambient" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 7 )
@@ -880,10 +883,10 @@ bus = "Ambient"
 
 [node name="Jackhammer" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 8 )
-bus = "Player"
 
 [connection signal="body_entered" from="AttackHitbox" to="." method="_on_AttackHitbox_body_entered"]
 [connection signal="timeout" from="InvincibilityTimer" to="." method="_on_InvincibilityTimer_timeout"]
 [connection signal="timeout" from="ManualMiningTimer" to="." method="_on_ManualMiningTimer_timeout"]
 [connection signal="timeout" from="HarvestTimer" to="." method="_on_HarvestTimer_timeout"]
+[connection signal="timeout" from="AttackCooldown" to="." method="_on_AttackCooldown_timeout"]
 [connection signal="timeout" from="HealRingTimer" to="." method="_on_HealRingTimer_timeout"]

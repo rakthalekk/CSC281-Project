@@ -474,7 +474,7 @@ __meta__ = {
 [node name="Fairy Swatter" type="AnimatedSprite" parent="."]
 position = Vector2( 1368, 696 )
 frames = SubResource( 9 )
-frame = 5
+frame = 3
 playing = true
 
 [node name="Fairy Swatter Lock" type="TextureButton" parent="Fairy Swatter"]
@@ -544,7 +544,6 @@ __meta__ = {
 
 [node name="Sprite" type="Sprite" parent="PauseMenu"]
 position = Vector2( 742, 276 )
-texture = ExtResource( 14 )
 
 [connection signal="toggled" from="Drill Item" to="." method="_on_Drill_Item_toggled"]
 [connection signal="toggled" from="Wall Item" to="." method="_on_Wall_Item_toggled"]
