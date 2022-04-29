@@ -9,6 +9,8 @@ signal segment_damaged
 #If the segment's invincibility timer finishes
 signal segment_end_invincibility
 
+onready var anim = $AnimationPlayer
+
 #The current index of the body
 var index = -1
 #The current health of the segment
@@ -43,6 +45,7 @@ func _on_Hitbox_body_entered(attackedBody):
 
 #If it takes damage
 func damage(dmg, knockback = Vector2(0,0), hitByPlayer = false):
+	anim.play("hit")
 	emit_signal("segment_damaged", index, dmg)
 
 

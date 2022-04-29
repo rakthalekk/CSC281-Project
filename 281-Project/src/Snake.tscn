@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://src/Snake Head.gd" type="Script" id=1]
 [ext_resource path="res://src/Snake Controller.gd" type="Script" id=2]
 [ext_resource path="res://assets/Enemies/snakehead.png" type="Texture" id=3]
+[ext_resource path="res://assets/Sounds/347715__scydan__funk-shuffle-b.wav" type="AudioStream" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 116, 59.5 )
@@ -56,6 +57,15 @@ one_shot = true
 [node name="SegmentAttackCooldown" type="Timer" parent="Snake Head"]
 one_shot = true
 
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Snake Head"]
+stream = ExtResource( 4 )
+autoplay = true
+max_distance = 1500.0
+attenuation = 2.07053
+
+[node name="DirectionVisualChange" type="Timer" parent="Snake Head"]
+wait_time = 0.25
+
 [connection signal="bodies_ready" from="." to="Snake Head" method="_on_Snake_bodies_ready"]
 [connection signal="body_entered" from="Snake Head/VisionRadius" to="Snake Head" method="_on_VisionRadius_body_entered"]
 [connection signal="body_exited" from="Snake Head/VisionRadius" to="Snake Head" method="_on_VisionRadius_body_exited"]
@@ -64,3 +74,4 @@ one_shot = true
 [connection signal="timeout" from="Snake Head/FleeTimer" to="Snake Head" method="_on_FleeTimer_timeout"]
 [connection signal="timeout" from="Snake Head/InvincibilityTimer" to="Snake Head" method="_on_InvincibilityTimer_timeout"]
 [connection signal="timeout" from="Snake Head/SegmentAttackCooldown" to="Snake Head" method="_on_SegmentAttackCooldown_timeout"]
+[connection signal="timeout" from="Snake Head/DirectionVisualChange" to="Snake Head" method="_on_DirectionVisualChange_timeout"]

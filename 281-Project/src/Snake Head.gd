@@ -7,6 +7,8 @@ onready var attackCooldown = $AttackCooldown
 onready var segmentAttackCooldown = $SegmentAttackCooldown
 onready var invincibilityTimer = $InvincibilityTimer
 onready var fleeTimer = $FleeTimer
+onready var face = $Sprite
+onready var faceTimer = $DirectionVisualChange
 
 #Area Variables
 var absoluteMinY = 24 #The absolute minY where the snake will turn around regardless
@@ -63,6 +65,7 @@ func _ready():
 	fleeTimer.wait_time = fleeTime
 	segmentAttackCooldown.wait_time = segmentAttackCooldownTime
 	invincibilityTimer.wait_time = invincibilityTime
+	faceTimer.start()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -147,6 +150,7 @@ func _process(delta):
 	#Move the snake
 	direction = direction.normalized()
 	velocity = direction * actualSpeed
+
 	move_and_slide(velocity)
 
 # When the snake head takes damage
@@ -316,3 +320,22 @@ func _on_Snake_bodies_ready(bodiesArray):
 #When segment cooldown runs out
 func _on_SegmentAttackCooldown_timeout():
 	hasSegmentAttackCooldown = false
+
+func _on_DirectionVisualChange_timeout():
+	var dir = direction.angle_to(Vector2.UP)
+	if (dir > 0):
+		if (dir < 3 * PI / 4):
+			if (dir < PI / 4):
+				face.frame = 2
+			else:
+				face.frame = 1 
+		else:
+			face.frame = 0
+	else:
+		if (dir > -3 * PI / 4):
+			if (dir > -PI / 4):
+				face.frame = 2
+			else:
+				face.frame = 3
+		else:
+			face.frame = 0
