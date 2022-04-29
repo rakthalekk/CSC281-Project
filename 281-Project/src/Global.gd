@@ -5,6 +5,10 @@ var horizontal_wall = true
 var the_chosen_one = null
 var kill_count = 0
 
+var difficulty = 1 # 0, 1, or 2
+var music = 0.5
+var sound = 0.5
+
 #HUD Item Costs [unobtainium cost, fairy dust cost, dragon oil?]
 var fairySwatterCost = [10,0,0]
 var unobtainiumDrillCost = [2,0,0]

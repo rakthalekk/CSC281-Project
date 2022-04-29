@@ -367,6 +367,7 @@ shape = SubResource( 5 )
 stream = ExtResource( 3 )
 max_distance = 600.0
 attenuation = 3.13831
+bus = "Enemy"
 
 [connection signal="body_entered" from="VisionRadius" to="." method="_on_VisionRadius_body_entered"]
 [connection signal="body_exited" from="VisionRadius" to="." method="_on_VisionRadius_body_exited"]

@@ -9,10 +9,17 @@ onready var MusicSliderVisual = $Folder/MusicSliderVisual
 onready var difficultyButton = $Folder/DifficultyButton
 onready var difficultyVisual = $Folder/Difficulty
 onready var audio = $AudioStreamPlayer
+onready var soundSlider = $Folder/SoundSlider
+onready var soundSliderVisual = $Folder/SoundSliderVisual
 
 func _ready():
 	disable_all()
 	_on_PlayTab_pressed()
+	MusicSliderVisual.rect_size.x = Global.music * 230
+	soundSliderVisual.rect_size.x = Global.sound * 230
+	difficultyVisual.frame = 1
+	setSoundVolumes(Global.sound)
+	setMusicVolume(Global.music)
 	
 func noise():
 	audio.play()
@@ -42,10 +49,13 @@ func _on_SettingsTab_pressed():
 	disable_all()
 	MusicSliderVisual.show()
 	difficultyVisual.show()
+	soundSliderVisual.show()
 	musicSlider.disabled = false
 	musicSlider.mouse_filter = Control.MOUSE_FILTER_STOP
 	difficultyButton.disabled = false
 	difficultyButton.mouse_filter = Control.MOUSE_FILTER_STOP
+	soundSlider.disabled = false
+	soundSlider.mouse_filter = Control.MOUSE_FILTER_STOP
 	menuVisual.frame = 2
 
 func _on_ExitTab_pressed():
@@ -64,6 +74,7 @@ func disable_all():
 	difficultyButton.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	MusicSliderVisual.hide()
 	difficultyVisual.hide()
+	soundSliderVisual.hide()
 	musicSlider.disabled = true
 	musicSlider.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	tutorialButton.disabled = true
@@ -72,11 +83,34 @@ func disable_all():
 	startButton.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	quitButton.disabled = true
 	quitButton.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	soundSlider.disabled = true
+	soundSlider.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 func _on_MusicSlider_pressed():
 	MusicSliderVisual.rect_size.x = MusicSliderVisual.get_local_mouse_position().x
+	setMusicVolume(MusicSliderVisual.rect_size.x / 230)
 
 func _on_DifficultyButton_pressed():
 	var current = difficultyVisual.frame
 	current = (current + 1) % 3
+	Global.difficulty = current
 	difficultyVisual.frame = current
+
+
+func _on_SoundSlider_pressed():
+	soundSliderVisual.rect_size.x = soundSliderVisual.get_local_mouse_position().x
+	setSoundVolumes(soundSliderVisual.rect_size.x / 230)
+
+func setSoundVolumes(vol):
+	Global.sound = vol
+	if(vol > 0.1):
+		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("World"), vol * 12 - 6)
+	else:
+		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("World"), -76)
+
+func setMusicVolume(vol):
+	Global.music = vol
+	if(vol > 0.1):
+		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), vol * 12 - 6)
+	else:
+		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), -76)
