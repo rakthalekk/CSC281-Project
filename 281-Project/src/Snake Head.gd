@@ -29,6 +29,7 @@ var attackStructureTime = 1 #Time the snake moves quickly after attacking a stru
 var directPathVariance = PI/8 #Variance in the approach path of the snake
 var fasterSpeedScale = 2  #When the snake moves faster, how fast will it move relative to normal speed
 var chanceToRunWhenAttacked = 0.5#When the snake is hit in the head, this is the chance it will run from the player momentarily
+var fleeingTailModifier = 0.5 #The scale for the chance for the snake to flee it's attacked and it still has a tail
 var fleeTime = 3 #How long the snake flees after getting hit
 var fleeSpeedScale = 2 #When the snake is fleeing, how fast it travels relative to normal
 var invincibilityTime = 1.3 #The invincibility time of the head when attacked
@@ -168,7 +169,11 @@ func damage(dmg, knockback = Vector2(0,0), hitByPlayer = false):
 		else:
 			#Do something here if the snake still has a tail.
 			#Here, the snake takes no damage
-			pass
+			if(is_instance_valid(targets[0]) && hitByPlayer && rng.randf() <= chanceToRunWhenAttacked * fleeingTailModifier):
+				isFleeing = true
+				actualSpeed = speed * fleeSpeedScale
+				fleeTarget = targets[0]
+				fleeTimer.start()
 
 #When the snake is attacked
 func start_invulnerability(body = self):

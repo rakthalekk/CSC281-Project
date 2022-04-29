@@ -377,4 +377,4 @@ func _on_FrogSpawnTimer_timeout():
 		forg.global_position = pos
 		enemy_manager.add_child(forg)
 		
-		print("frog @ " + str(pos))
+		#print("frog @ " + str(pos))

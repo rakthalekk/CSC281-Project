@@ -56,7 +56,6 @@ autostart = true
 
 [node name="Snake" parent="." instance=ExtResource( 7 )]
 position = Vector2( 2027, 530 )
-rotation = 0.0742534
 
 [connection signal="just_purchased" from="HUD" to="Entities/Player" method="_on_HUD_just_purchased"]
 [connection signal="unlocked_fairy_swatter" from="HUD" to="Entities/Player" method="_on_HUD_unlocked_fairy_swatter"]
