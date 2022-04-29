@@ -54,15 +54,19 @@ func _on_RotateAnimationFrame_timeout():
 		anim_player.advance(frame / 10.0)
 	
 	if $AnimationPlayer.current_animation == "sighting":
-		var up = (frame - $Sprite.frame) % 16
-		var down = ($Sprite.frame - frame) % 16
+		var ddistance = frame - $Sprite.frame
+		var udistance = -ddistance
+		if udistance < 0:
+			udistance = udistance + 15
+		elif ddistance < 0:
+			ddistance = ddistance + 15
 		
-		if down < up:
+		if udistance > ddistance:
 			if $Sprite.frame + 1 == 16:
 				$Sprite.frame = 0
 			else:
 				$Sprite.frame += 1
-		elif up < down:
+		elif udistance < ddistance:
 			if $Sprite.frame - 1 == -1:
 				$Sprite.frame = 15
 			else:

@@ -13,6 +13,8 @@ export(int) var nearby_entity_spawn_time = 6;
 export(int) var no_nearby_entity_spawn_time = 12;
 
 var entities_in_range = []
+var can_raid = true
+var reactivatable = false # for the tutorial
 var raid_spawns = 0
 var max_spawns
 
@@ -25,6 +27,11 @@ func _ready():
 		$SpawnTimer.start()
 
 
+func set_reactivatable():
+	reactivatable = true
+	$BurrowInteractArea/CollisionShape2D.disabled = false
+
+
 func enable():
 	enabled = true
 	$SpawnTimer.start(2)
@@ -32,10 +39,17 @@ func enable():
 
 # Initiates Goku Mode
 func interact():
-	$SpawnTimer.stop()
-	$AlertTimer.stop()
-	$AnimationPlayer.play("raid")
-	$Sprite.texture = READY_SPRITE
+	if can_raid:
+		$SpawnTimer.stop()
+		$AlertTimer.stop()
+		$AnimationPlayer.play("raid")
+		$Sprite.texture = READY_SPRITE
+	elif reactivatable:
+		$SpawnTimer.start()
+		$AnimationPlayer.play("normal")
+		$Sprite.texture = NORMAL_SPRITE
+		can_raid = true
+		raid_spawns = 0
 
 
 func raid_spawn():
@@ -46,7 +60,9 @@ func raid_spawn():
 		$Alert.visible = false
 		$Sprite.texture = CLOSED_SPRITE
 		$AnimationPlayer.stop()
-		$BurrowInteractArea/CollisionShape2D.disabled = true
+		if !reactivatable:
+			$BurrowInteractArea/CollisionShape2D.disabled = true
+		can_raid = false
 
 
 func _on_Timer_timeout():

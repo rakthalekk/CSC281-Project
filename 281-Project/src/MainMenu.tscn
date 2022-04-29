@@ -10,9 +10,6 @@
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Logo" type="Sprite" parent="."]
 position = Vector2( 753, 222 )
@@ -109,9 +106,6 @@ margin_top = -99.0
 margin_right = -60.0
 margin_bottom = -38.0
 action_mode = 0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="DifficultyButton" type="Button" parent="Folder"]
 self_modulate = Color( 1, 1, 1, 0 )

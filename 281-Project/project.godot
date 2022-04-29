@@ -14,6 +14,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/Enemy.gd"
 }, {
+"base": "StaticBody2D",
+"class": "FairyLog",
+"language": "GDScript",
+"path": "res://src/Fairy Dust Tree.gd"
+}, {
 "base": "KinematicBody2D",
 "class": "Player",
 "language": "GDScript",
@@ -31,6 +36,7 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "Enemy": "",
+"FairyLog": "",
 "Player": "",
 "Structure": "",
 "Wall": ""

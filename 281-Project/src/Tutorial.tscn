@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://src/TileMap.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/Player.tscn" type="PackedScene" id=2]
@@ -9,6 +9,14 @@
 [ext_resource path="res://src/Fairy Log.tscn" type="PackedScene" id=7]
 [ext_resource path="res://src/TutorialPopup.gd" type="Script" id=8]
 [ext_resource path="res://src/Burrow.tscn" type="PackedScene" id=9]
+[ext_resource path="res://assets/Menus/Courier_Prime/CourierPrime-Regular.ttf" type="DynamicFontData" id=10]
+
+[sub_resource type="DynamicFont" id=1]
+use_filter = true
+font_data = ExtResource( 10 )
+
+[sub_resource type="DynamicFont" id=2]
+font_data = ExtResource( 10 )
 
 [node name="Tutorial" type="Node2D"]
 script = ExtResource( 3 )
@@ -29,10 +37,10 @@ tile_data = PoolIntArray( 16, 0, 65538, 17, 0, 2, 18, 0, 2, 19, 0, 2, 20, 0, 2, 
 
 [node name="TutorialPopup" type="AcceptDialog" parent="HUD"]
 pause_mode = 2
-margin_left = 256.0
-margin_top = 208.0
-margin_right = 632.0
-margin_bottom = 416.0
+margin_left = 128.0
+margin_top = 144.0
+margin_right = 608.0
+margin_bottom = 449.0
 window_title = "Operation: Wonderland"
 script = ExtResource( 8 )
 
@@ -41,15 +49,36 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -180.0
-margin_top = -96.0
-margin_right = 180.0
-margin_bottom = 68.0
+margin_left = -232.0
+margin_top = -144.5
+margin_right = 232.0
+margin_bottom = 116.5
+custom_fonts/font = SubResource( 1 )
+text = "Good work! You've completed the tutorial!
+
+There are two other available structures: the Healing Tower and the Bear Trap. The Healing Tower will heal you and your structures every few seconds, and the Bear Trap will catch any enemy that walks into it.
+
+You can re-activate this spawner by pressing E on it. Feel free to experiment with the structures, and click Finish when you are ready to move on."
 autowrap = true
 
 [node name="TransitionTimer" type="Timer" parent="HUD/TutorialPopup"]
 wait_time = 0.05
 one_shot = true
+
+[node name="Finish" type="Button" parent="HUD"]
+visible = false
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -236.0
+margin_top = -116.0
+margin_right = -164.0
+margin_bottom = -91.0
+rect_scale = Vector2( 3, 3 )
+custom_fonts/font = SubResource( 2 )
+disabled = true
+text = "Finish"
 
 [node name="TileHighlight" type="ColorRect" parent="."]
 visible = false
@@ -94,6 +123,7 @@ autostart = true
 [connection signal="unlocked_fairy_swatter" from="HUD" to="Entities/Player" method="_on_HUD_unlocked_fairy_swatter"]
 [connection signal="confirmed" from="HUD/TutorialPopup" to="HUD/TutorialPopup" method="_on_TutorialPopup_confirmed"]
 [connection signal="timeout" from="HUD/TutorialPopup/TransitionTimer" to="HUD/TutorialPopup" method="_on_TransitionTimer_timeout"]
+[connection signal="pressed" from="HUD/Finish" to="HUD/TutorialPopup" method="_on_Finish_pressed"]
 [connection signal="is_interacting" from="Entities/Player" to="HUD" method="_on_Player_is_interacting"]
 [connection signal="is_manual_mining" from="Entities/Player" to="HUD" method="_on_Player_is_manual_mining"]
 [connection signal="place_structure" from="Entities/Player" to="." method="_on_Player_place_structure"]

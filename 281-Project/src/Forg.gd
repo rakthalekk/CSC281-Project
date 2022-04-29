@@ -26,7 +26,8 @@ func _on_EntityDetect_body_entered(body):
 
 
 func get_tounge_direction():
-	$Tounge.look_at(tounge_target.global_position - Vector2(0, 20))
+	if is_instance_valid(tounge_target):
+		$Tounge.look_at(tounge_target.global_position - Vector2(0, 20))
 
 
 func _on_Tounge_body_entered(body):

@@ -1,3 +1,4 @@
+class_name FairyLog
 extends StaticBody2D
 
 # Fairy Log Variables
@@ -43,6 +44,7 @@ func harvested(body):
 	var waitTime = rng.randi_range(logCooldown[0],logCooldown[1])
 	respawnTimer.wait_time = waitTime
 	respawnTimer.start()
+	$HarvestArea/CollisionShape2D.disabled = true
 
 func _on_Respawn_Timer_timeout():
 	if(entity != null):
@@ -50,6 +52,7 @@ func _on_Respawn_Timer_timeout():
 	canHarvest = true
 	sprite.texture = cooldownTexture
 	particles.emitting = true
+	$HarvestArea/CollisionShape2D.disabled = false
 
 
 func _on_HarvestArea_body_entered(body):

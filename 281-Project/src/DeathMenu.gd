@@ -8,5 +8,5 @@ func _on_QuitButton_pressed():
 	get_tree().quit()
 
 
-func _on_MainMenuButton_toggled(button_pressed):
+func _on_MainMenuButton_pressed():
 	get_tree().change_scene("res://src/MainMenu.tscn")
