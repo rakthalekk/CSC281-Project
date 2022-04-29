@@ -11,6 +11,8 @@ const WALL = preload("res://src/Wall.tscn")
 # Enemy References
 const BUNNY = preload("res://src/Wonderbunny.tscn")
 
+const FORG = preload("res://src/Forg.tscn")
+
 # Misc References
 const BULLET = preload("res://src/Bolt.tscn")
 
@@ -18,6 +20,9 @@ const BULLET = preload("res://src/Bolt.tscn")
 
 var structures = []
 var valid_place = false
+var frog_max = 6
+
+onready var rng = RandomNumberGenerator.new()
 
 onready var player = $Entities/Player
 onready var bullet_manager = $BulletManager
@@ -359,3 +364,17 @@ func update_log_navigation(pos: Vector2):
 				tilemap.set_cellv(p, tilemap.grassNoNavID)
 			elif tilemap.get_cellv(p) == tilemap.pathTileID:
 				tilemap.set_cellv(p, tilemap.pathNoNavID)
+
+
+func _on_FrogSpawnTimer_timeout():
+	if Global.frog_num < frog_max:
+		var forg = FORG.instance()
+		var pos = Vector2(rng.randi_range(0, 4096), rng.randi_range(0, 4096))
+		
+		while (tilemap.get_cellv(tilemap.world_to_map(pos)) == tilemap.waterTileID):
+			pos = Vector2(rng.randi_range(0, 4096), rng.randi_range(0, 4096))
+		
+		forg.global_position = pos
+		enemy_manager.add_child(forg)
+		
+		print("frog @ " + str(pos))

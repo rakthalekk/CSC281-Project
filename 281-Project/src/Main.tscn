@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://src/TileMap.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/Trees.tscn" type="PackedScene" id=2]
@@ -7,7 +7,6 @@
 [ext_resource path="res://src/HUD.tscn" type="PackedScene" id=5]
 [ext_resource path="res://src/Player.tscn" type="PackedScene" id=6]
 [ext_resource path="res://src/Snake.tscn" type="PackedScene" id=7]
-[ext_resource path="res://src/Forg.tscn" type="PackedScene" id=8]
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 3 )
@@ -43,15 +42,16 @@ position = Vector2( 2024, 4047 )
 [node name="EnemyManager" type="YSort" parent="Entities"]
 position = Vector2( 0, 2 )
 
-[node name="Forg" parent="Entities/EnemyManager" instance=ExtResource( 8 )]
-position = Vector2( 1985, 2857 )
-
 [node name="StructureManager" type="YSort" parent="Entities"]
 
 [node name="MiningTimer" type="Timer" parent="."]
 
 [node name="EnemyPathingTimer" type="Timer" parent="."]
 wait_time = 0.2
+autostart = true
+
+[node name="FrogSpawnTimer" type="Timer" parent="."]
+wait_time = 20.0
 autostart = true
 
 [node name="Snake" parent="." instance=ExtResource( 7 )]
@@ -66,3 +66,4 @@ rotation = 0.0742534
 [connection signal="place_structure" from="Entities/Player" to="HUD" method="_on_Player_place_structure"]
 [connection signal="player_stats_changed" from="Entities/Player" to="HUD" method="_on_Player_player_stats_changed"]
 [connection signal="timeout" from="EnemyPathingTimer" to="." method="_on_EnemyPathingTimer_timeout"]
+[connection signal="timeout" from="FrogSpawnTimer" to="." method="_on_FrogSpawnTimer_timeout"]

@@ -474,7 +474,7 @@ __meta__ = {
 [node name="Fairy Swatter" type="AnimatedSprite" parent="."]
 position = Vector2( 1368, 696 )
 frames = SubResource( 9 )
-frame = 3
+frame = 4
 playing = true
 
 [node name="Fairy Swatter Lock" type="TextureButton" parent="Fairy Swatter"]
@@ -504,15 +504,13 @@ text = "999"
 scroll_active = false
 
 [node name="Coords" type="RichTextLabel" parent="."]
+visible = false
 margin_left = 11.0
 margin_top = 16.0
 margin_right = 202.0
 margin_bottom = 52.0
 text = "X: ########
 Y: ########"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="PauseMenu" type="PopupDialog" parent="."]
 pause_mode = 2

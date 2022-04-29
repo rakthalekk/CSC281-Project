@@ -15,7 +15,7 @@ onready var parent = $"../.."
 onready var respawnTimer = $"Respawn Timer"
 
 # Random Number Generator
-var rng = RandomNumberGenerator.new()
+onready var rng = RandomNumberGenerator.new()
 
 # The entity (player) in the radius that's being interacted with
 var entity = null

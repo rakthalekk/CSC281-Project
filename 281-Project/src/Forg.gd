@@ -4,6 +4,17 @@ extends Enemy
 var queue_attack = false
 var tounge_target = null
 
+
+func _ready():
+	._ready()
+	Global.frog_num += 1
+
+
+func perish():
+	.perish()
+	Global.frog_num -= 1
+
+
 func play_jump():
 	anim_player.play("hop")
 

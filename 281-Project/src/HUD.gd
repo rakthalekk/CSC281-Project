@@ -43,7 +43,7 @@ func _ready():
 	$"Fairy Swatter/Cost Object/Cost Number".set_text(str(Global.fairySwatterCost[0]))
 	
 func _process(delta):
-	$"Coords".set_text("X: " + str(get_parent().playerCoords[0]) + "\nY: " + str(get_parent().playerCoords[1]))
+	#$"Coords".set_text("X: " + str(get_parent().playerCoords[0]) + "\nY: " + str(get_parent().playerCoords[1]))
 	
 	if Global.selected_item:
 		if Global.selected_item == "drill":
