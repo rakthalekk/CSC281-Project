@@ -2,7 +2,7 @@ class_name SnakeHead
 extends KinematicBody2D
 
 #Resource Reference
-onready var tilemap = get_node("../../Navigation2D/TileMap")
+onready var tilemap = get_node("../../../Navigation2D/TileMap")
 onready var attackCooldown = $AttackCooldown
 onready var segmentAttackCooldown = $SegmentAttackCooldown
 onready var invincibilityTimer = $InvincibilityTimer

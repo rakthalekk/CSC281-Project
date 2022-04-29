@@ -39,6 +39,9 @@ color = Color( 1, 1, 0, 0.215686 )
 [node name="Player" parent="Entities" instance=ExtResource( 6 )]
 position = Vector2( 2024, 4047 )
 
+[node name="Snake" parent="Entities" instance=ExtResource( 7 )]
+position = Vector2( 2027, 530 )
+
 [node name="EnemyManager" type="YSort" parent="Entities"]
 position = Vector2( 0, 2 )
 
@@ -53,9 +56,6 @@ autostart = true
 [node name="FrogSpawnTimer" type="Timer" parent="."]
 wait_time = 20.0
 autostart = true
-
-[node name="Snake" parent="." instance=ExtResource( 7 )]
-position = Vector2( 2027, 530 )
 
 [connection signal="just_purchased" from="HUD" to="Entities/Player" method="_on_HUD_just_purchased"]
 [connection signal="unlocked_fairy_swatter" from="HUD" to="Entities/Player" method="_on_HUD_unlocked_fairy_swatter"]
