@@ -15,6 +15,7 @@
 [ext_resource path="res://src/PauseMenu.gd" type="Script" id=13]
 [ext_resource path="res://assets/Menus/Courier_Prime/CourierPrime-Regular.ttf" type="DynamicFontData" id=14]
 [ext_resource path="res://assets/Menus/paused.png" type="Texture" id=15]
+[ext_resource path="res://assets/Menus/resume.png" type="Texture" id=16]
 
 [sub_resource type="DynamicFont" id=12]
 size = 70
@@ -72,9 +73,6 @@ animations = [ {
 } ]
 
 [sub_resource type="Theme" id=10]
-
-[sub_resource type="DynamicFont" id=14]
-font_data = ExtResource( 14 )
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource( 7 )
@@ -474,7 +472,7 @@ __meta__ = {
 [node name="Fairy Swatter" type="AnimatedSprite" parent="."]
 position = Vector2( 1368, 696 )
 frames = SubResource( 9 )
-frame = 4
+frame = 2
 playing = true
 
 [node name="Fairy Swatter Lock" type="TextureButton" parent="Fairy Swatter"]
@@ -514,6 +512,7 @@ Y: ########"
 
 [node name="PauseMenu" type="PopupDialog" parent="."]
 pause_mode = 2
+visible = true
 modulate = Color( 1, 1, 1, 0.717647 )
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -524,21 +523,17 @@ script = ExtResource( 13 )
 position = Vector2( 744, 256 )
 texture = ExtResource( 15 )
 
-[node name="Button" type="Button" parent="PauseMenu"]
+[node name="Button" type="TextureButton" parent="PauseMenu"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -70.0
-margin_top = 172.0
-margin_right = 2.0
-margin_bottom = 197.0
-rect_scale = Vector2( 2, 2 )
-custom_fonts/font = SubResource( 14 )
-text = "Resume"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+margin_left = -112.0
+margin_top = 140.0
+margin_right = 216.0
+margin_bottom = 240.0
+rect_scale = Vector2( 0.75, 0.75 )
+texture_normal = ExtResource( 16 )
 
 [node name="Sprite" type="Sprite" parent="PauseMenu"]
 position = Vector2( 742, 276 )
