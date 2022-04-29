@@ -104,13 +104,13 @@ func _on_SoundSlider_pressed():
 func setSoundVolumes(vol):
 	Global.sound = vol
 	if(vol > 0.1):
-		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("World"), vol * 12 - 6)
+		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("World"), vol * 24 - 18)
 	else:
 		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("World"), -76)
 
 func setMusicVolume(vol):
 	Global.music = vol
 	if(vol > 0.1):
-		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), vol * 12 - 6)
+		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), vol * 24 - 18)
 	else:
 		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"), -76)
