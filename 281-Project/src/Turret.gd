@@ -2,11 +2,11 @@ extends Structure
 
 signal make_bullet
 
-onready var sound = $AudioStreamPlayer2D
-
 var targets = []
 var target = null
 var frame = 0
+
+onready var sound = $AudioStreamPlayer2D
 
 var bullet_queue = false
 
@@ -21,7 +21,6 @@ func _on_VisionRadius_body_exited(body):
 
 func _on_ShootInterval_timeout():
 	if target:
-		sound.play()
 		bullet_queue = true
 
 
@@ -72,8 +71,9 @@ func _on_RotateAnimationFrame_timeout():
 			else:
 				$Sprite.frame -= 1
 		elif bullet_queue:
-			var direction = (target.global_position - global_position).normalized()
-			emit_signal("make_bullet", global_position, direction)
+			sound.play()
+			var direction = (target.global_position - global_position - (Vector2.UP * 120)).normalized()
+			emit_signal("make_bullet", global_position + (Vector2.UP * 100), direction)
 			bullet_queue = false
 
 

@@ -1,9 +1,8 @@
 extends Area2D
 
-export(int) var speed = 30
+export(int) var speed = 15
 
 var direction := Vector2.ZERO
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

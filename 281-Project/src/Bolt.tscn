@@ -4,7 +4,7 @@
 [ext_resource path="res://src/Bullet.gd" type="Script" id=2]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 16.0
+radius = 29.0689
 
 [sub_resource type="AtlasTexture" id=2]
 atlas = ExtResource( 1 )
@@ -57,7 +57,7 @@ shape = SubResource( 1 )
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 10 )
-frame = 4
+frame = 7
 playing = true
 
 [node name="Timer" type="Timer" parent="."]
