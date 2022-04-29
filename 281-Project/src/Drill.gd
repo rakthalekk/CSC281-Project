@@ -2,8 +2,8 @@ extends Structure
 
 # Unobtainium Drill Variables
 var unobtainiumReward = 1 #The unobtainium produced
-const MAXCOUNT = 5 # Max unobtainium that can be at a miner before it will stop producing more
-var drillCooldownTime = 5 #Time in seconds it takes to mine an unobtainium ore
+const MAXCOUNT = 3 # Max unobtainium that can be at a miner before it will stop producing more
+var drillCooldownTime = 10 #Time in seconds it takes to mine an unobtainium ore
 
 const UNOBTAINIUM = preload("res://src/Unobtainium.tscn")
 

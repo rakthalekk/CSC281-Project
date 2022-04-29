@@ -3,7 +3,7 @@ extends StaticBody2D
 
 # Fairy Log Variables
 var logCooldown = [1,5] #[min time, max time] time in seconds
-var fairyDustReward = 1 #Amount of fairy dust collected from logs
+var fairyDustReward = 2 #Amount of fairy dust collected from logs
 
 var spawnedTexture = load("res://assets/Map Elements/fairylogColored.png")
 var cooldownTexture = load("res://assets/Map Elements/fairylog.png")

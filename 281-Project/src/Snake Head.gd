@@ -24,6 +24,7 @@ var segmentDmg = 10 #Damage dealt by the segments
 var segmentAttackCooldownTime = 1 #Time between then the sement attacks going through
 var max_head_health = 100 #Max health of the snake head
 var max_segment_health = 20 #Health of each individual segment
+var returnToAreaSpeedScale = 4 #Speed at which the snake returns back to its border
 #Total health = head_health + segment_health * segments
 var runAfterHitChance = 1#0.5 #If the snake gets hit, this is the chance it will retreat before attacking again
 var attackCooldownTime = 3 #After the snake attacks something, it will wait this long before going for another attack
@@ -75,6 +76,7 @@ func _process(delta):
 	#The snake will turn back around regardless of what it's attacking
 	if(tilePos[1] < absoluteMinY && !atBorder):
 		atBorder = true
+		actualSpeed = speed * returnToAreaSpeedScale
 		if(direction[0] > 0 && direction[1] > 0):
 			direction = direction.rotated(rng.randf_range(-0.2,0)) #Turn Counterclockwise
 		elif(direction[0] < 0 && direction[1] > 0):
@@ -145,6 +147,7 @@ func _process(delta):
 		
 	#The snake will randomly wander when not targeting anything
 	else:
+		atBorder = false
 		direction = direction.rotated(rng.randf_range(-0.2,0.2)) #Rotates the vector by a given amount
 	
 	#Move the snake
@@ -158,6 +161,7 @@ func damage(dmg, knockback = Vector2(0,0), hitByPlayer = false):
 	#Knockback isn't used by the snake
 	if invincibilityTimer.is_stopped():
 		#eff_anim_player.play("invulnerable")
+		print(str(targets))
 		if(bodies.size() == 0):
 			start_invulnerability()
 			health -= dmg
@@ -165,7 +169,7 @@ func damage(dmg, knockback = Vector2(0,0), hitByPlayer = false):
 				queue_free()
 				get_tree().change_scene("res://src/WinMenu.tscn")
 			#If the snake is hit by the player, chance that it will flee
-			if(is_instance_valid(targets[0]) && hitByPlayer && rng.randf() <= chanceToRunWhenAttacked):
+			if(hitByPlayer && rng.randf() <= chanceToRunWhenAttacked):
 				isFleeing = true
 				actualSpeed = speed * fleeSpeedScale
 				fleeTarget = targets[0]
@@ -173,7 +177,7 @@ func damage(dmg, knockback = Vector2(0,0), hitByPlayer = false):
 		else:
 			#Do something here if the snake still has a tail.
 			#Here, the snake takes no damage
-			if(is_instance_valid(targets[0]) && hitByPlayer && rng.randf() <= chanceToRunWhenAttacked * fleeingTailModifier):
+			if(hitByPlayer && rng.randf() <= chanceToRunWhenAttacked * fleeingTailModifier):
 				isFleeing = true
 				actualSpeed = speed * fleeSpeedScale
 				fleeTarget = targets[0]
@@ -196,12 +200,12 @@ func end_invulnerability(body = self):
 #Add things to queue to be attacked if in vision radius
 func _on_VisionRadius_body_entered(body):
 	#if the target is past the absolute minY
-	if(maxY - 1 - tilemap.world_to_map(body.global_position)[1] < minY):
-		#If the target is less than the absolute min, then they will be removed from the targets
-		var idx = targets.find(body)
-		if idx != -1:
-			targets.remove(idx)
-	elif body is Player:
+#	if(maxY - 1 - tilemap.world_to_map(body.global_position)[1] < minY):
+#		#If the target is less than the absolute min, then they will be removed from the targets
+#		var idx = targets.find(body)
+#		if idx != -1:
+#			targets.remove(idx)
+	if body is Player:
 		targets.insert(0, body)
 	elif body is Structure:
 		targets.append(body)

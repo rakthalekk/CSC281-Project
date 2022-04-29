@@ -35,9 +35,9 @@ var speed = run_speed
 var velocity := Vector2.ZERO
 
 # Current resources of the player
-export(int) var unobtainiumCount : int = 20
-export(int) var fairyDustCount : int = 20
-export(int) var dragonOilCount : int = 20
+export(int) var unobtainiumCount : int = 0#20
+export(int) var fairyDustCount : int = 0#20
+export(int) var dragonOilCount : int = 0#20
 var knockback = false
 var attacking = false
 var manual_mining = false
