@@ -53,9 +53,14 @@ one_shot = true
 wait_time = 1.3
 one_shot = true
 
+[node name="SegmentAttackCooldown" type="Timer" parent="Snake Head"]
+one_shot = true
+
+[connection signal="bodies_ready" from="." to="Snake Head" method="_on_Snake_bodies_ready"]
 [connection signal="body_entered" from="Snake Head/VisionRadius" to="Snake Head" method="_on_VisionRadius_body_entered"]
 [connection signal="body_exited" from="Snake Head/VisionRadius" to="Snake Head" method="_on_VisionRadius_body_exited"]
 [connection signal="body_entered" from="Snake Head/Hitbox" to="Snake Head" method="_on_HitBox_body_entered"]
 [connection signal="timeout" from="Snake Head/AttackCooldown" to="Snake Head" method="_on_AttackCooldown_timeout"]
 [connection signal="timeout" from="Snake Head/FleeTimer" to="Snake Head" method="_on_FleeTimer_timeout"]
 [connection signal="timeout" from="Snake Head/InvincibilityTimer" to="Snake Head" method="_on_InvincibilityTimer_timeout"]
+[connection signal="timeout" from="Snake Head/SegmentAttackCooldown" to="Snake Head" method="_on_SegmentAttackCooldown_timeout"]

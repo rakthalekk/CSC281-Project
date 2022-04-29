@@ -55,7 +55,7 @@ wait_time = 0.2
 autostart = true
 
 [node name="Snake" parent="." instance=ExtResource( 7 )]
-position = Vector2( 1876, 473 )
+position = Vector2( 2027, 530 )
 rotation = 0.0742534
 
 [connection signal="just_purchased" from="HUD" to="Entities/Player" method="_on_HUD_just_purchased"]

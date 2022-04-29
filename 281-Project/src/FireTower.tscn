@@ -228,7 +228,7 @@ one_shot = true
 
 [node name="FireZone" type="Area2D" parent="."]
 collision_layer = 0
-collision_mask = 2
+collision_mask = 514
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FireZone"]
 position = Vector2( 0, -8 )
