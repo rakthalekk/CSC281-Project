@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://assets/Structures/turret.png" type="Texture" id=1]
 [ext_resource path="res://assets/Resources/ore.png" type="Texture" id=2]
@@ -75,6 +75,10 @@ animations = [ {
 } ]
 
 [sub_resource type="Theme" id=10]
+
+[sub_resource type="DynamicFont" id=14]
+size = 32
+font_data = ExtResource( 14 )
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource( 7 )
@@ -517,6 +521,7 @@ __meta__ = {
 [node name="Fairy Swatter" type="AnimatedSprite" parent="."]
 position = Vector2( 1368, 696 )
 frames = SubResource( 9 )
+frame = 2
 playing = true
 
 [node name="Fairy Swatter Lock" type="TextureButton" parent="Fairy Swatter"]
@@ -589,6 +594,16 @@ margin_right = 306.0
 margin_bottom = 328.0
 rect_scale = Vector2( 0.75, 0.75 )
 texture_normal = ExtResource( 17 )
+
+[node name="TimeLabel" type="Label" parent="."]
+margin_right = 136.0
+margin_bottom = 36.0
+custom_fonts/font = SubResource( 14 )
+text = "59:59"
+
+[node name="GameTimer" type="Timer" parent="."]
+wait_time = 9999.0
+autostart = true
 
 [connection signal="toggled" from="Drill Item" to="." method="_on_Drill_Item_toggled"]
 [connection signal="toggled" from="Wall Item" to="." method="_on_Wall_Item_toggled"]

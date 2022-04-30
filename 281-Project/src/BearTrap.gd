@@ -19,7 +19,7 @@ func snap():
 			target.damage(50, Vector2.ZERO)
 		elif target.is_in_group("Snake"):
 			target.damage(20)
-		call_deferred("toggle_hitbox", true)
+	call_deferred("toggle_hitbox", true)
 
 
 func toggle_hitbox(off):

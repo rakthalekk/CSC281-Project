@@ -203,6 +203,9 @@ func _unhandled_input(event):
 	elif event.is_action_pressed("6"):
 		if check_afford(5):
 			Global.set_selected_item(5)
+	elif event.is_action_pressed("7"):
+		if check_afford(6):
+			Global.set_selected_item(6)
 
 
 func check_afford(idx):

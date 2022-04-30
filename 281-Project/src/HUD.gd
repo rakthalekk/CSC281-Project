@@ -47,6 +47,12 @@ func _ready():
 func _process(delta):
 	#$"Coords".set_text("X: " + str(get_parent().playerCoords[0]) + "\nY: " + str(get_parent().playerCoords[1]))
 	
+	Global.time = 9999 - $GameTimer.time_left
+	var minutes = int(Global.time / 60)
+	var seconds = Global.time - minutes * 60
+	
+	$TimeLabel.set_text(("%02d" % minutes) + ":" + ("%02d" % seconds))
+	
 	if Global.selected_item:
 		if Global.selected_item == "drill":
 			Input.set_custom_mouse_cursor(DRILL_IMG)

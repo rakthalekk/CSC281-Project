@@ -5,6 +5,7 @@ var horizontal_wall = true
 var the_chosen_one = null
 var kill_count = 0
 var frog_num = 0
+var time = 0.0
 
 var difficulty = 1 # 0, 1, or 2
 var music = 0.5
