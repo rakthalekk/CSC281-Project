@@ -1,7 +1,8 @@
-extends AcceptDialog
+extends PopupDialog
 
 
 var text = ""
+var display_idx = 0
 var dialog_idx = 0
 var cont = true
 var dialog = ["Welcome to Operation: Wonderland!\n\nIn this game, you will play as Joe M., a former tax attorney who has recently joined the military.\n\nA fantasy alternate world known as Wonderland was just discovered by the government, and the General wants all troops to investigate this land.",
@@ -12,10 +13,10 @@ var dialog = ["Welcome to Operation: Wonderland!\n\nIn this game, you will play 
 "Now that you've obtained the Fairy Zapper, walk north to the glowing log, and press E.\n\nYou can harvest Fairy Dust by interacting next to the log while it is glowing, and create new structures with it.\n\nCollect 3 Fairy Dust.",
 "Excellent! To save you some time gathering more resources, here's 50 Unobtanium and Fairy Dust.\n\nNow, why don't you try fighting some enemies? There's a burrow of bunnies off to your left.",
 "These bunnies may look cute, but they will hurt you if you get close to them. It's best to defeat them before they can cause problems.\n\nUse the mouse to attack with your suitcase. Guns don't work in Wonderland, and this is all that Joe had with him, so you'll need to make do.\n\nDefeat 3 bunnies.",
-"Seems like they just keep coming, and it would be exhausting to keep fighting them on your own.\n\nTry placing a turret a small distance from the burrow. Click the third icon (or press 3) and place a turret.",
+"Seems like they just keep coming, and it would be exhausting to keep fighting them on your own.\n\nTry placing a turret a small distance from the burrow. Click the fourth icon (or press 4) and place a turret.",
 "That should fend them off for a bit. You can also place sandbag walls to protect the turret or other structures from being attacked.\n\nClick the second icon (or press 2) to select a wall. Walls can be placed horizontally or vertically; right-click to change the direction.\n\nYou can also disable walls by right-clicking on them, to let you pass through them.",
-"Move up further north, and look for some dragon bones. You can harvest oil from them by placing an Oil Rig on them.\n\nClick the fifth icon (or press 5) to select an oil rig, and place it on the bones to gain Dragon Oil.\n\nCollect 5 Dragon Oil.",
-"Using Dragon Oil, you can create a Fire Tower (item 6). This is a powerful structure that deals damage to all enemies in its radius.\n\nTry placing one near the burrow, and place a wall in front of it for protection.\n\nNext, press E on the burrow to lure out all of the bunnies. If you defeat all of them, the burrow will close off.",
+"Move up further north, and look for some dragon bones. You can harvest oil from them by placing an Oil Rig on them.\n\nClick the sixth icon (or press 6) to select an oil rig, and place it on the bones to gain Dragon Oil.\n\nCollect 5 Dragon Oil.",
+"Using Dragon Oil, you can create a Fire Tower (item 7). This is a powerful structure that deals damage to all enemies in its radius.\n\nTry placing one near the burrow, and place a wall in front of it for protection.\n\nNext, press E on the burrow to lure out all of the bunnies. If you defeat all of them, the burrow will close off.",
 "Good work! You've completed the tutorial!\n\nThere are two other available structures: the Healing Tower and the Bear Trap. The Healing Tower will heal you and your structures every few seconds, and the Bear Trap will catch any enemy that walks into it (press E to re-activate it).\n\nYou can re-activate this spawner by pressing E on it. Feel free to experiment with the structures, and click Main Menu when you are finished."]
 
 onready var parent = $".."
@@ -24,6 +25,9 @@ onready var burrow = $"../../Burrows/Burrow"
 onready var tilemap = $"../../Navigation2D/TileMap"
 onready var enemy_manager = $"../../Entities/EnemyManager"
 onready var label = $Text
+onready var confirm = $Confirm
+onready var previous = $Previous
+onready var next = $Next
 onready var finish = $"../Finish"
 
 func _ready():
@@ -55,11 +59,17 @@ func _process(delta):
 
 
 func show_next_message():
+	$Previous.visible = false
+	$Previous.disabled = true
+	$Next.visible = false
+	$Next.disabled = true
+	
 	show()
 	get_tree().paused = true
 	label.text = dialog[dialog_idx]
 	parent.disable_pause = true
 	dialog_idx += 1
+	display_idx = dialog_idx - 1
 	
 	if dialog_idx == 3:
 		cont = false
@@ -72,7 +82,52 @@ func show_next_message():
 		burrow.enable()
 
 
-func _on_TutorialPopup_confirmed():
+func _on_TransitionTimer_timeout():
+	show_next_message()
+
+
+func _on_Finish_pressed():
+	get_tree().change_scene("res://src/MainMenu.tscn")
+
+
+func check_next_previous():
+	if display_idx < dialog_idx - 1:
+		$Next.visible = true
+		$Next.disabled = false
+	else:
+		$Next.visible = false
+		$Next.disabled = true
+	
+	if display_idx > 0:
+		$Previous.visible = true
+		$Previous.disabled = false
+	else:
+		$Previous.visible = false
+		$Previous.disabled = true
+
+func _on_Directions_pressed():
+	display_idx = dialog_idx - 1
+	check_next_previous()
+	label.text = dialog[display_idx]
+	show()
+
+
+func _on_Previous_pressed():
+	display_idx -= 1
+	check_next_previous()
+	label.text = dialog[display_idx]
+	show()
+
+
+func _on_Next_pressed():
+	display_idx += 1
+	check_next_previous()
+	label.text = dialog[display_idx]
+	show()
+
+
+func hide_popup_thing():
+	hide()
 	if dialog_idx == 10:
 		$TransitionTimer.start(10)
 	if dialog_idx == 13:
@@ -86,9 +141,5 @@ func _on_TutorialPopup_confirmed():
 		parent.disable_pause = false
 
 
-func _on_TransitionTimer_timeout():
-	show_next_message()
-
-
-func _on_Finish_pressed():
-	get_tree().change_scene("res://src/Main.tscn")
+func _on_Confirm_pressed():
+	hide_popup_thing()
