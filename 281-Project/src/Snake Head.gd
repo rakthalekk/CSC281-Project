@@ -14,6 +14,7 @@ onready var hitSoundA = $HitA
 onready var hitSoundB = $HitB
 onready var animate = $AnimationPlayer
 onready var segmentRegenTimer = $SegmentRegenTimer
+onready var player = $"../../Player"
 
 #Area Variables
 var absoluteMinY = 24 #The absolute minY where the snake will turn around regardless
@@ -28,8 +29,8 @@ var dmg = 20 #Damage dealt by the snake head
 var segments = 20 #The number of the snake segments
 var segmentDmg = 10 #Damage dealt by the segments
 var segmentAttackCooldownTime = 1 #Time between then the sement attacks going through
-var max_head_health = 100 #Max health of the snake head
-var max_segment_health = 30 #Health of each individual segment
+var max_head_health = 1 #Max health of the snake head
+var max_segment_health = 1 #Health of each individual segment
 var returnToAreaSpeedScale = 4 #Speed at which the snake returns back to its border
 #Total health = head_health + segment_health * segments
 var runAfterHitChance = 0.5 #If the snake gets hit, this is the chance it will retreat before attacking again
@@ -63,12 +64,17 @@ var isFleeing = false #If the snake is fleeing the player, this will be true
 var fleeTarget = null #The target being fleed from
 var bodies = [] #The bodies of the snake
 
+var dead = false
+
+signal pan_boss_death
+
 #Function needed to determine if the player is hitting the boss
 func isBoss():
 	return true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	connect("pan_boss_death", player, "_on_BossDeath")
 	direction.y = -1
 	direction.x = 0
 	attackCooldown.wait_time = attackCooldownTime
@@ -77,6 +83,7 @@ func _ready():
 	invincibilityTimer.wait_time = invincibilityTime
 	segmentRegenTimer.wait_time = segmentRegenTime
 	faceTimer.start()
+	animate.play("RESET")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -165,13 +172,14 @@ func _process(delta):
 	#Move the snake
 	direction = direction.normalized()
 	velocity = direction * actualSpeed
-
-	move_and_slide(velocity)
+	
+	if !dead:
+		move_and_slide(velocity)
 
 # When the snake head takes damage
 func damage(dmg, knockback = Vector2(0,0), hitByPlayer = false):
 	#Knockback isn't used by the snake
-	if invincibilityTimer.is_stopped():
+	if invincibilityTimer.is_stopped() && !dead:
 		#eff_anim_player.play("invulnerable")
 		#print(str(targets))
 		if(bodies.size() == 0):
@@ -180,8 +188,11 @@ func damage(dmg, knockback = Vector2(0,0), hitByPlayer = false):
 			start_invulnerability()
 			health -= dmg
 			if health <= 0:
-				queue_free()
-				get_tree().change_scene("res://src/WinMenu.tscn")
+				dead = true
+				face.frame = 0
+				animate.play("death")
+				emit_signal("pan_boss_death", global_position)
+
 			#If the snake is hit by the player, chance that it will flee
 			if(hitByPlayer && rng.randf() <= chanceToRunWhenAttacked):
 				isFleeing = true
@@ -347,26 +358,27 @@ func _on_SegmentAttackCooldown_timeout():
 
 func _on_DirectionVisualChange_timeout():
 	var dir = direction.angle_to(Vector2.UP)
-	if (dir > 0):
-		if (dir < 3 * PI / 4):
-			if (dir < PI / 4):
-				face.frame = 2
+	if(!dead):
+		if (dir > 0):
+			if (dir < 3 * PI / 4):
+				if (dir < PI / 4):
+					face.frame = 2
+				else:
+					face.frame = 1 
 			else:
-				face.frame = 1 
+				face.frame = 0
 		else:
-			face.frame = 0
-	else:
-		if (dir > -3 * PI / 4):
-			if (dir > -PI / 4):
-				face.frame = 2
+			if (dir > -3 * PI / 4):
+				if (dir > -PI / 4):
+					face.frame = 2
+				else:
+					face.frame = 3
 			else:
-				face.frame = 3
-		else:
-			face.frame = 0
+				face.frame = 0
 
 #When the timer goes off for regenerating segments, it will regen one
 func _on_SegmentRegenTimer_timeout():
-	if(bodies.size() < segments):
+	if(bodies.size() < segments && !dead):
 		segmentRegenTimer.wait_time = segmentRegenTime
 		segmentRegenTimer.start(segmentRegenTime)
 		var new_segment: KinematicBody2D = snake_body.instance()
@@ -399,3 +411,6 @@ func _on_SegmentHealTimer_timeout():
 	for body in bodies:
 		if body.health + 10 < max_segment_health:
 			body.health += 10
+
+func onDeathEnd():
+	get_tree().change_scene("res://src/WinMenu.tscn")

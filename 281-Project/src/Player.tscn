@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://src/Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/Player/player_sheet_3.png" type="Texture" id=2]
@@ -695,6 +695,10 @@ tracks/1/keys = {
 "values": [ Vector2( 0, -50 ), Vector2( 0, -45 ), Vector2( 0, -50 ), Vector2( 0, -45 ), Vector2( 0, -50 ) ]
 }
 
+[sub_resource type="Animation" id=23]
+resource_name = "victory"
+length = 4.0
+
 [sub_resource type="Animation" id=6]
 resource_name = "walk_down"
 length = 0.6
@@ -933,6 +937,7 @@ anims/damaged_right = SubResource( 19 )
 anims/death = SubResource( 21 )
 anims/idle = SubResource( 7 )
 anims/jackhammer = SubResource( 16 )
+anims/victory = SubResource( 23 )
 anims/walk_down = SubResource( 6 )
 anims/walk_left = SubResource( 8 )
 anims/walk_right = SubResource( 9 )

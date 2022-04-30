@@ -31,6 +31,10 @@ onready var manual_mining_timer = $ManualMiningTimer
 onready var harvest_timer = $HarvestTimer
 onready var combatTimer = $CombatTimer
 onready var regenTimer = $RegenTimer
+onready var camera = $Camera2D
+onready var HUD = $"../../HUD"
+
+signal victory_fade
 
 var direction := Vector2.ZERO
 var speed = run_speed
@@ -46,6 +50,7 @@ var dead = false
 var manual_mining = false
 var interacting = false
 var can_attack = true
+var disabled = false
 
 
 # Variables for detecting bein near fairy trees
@@ -65,11 +70,12 @@ onready var prevHealth : int = health
 var hasFairySwatter = false
 
 func _ready():
+	connect("victory_fade", HUD, "_on_Victory")
 	#emit the initial stats of the player,
 	if(Global.difficulty == 0):
-		combatTimer.waitTime = 10
+		combatTimer.wait_time = 10
 	if(Global.difficulty == 2):
-		combatTimer.waitTime = 99999
+		combatTimer.wait_time = 99999
 	emit_signal("player_stats_changed", self)
 	emit_signal("is_manual_mining", self)
 
@@ -88,7 +94,7 @@ func _process(delta):
 		velocity = direction * speed
 	
 	# Play animation based on player walk direction
-	if !attacking && !knockback && !dead:
+	if !attacking && !knockback && !dead && !disabled:
 		if !manual_mining:
 			if sound_player.playing:
 				sound_player.stop()
@@ -108,7 +114,7 @@ func _process(delta):
 			anim_player.play("idle")
 			sound_player.stop()
 	
-	if !dead:
+	if !dead && !disabled:
 		move_and_slide(velocity)
 	
 	# Stat Checking - will emit signal if stats changed
@@ -137,6 +143,8 @@ func stop_manual_mining():
 
 # Handles input
 func _unhandled_input(event):
+	if disabled:
+		return
 	#Manual Mining
 	if (Input.is_action_just_pressed("manual_mine")):
 		if !manual_mining:
@@ -230,6 +238,8 @@ func stop_interacting():
 
 # Damages the player and knocks them back in the given direction
 func damage(dmg, dir):
+	if disabled:
+		return
 	if invincibility_timer.is_stopped() && !dead:
 		combatTimer.start()
 		regenTimer.stop()
@@ -331,3 +341,9 @@ func _on_RegenTimer_timeout():
 
 func endOfDeath():
 	get_tree().change_scene("res://src/DeathMenu.tscn")
+	
+func _on_BossDeath(pos: Vector2):
+	disabled = true
+	camera.smoothing_enabled = true
+	camera.global_position = pos
+	emit_signal("victory_fade")

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/512661__mrthenoronha__destruction-2-8-bit.wav-ec9443f974345fcf2e36be9f2290de5e.sample"
+
+[deps]
+
+source_file="res://assets/Sounds/512661__mrthenoronha__destruction-2-8-bit.wav"
+dest_files=[ "res://.import/512661__mrthenoronha__destruction-2-8-bit.wav-ec9443f974345fcf2e36be9f2290de5e.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

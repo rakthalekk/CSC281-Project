@@ -39,6 +39,7 @@ onready var fireTowerItem = $"Fire Tower Item"
 onready var healTowerItem = $"Heal Tower Item"
 onready var wallItem = $"Wall Item"
 onready var bearTrapItem = $"Bear Trap Item"
+onready var fade = $ColorRect/AnimationPlayer
 
 func _ready():
 	# Set price text box of fairy swatter
@@ -300,3 +301,6 @@ func _on_Bear_Trap_Item_toggled(button_pressed):
 	else:
 		Input.set_custom_mouse_cursor(null)
 		Global.selected_item = null
+
+func _on_Victory():
+	fade.play("victory")
