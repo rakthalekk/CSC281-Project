@@ -48,10 +48,10 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 0.972549, 0.407843, 0.407843, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[node name="Snake" type="YSort" groups=["Snake"]]
+[node name="Snake" type="YSort"]
 script = ExtResource( 2 )
 
-[node name="Snake Head" type="KinematicBody2D" parent="."]
+[node name="Snake Head" type="KinematicBody2D" parent="." groups=["Snake"]]
 collision_layer = 512
 collision_mask = 0
 script = ExtResource( 1 )
@@ -114,6 +114,9 @@ stream = ExtResource( 6 )
 anims/armor_hit = SubResource( 4 )
 anims/hit = SubResource( 5 )
 
+[node name="SegmentHealTimer" type="Timer" parent="Snake Head"]
+wait_time = 5.0
+
 [connection signal="bodies_ready" from="." to="Snake Head" method="_on_Snake_bodies_ready"]
 [connection signal="body_entered" from="Snake Head/VisionRadius" to="Snake Head" method="_on_VisionRadius_body_entered"]
 [connection signal="body_exited" from="Snake Head/VisionRadius" to="Snake Head" method="_on_VisionRadius_body_exited"]
@@ -124,3 +127,4 @@ anims/hit = SubResource( 5 )
 [connection signal="timeout" from="Snake Head/SegmentAttackCooldown" to="Snake Head" method="_on_SegmentAttackCooldown_timeout"]
 [connection signal="timeout" from="Snake Head/SegmentRegenTimer" to="Snake Head" method="_on_SegmentRegenTimer_timeout"]
 [connection signal="timeout" from="Snake Head/DirectionVisualChange" to="Snake Head" method="_on_DirectionVisualChange_timeout"]
+[connection signal="timeout" from="Snake Head/SegmentHealTimer" to="Snake Head" method="_on_SegmentHealTimer_timeout"]

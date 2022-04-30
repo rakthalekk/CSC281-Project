@@ -865,6 +865,14 @@ wait_time = 3.0
 wait_time = 0.5
 one_shot = true
 
+[node name="CombatTimer" type="Timer" parent="."]
+wait_time = 20.0
+one_shot = true
+autostart = true
+
+[node name="RegenTimer" type="Timer" parent="."]
+wait_time = 2.0
+
 [node name="HealRing" type="Sprite" parent="."]
 visible = false
 texture = ExtResource( 3 )
@@ -889,4 +897,6 @@ stream = ExtResource( 8 )
 [connection signal="timeout" from="ManualMiningTimer" to="." method="_on_ManualMiningTimer_timeout"]
 [connection signal="timeout" from="HarvestTimer" to="." method="_on_HarvestTimer_timeout"]
 [connection signal="timeout" from="AttackCooldown" to="." method="_on_AttackCooldown_timeout"]
+[connection signal="timeout" from="CombatTimer" to="." method="_on_CombatTimer_timeout"]
+[connection signal="timeout" from="RegenTimer" to="." method="_on_RegenTimer_timeout"]
 [connection signal="timeout" from="HealRingTimer" to="." method="_on_HealRingTimer_timeout"]

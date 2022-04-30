@@ -29,15 +29,17 @@ onready var eff_anim_player = $EffectsAnimationPlayer
 onready var invincibility_timer = $InvincibilityTimer
 onready var manual_mining_timer = $ManualMiningTimer
 onready var harvest_timer = $HarvestTimer
+onready var combatTimer = $CombatTimer
+onready var regenTimer = $RegenTimer
 
 var direction := Vector2.ZERO
 var speed = run_speed
 var velocity := Vector2.ZERO
 
 # Current resources of the player
-export(int) var unobtainiumCount : int = 0#20
-export(int) var fairyDustCount : int = 0#20
-export(int) var dragonOilCount : int = 0#20
+export(int) var unobtainiumCount : int = 0
+export(int) var fairyDustCount : int = 0
+export(int) var dragonOilCount : int = 0
 var knockback = false
 var attacking = false
 var manual_mining = false
@@ -63,6 +65,10 @@ var hasFairySwatter = false
 
 func _ready():
 	#emit the initial stats of the player,
+	if(Global.difficulty == 0):
+		combatTimer.waitTime = 10
+	if(Global.difficulty == 2):
+		combatTimer.waitTime = 99999
 	emit_signal("player_stats_changed", self)
 	emit_signal("is_manual_mining", self)
 
@@ -223,6 +229,8 @@ func stop_interacting():
 # Damages the player and knocks them back in the given direction
 func damage(dmg, dir):
 	if invincibility_timer.is_stopped():
+		combatTimer.start()
+		regenTimer.stop()
 		eff_anim_player.play("invulnerable")
 		set_collision_layer_bit(8, false)
 		invincibility_timer.start()
@@ -307,3 +315,14 @@ func _on_HealRingTimer_timeout():
 
 func _on_AttackCooldown_timeout():
 	can_attack = true
+
+func _on_CombatTimer_timeout():
+	regenTimer.start()
+
+func _on_RegenTimer_timeout():
+	if(Global.difficulty == 0):
+		health += 10
+	if(Global.difficulty == 1):
+		health += 5
+	if health > max_health:
+		health = max_health

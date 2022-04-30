@@ -44,7 +44,8 @@ var fleeSpeedScale = 2 #When the snake is fleeing, how fast it travels relative 
 var invincibilityTime = 1.3 #The invincibility time of the head when attacked
 var segmentInvincibilityTime = 1.3 #The invincibility time of the segment when attacked
 var snakeSegmentRegen = true #If true, the snake will regen segments over time if not damaged
-var segmentRegenTime = 10 #Time it takes for a segment to regenerate
+var segmentRegenTime = 7 #Time it takes for a segment to regenerate
+var segmentRegenTimeLong = 20  #Time it takes for a segment to regenerate when no segments are left
 
 #Scene Variables
 var direction := Vector2.ZERO
@@ -304,6 +305,8 @@ func _on_segment_damaged(index, dmg):
 		if segment.health <= 0:
 			#If it's the only thing in the array
 			if(bodies.size() == 1):
+				segmentRegenTime = segmentRegenTimeLong
+				segmentRegenTimer.wait_time = segmentRegenTime
 				bodies.remove(0)
 			#If the segment is at the front of the array
 			elif(index == 0):
@@ -364,6 +367,8 @@ func _on_DirectionVisualChange_timeout():
 #When the timer goes off for regenerating segments, it will regen one
 func _on_SegmentRegenTimer_timeout():
 	if(bodies.size() < segments):
+		segmentRegenTimer.wait_time = segmentRegenTime
+		segmentRegenTimer.start(segmentRegenTime)
 		var new_segment: KinematicBody2D = snake_body.instance()
 		#Attach the signals from the bodies to the head
 		new_segment.connect("segment_attack", self, "_on_segment_attack")
@@ -388,3 +393,9 @@ func _on_SegmentRegenTimer_timeout():
 	#If snake has max bodies, stop the timer
 	if(bodies.size() >= segments):
 		segmentRegenTimer.stop()
+
+
+func _on_SegmentHealTimer_timeout():
+	for body in bodies:
+		if body.health + 10 < max_segment_health:
+			body.health += 10
