@@ -10,6 +10,7 @@ signal segment_damaged
 signal segment_end_invincibility
 
 onready var anim = $AnimationPlayer
+onready var sound = $Hit
 
 #The current index of the body
 var index = -1
@@ -45,6 +46,7 @@ func _on_Hitbox_body_entered(attackedBody):
 
 #If it takes damage
 func damage(dmg, knockback = Vector2(0,0), hitByPlayer = false):
+	sound.play()
 	anim.play("hit")
 	emit_signal("segment_damaged", index, dmg)
 

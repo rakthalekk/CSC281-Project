@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/278203__thepriest909__bear-trap.wav-a91c68dd6349ce7b13cf117963736ed9.sample"
+
+[deps]
+
+source_file="res://assets/Sounds/278203__thepriest909__bear-trap.wav"
+dest_files=[ "res://.import/278203__thepriest909__bear-trap.wav-a91c68dd6349ce7b13cf117963736ed9.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/620355__marb7e__whoosh-sword-hit-armor.wav-2e7e39cdc1a1e6aa88914b2283478b60.sample"
+
+[deps]
+
+source_file="res://assets/Sounds/620355__marb7e__whoosh-sword-hit-armor.wav"
+dest_files=[ "res://.import/620355__marb7e__whoosh-sword-hit-armor.wav-2e7e39cdc1a1e6aa88914b2283478b60.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

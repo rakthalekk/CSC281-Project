@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/185542__martian__sandbag-punch-single6.wav-ceef79f5cfbaac4a2803a0c4a843a50f.sample"
+
+[deps]
+
+source_file="res://assets/Sounds/185542__martian__sandbag-punch-single6.wav"
+dest_files=[ "res://.import/185542__martian__sandbag-punch-single6.wav-ceef79f5cfbaac4a2803a0c4a843a50f.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

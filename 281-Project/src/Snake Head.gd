@@ -9,6 +9,9 @@ onready var invincibilityTimer = $InvincibilityTimer
 onready var fleeTimer = $FleeTimer
 onready var face = $Sprite
 onready var faceTimer = $DirectionVisualChange
+onready var hitSoundA = $HitA
+onready var hitSoundB = $HitB
+onready var animate = $AnimationPlayer
 
 #Area Variables
 var absoluteMinY = 24 #The absolute minY where the snake will turn around regardless
@@ -160,6 +163,8 @@ func _process(delta):
 func damage(dmg, knockback = Vector2(0,0), hitByPlayer = false):
 	#Knockback isn't used by the snake
 	if invincibilityTimer.is_stopped():
+		hitSoundB.play()
+		animate.play("hit")
 		#eff_anim_player.play("invulnerable")
 		print(str(targets))
 		if(bodies.size() == 0):
@@ -177,6 +182,8 @@ func damage(dmg, knockback = Vector2(0,0), hitByPlayer = false):
 		else:
 			#Do something here if the snake still has a tail.
 			#Here, the snake takes no damage
+			hitSoundA.play()
+			animate.play("armor_hit")
 			if(hitByPlayer && rng.randf() <= chanceToRunWhenAttacked * fleeingTailModifier):
 				isFleeing = true
 				actualSpeed = speed * fleeSpeedScale
