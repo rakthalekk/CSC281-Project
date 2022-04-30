@@ -42,6 +42,7 @@ export(int) var fairyDustCount : int = 0
 export(int) var dragonOilCount : int = 0
 var knockback = false
 var attacking = false
+var dead = false
 var manual_mining = false
 var interacting = false
 var can_attack = true
@@ -75,8 +76,8 @@ func _ready():
 # Process function called every frame
 func _process(delta):
 	if health <= 0:
-		#Global.reset_level()
-		get_tree().change_scene("res://src/DeathMenu.tscn")
+		dead = true
+		anim_player.play("death")
 
 	if knockback:
 		velocity = direction * knockback_speed
@@ -87,7 +88,7 @@ func _process(delta):
 		velocity = direction * speed
 	
 	# Play animation based on player walk direction
-	if !attacking && !knockback:
+	if !attacking && !knockback && !dead:
 		if !manual_mining:
 			if sound_player.playing:
 				sound_player.stop()
@@ -107,7 +108,8 @@ func _process(delta):
 			anim_player.play("idle")
 			sound_player.stop()
 	
-	move_and_slide(velocity)
+	if !dead:
+		move_and_slide(velocity)
 	
 	# Stat Checking - will emit signal if stats changed
 	if(unobtainiumCount != prevUCount || fairyDustCount != prevFDCount || dragonOilCount != prevDOCount || health != prevHealth):
@@ -228,7 +230,7 @@ func stop_interacting():
 
 # Damages the player and knocks them back in the given direction
 func damage(dmg, dir):
-	if invincibility_timer.is_stopped():
+	if invincibility_timer.is_stopped() && !dead:
 		combatTimer.start()
 		regenTimer.stop()
 		eff_anim_player.play("invulnerable")
@@ -326,3 +328,6 @@ func _on_RegenTimer_timeout():
 		health += 5
 	if health > max_health:
 		health = max_health
+
+func endOfDeath():
+	get_tree().change_scene("res://src/DeathMenu.tscn")
