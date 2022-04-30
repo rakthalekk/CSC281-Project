@@ -91,6 +91,8 @@ one_shot = true
 [node name="SegmentAttackCooldown" type="Timer" parent="Snake Head"]
 one_shot = true
 
+[node name="SegmentRegenTimer" type="Timer" parent="Snake Head"]
+
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Snake Head"]
 stream = ExtResource( 4 )
 autoplay = true
@@ -120,4 +122,5 @@ anims/hit = SubResource( 5 )
 [connection signal="timeout" from="Snake Head/FleeTimer" to="Snake Head" method="_on_FleeTimer_timeout"]
 [connection signal="timeout" from="Snake Head/InvincibilityTimer" to="Snake Head" method="_on_InvincibilityTimer_timeout"]
 [connection signal="timeout" from="Snake Head/SegmentAttackCooldown" to="Snake Head" method="_on_SegmentAttackCooldown_timeout"]
+[connection signal="timeout" from="Snake Head/SegmentRegenTimer" to="Snake Head" method="_on_SegmentRegenTimer_timeout"]
 [connection signal="timeout" from="Snake Head/DirectionVisualChange" to="Snake Head" method="_on_DirectionVisualChange_timeout"]

@@ -29,6 +29,9 @@ func getInvincibilityTimer():
 func getHitbox():
 	return $Hitbox
 
+func setPosition(pos: Vector2):
+	self.global_position = pos
+
 func follow_parent() -> void:
 	self.global_transform.origin = lerp(self.global_transform.origin, 
 		parent.global_transform.origin, get_physics_process_delta_time() * 1.5)

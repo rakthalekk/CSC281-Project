@@ -2,6 +2,7 @@ class_name SnakeHead
 extends KinematicBody2D
 
 #Resource Reference
+onready var snake_body = preload("res://src/Snake Body.tscn")
 onready var tilemap = get_node("../../../Navigation2D/TileMap")
 onready var attackCooldown = $AttackCooldown
 onready var segmentAttackCooldown = $SegmentAttackCooldown
@@ -12,6 +13,7 @@ onready var faceTimer = $DirectionVisualChange
 onready var hitSoundA = $HitA
 onready var hitSoundB = $HitB
 onready var animate = $AnimationPlayer
+onready var segmentRegenTimer = $SegmentRegenTimer
 
 #Area Variables
 var absoluteMinY = 24 #The absolute minY where the snake will turn around regardless
@@ -23,13 +25,14 @@ var maxX = 64 #The X where the snake will start to turn around
 #Combat Variables
 var speed = 200 #The Speed at which the snake moves
 var dmg = 20 #Damage dealt by the snake head
+var segments = 20 #The number of the snake segments
 var segmentDmg = 10 #Damage dealt by the segments
 var segmentAttackCooldownTime = 1 #Time between then the sement attacks going through
 var max_head_health = 100 #Max health of the snake head
 var max_segment_health = 20 #Health of each individual segment
 var returnToAreaSpeedScale = 4 #Speed at which the snake returns back to its border
 #Total health = head_health + segment_health * segments
-var runAfterHitChance = 1#0.5 #If the snake gets hit, this is the chance it will retreat before attacking again
+var runAfterHitChance = 0.5 #If the snake gets hit, this is the chance it will retreat before attacking again
 var attackCooldownTime = 3 #After the snake attacks something, it will wait this long before going for another attack
 var attackStructureTime = 1 #Time the snake moves quickly after attacking a structure
 var directPathVariance = PI/8 #Variance in the approach path of the snake
@@ -40,6 +43,8 @@ var fleeTime = 3 #How long the snake flees after getting hit
 var fleeSpeedScale = 2 #When the snake is fleeing, how fast it travels relative to normal
 var invincibilityTime = 1.3 #The invincibility time of the head when attacked
 var segmentInvincibilityTime = 1.3 #The invincibility time of the segment when attacked
+var snakeSegmentRegen = true #If true, the snake will regen segments over time if not damaged
+var segmentRegenTime = 6 #Time it takes for a segment to regenerate
 
 #Scene Variables
 var direction := Vector2.ZERO
@@ -69,6 +74,7 @@ func _ready():
 	fleeTimer.wait_time = fleeTime
 	segmentAttackCooldown.wait_time = segmentAttackCooldownTime
 	invincibilityTimer.wait_time = invincibilityTime
+	segmentRegenTimer.wait_time = segmentRegenTime
 	faceTimer.start()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -136,7 +142,7 @@ func _process(delta):
 			direction = direction.rotated(rng.randf_range(-0.2,0)) #Turn Counterclockwise
 		
 	#If the snake attacked a structure, continue in a straight line for a bit before random movement?
-	elif(attackedStructure && attackCooldown.time_left < attackStructureTime):
+	elif(!atBorder && attackedStructure && attackCooldown.time_left < attackStructureTime):
 		direction = direction.rotated(rng.randf_range(-0.015,0.015))
 		
 	#If the snake goes below the minY, it will start to turn itself back around
@@ -145,11 +151,13 @@ func _process(delta):
 			direction = direction.rotated(rng.randf_range(-0.2,0)) #Turn Counterclockwise
 		elif(direction[0] < 0 && direction[1] > 0):
 			direction = direction.rotated(rng.randf_range(0,0.2)) #Turn Clockwise
-		else:
-			direction = direction.rotated(rng.randf_range(-0.2,0.2))
+		#else:
+		#	direction = direction.rotated(rng.randf_range(-0.2,0.2))
 		
 	#The snake will randomly wander when not targeting anything
 	else:
+		if(atBorder):
+			actualSpeed = speed
 		atBorder = false
 		direction = direction.rotated(rng.randf_range(-0.2,0.2)) #Rotates the vector by a given amount
 	
@@ -164,7 +172,7 @@ func damage(dmg, knockback = Vector2(0,0), hitByPlayer = false):
 	#Knockback isn't used by the snake
 	if invincibilityTimer.is_stopped():
 		#eff_anim_player.play("invulnerable")
-		print(str(targets))
+		#print(str(targets))
 		if(bodies.size() == 0):
 			hitSoundB.play()
 			animate.play("hit")
@@ -313,6 +321,8 @@ func _on_segment_damaged(index, dmg):
 				bodies[i].index = i
 			#Kill the segment
 			segment.queue_free()
+			#Start the timer
+			segmentRegenTimer.start()
 
 #When the bodies of the snake have been made, it passes the head a reference
 func _on_Snake_bodies_ready(bodiesArray):
@@ -350,3 +360,32 @@ func _on_DirectionVisualChange_timeout():
 				face.frame = 3
 		else:
 			face.frame = 0
+
+#When the timer goes off for regenerating segments, it will regen one
+func _on_SegmentRegenTimer_timeout():
+	if(bodies.size() < segments):
+		var new_segment: KinematicBody2D = snake_body.instance()
+		#Attach the signals from the bodies to the head
+		new_segment.connect("segment_attack", self, "_on_segment_attack")
+		new_segment.connect("segment_damaged", self, "_on_segment_damaged")
+		new_segment.connect("segment_end_invincibility", self, "_on_segment_end_invincibility")
+		#Set the invincibility Timer time for the segment
+		new_segment.getInvincibilityTimer().wait_time = segmentInvincibilityTime
+		#Set the segment health
+		new_segment.health = max_segment_health
+		#Set the index
+		new_segment.index = bodies.size()
+		#Set body parent
+		if(bodies.size() == 0):
+			new_segment.parent = self
+			new_segment.setPosition(self.global_position - get_parent().global_position)#Vector2(2027,530))
+		else:
+			new_segment.parent = bodies[bodies.size() - 1]
+			new_segment.setPosition(bodies[bodies.size() - 1].global_position - get_parent().global_position)
+		#Add body to the side
+		bodies.append(new_segment)
+		get_parent().add_child(new_segment)
+		print("SPAWNED NEW SEGMENT POSITION: " + str(new_segment.global_position))
+	#If snake has max bodies, stop the timer
+	if(bodies.size() >= segments):
+		segmentRegenTimer.stop()
