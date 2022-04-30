@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://src/TileMap.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/Player.tscn" type="PackedScene" id=2]
@@ -14,6 +14,9 @@
 
 [sub_resource type="DynamicFont" id=1]
 use_filter = true
+font_data = ExtResource( 10 )
+
+[sub_resource type="DynamicFont" id=2]
 font_data = ExtResource( 10 )
 
 [node name="Tutorial" type="Node2D"]
@@ -33,13 +36,13 @@ tile_data = PoolIntArray( 16, 0, 65538, 17, 0, 2, 18, 0, 2, 19, 0, 2, 20, 0, 2, 
 
 [node name="HUD" parent="." instance=ExtResource( 6 )]
 
-[node name="TutorialPopup" type="AcceptDialog" parent="HUD"]
+[node name="TutorialPopup" type="PopupDialog" parent="HUD"]
 pause_mode = 2
+visible = true
 margin_left = 128.0
 margin_top = 144.0
 margin_right = 608.0
-margin_bottom = 449.0
-window_title = "Operation: Wonderland"
+margin_bottom = 488.0
 script = ExtResource( 8 )
 
 [node name="Text" type="Label" parent="HUD/TutorialPopup"]
@@ -48,9 +51,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -232.0
-margin_top = -144.5
+margin_top = -164.0
 margin_right = 232.0
-margin_bottom = 116.5
+margin_bottom = 136.0
 custom_fonts/font = SubResource( 1 )
 text = "Good work! You've completed the tutorial!
 
@@ -62,6 +65,34 @@ autowrap = true
 [node name="TransitionTimer" type="Timer" parent="HUD/TutorialPopup"]
 wait_time = 0.05
 one_shot = true
+
+[node name="Confirm" type="Button" parent="HUD/TutorialPopup"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -48.0
+margin_top = -32.0
+margin_right = 56.0
+margin_bottom = -7.0
+custom_fonts/font = SubResource( 2 )
+text = "Confirm"
+
+[node name="Previous" type="Button" parent="HUD/TutorialPopup"]
+margin_left = 8.0
+margin_top = 312.0
+margin_right = 120.0
+margin_bottom = 337.0
+custom_fonts/font = SubResource( 2 )
+text = "Previous"
+
+[node name="Next" type="Button" parent="HUD/TutorialPopup"]
+margin_left = 376.0
+margin_top = 312.0
+margin_right = 472.0
+margin_bottom = 337.0
+custom_fonts/font = SubResource( 2 )
+text = "Next"
 
 [node name="Finish" type="TextureButton" parent="HUD"]
 visible = false
@@ -75,6 +106,13 @@ margin_right = 108.0
 rect_scale = Vector2( 0.75, 0.75 )
 disabled = true
 texture_normal = ExtResource( 11 )
+
+[node name="Directions" type="Button" parent="HUD"]
+margin_right = 78.0
+margin_bottom = 20.0
+rect_scale = Vector2( 2, 2 )
+custom_fonts/font = SubResource( 2 )
+text = "Directions"
 
 [node name="TileHighlight" type="ColorRect" parent="."]
 visible = false
@@ -114,9 +152,12 @@ autostart = true
 
 [connection signal="just_purchased" from="HUD" to="Entities/Player" method="_on_HUD_just_purchased"]
 [connection signal="unlocked_fairy_swatter" from="HUD" to="Entities/Player" method="_on_HUD_unlocked_fairy_swatter"]
-[connection signal="confirmed" from="HUD/TutorialPopup" to="HUD/TutorialPopup" method="_on_TutorialPopup_confirmed"]
 [connection signal="timeout" from="HUD/TutorialPopup/TransitionTimer" to="HUD/TutorialPopup" method="_on_TransitionTimer_timeout"]
+[connection signal="pressed" from="HUD/TutorialPopup/Confirm" to="HUD/TutorialPopup" method="_on_Confirm_pressed"]
+[connection signal="pressed" from="HUD/TutorialPopup/Previous" to="HUD/TutorialPopup" method="_on_Previous_pressed"]
+[connection signal="pressed" from="HUD/TutorialPopup/Next" to="HUD/TutorialPopup" method="_on_Next_pressed"]
 [connection signal="pressed" from="HUD/Finish" to="HUD/TutorialPopup" method="_on_Finish_pressed"]
+[connection signal="pressed" from="HUD/Directions" to="HUD/TutorialPopup" method="_on_Directions_pressed"]
 [connection signal="is_interacting" from="Entities/Player" to="HUD" method="_on_Player_is_interacting"]
 [connection signal="is_manual_mining" from="Entities/Player" to="HUD" method="_on_Player_is_manual_mining"]
 [connection signal="place_structure" from="Entities/Player" to="." method="_on_Player_place_structure"]
