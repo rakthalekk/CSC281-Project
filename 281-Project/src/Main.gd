@@ -43,6 +43,11 @@ onready var tilePath = "Path"
 onready var playerCoords = Vector2(0,0)
 
 func _ready():
+	if Global.difficulty == 0:
+		frog_max -= 2
+	elif Global.difficulty == 2:
+		frog_max += 2
+
 	for pos in tilemap.logLocations:
 		update_log_navigation(pos)
 

@@ -10,7 +10,13 @@ signal bodies_ready
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	for i in range (20):
+	head.segments = 20
+	if Global.difficulty == 0:
+		head.segments = 15
+	elif Global.difficulty == 2:
+		head.segments = 25
+	
+	for i in range (head.segments):
 		add_segment(i)
 	#get_node("Snake Head").bodies = bodies
 	emit_signal("bodies_ready", bodies)

@@ -55,7 +55,7 @@ var maxBurrowsPerSquare = 1 #The number of burrows that can spawn in a single sq
 var minChance = 0.25 #2/8 At the start of the map, this is the chance of burrows spawning
 var maxChance = 0.5 #6/8At the back part of the map
 var minBurrowsSpawned = 20 #Spawn at least this many burrows
-var maxBurrowsSpawned = -1 #Spawn at most this many burrows - use -1 for no limit
+var maxBurrowsSpawned = 25 #Spawn at most this many burrows - use -1 for no limit
 
 # Fairy Log Variables
 export(bool) var fairyLogs = true #Spawn Fairy Logs randomly
@@ -90,6 +90,13 @@ var dragonBonesSpawnedCount = 0 #Keeps track of the number of dragon bones spawn
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	if Global.difficulty == 0:
+		minBurrowsSpawned = 15
+		maxBurrowsSpawned = 20
+	elif Global.difficulty == 2:
+		minBurrowsSpawned = 25
+		maxBurrowsSpawned = 30
+
 	if randomizeMap:
 		rng.randomize()
 		generate2()

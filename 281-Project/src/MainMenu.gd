@@ -17,7 +17,7 @@ func _ready():
 	_on_PlayTab_pressed()
 	MusicSliderVisual.rect_size.x = Global.music * 230
 	soundSliderVisual.rect_size.x = Global.sound * 230
-	difficultyVisual.frame = 1
+	difficultyVisual.frame = Global.difficulty
 	setSoundVolumes(Global.sound)
 	setMusicVolume(Global.music)
 	

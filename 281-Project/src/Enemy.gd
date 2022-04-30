@@ -24,6 +24,12 @@ onready var anim_player = $AnimationPlayer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	if Global.difficulty == 0:
+		max_health -= 10
+	elif Global.difficulty == 2:
+		max_health += 10
+
+	hp = max_health
 	anim_player.play("RESET")
 	yield(parent, "ready")
 	nav = parent.nav
