@@ -14,14 +14,15 @@ var sound = 0.5
 var fairySwatterCost = [10,0,0]
 var unobtainiumDrillCost = [2,0,0]
 var wallCost = [2,0,0]
+var bearTrapCost = [3,0,0]
 var magicTurretCost = [5,5,0]
 var healTowerCost = [5,10,0]
 var oilRigCost = [2,5,0]
 var fireTowerCost = [5,0,5]
 
-var cost_list = [unobtainiumDrillCost, wallCost, magicTurretCost, healTowerCost, oilRigCost, fireTowerCost]
+var cost_list = [unobtainiumDrillCost, wallCost, bearTrapCost, magicTurretCost, healTowerCost, oilRigCost, fireTowerCost]
 
-var structure_queue = ["drill", "wall", "turret", "healtower", "oilrig", "firetower"]
+var structure_queue = ["drill", "wall", "beartrap", "turret", "healtower", "oilrig", "firetower"]
 
 #Dragon Bones Oil Rig Placement Range (tile radius around dragon bones where oil rigs can be placed)
 var oilRigTileRadius = 0

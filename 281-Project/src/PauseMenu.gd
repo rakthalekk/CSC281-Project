@@ -16,3 +16,8 @@ func _unhandled_input(event):
 func _on_Button_pressed():
 	hide()
 	get_tree().paused = false
+
+
+func _on_Main_Menu_pressed():
+	get_tree().paused = false
+	get_tree().change_scene("res://src/MainMenu.tscn")

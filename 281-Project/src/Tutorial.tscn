@@ -10,12 +10,10 @@
 [ext_resource path="res://src/TutorialPopup.gd" type="Script" id=8]
 [ext_resource path="res://src/Burrow.tscn" type="PackedScene" id=9]
 [ext_resource path="res://assets/Menus/Courier_Prime/CourierPrime-Regular.ttf" type="DynamicFontData" id=10]
+[ext_resource path="res://assets/Menus/mainmenubutton.png" type="Texture" id=11]
 
 [sub_resource type="DynamicFont" id=1]
 use_filter = true
-font_data = ExtResource( 10 )
-
-[sub_resource type="DynamicFont" id=2]
 font_data = ExtResource( 10 )
 
 [node name="Tutorial" type="Node2D"]
@@ -65,20 +63,18 @@ autowrap = true
 wait_time = 0.05
 one_shot = true
 
-[node name="Finish" type="Button" parent="HUD"]
+[node name="Finish" type="TextureButton" parent="HUD"]
 visible = false
 anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-margin_left = -236.0
-margin_top = -116.0
-margin_right = -164.0
-margin_bottom = -91.0
-rect_scale = Vector2( 3, 3 )
-custom_fonts/font = SubResource( 2 )
+margin_left = -356.0
+margin_top = -100.0
+margin_right = 108.0
+rect_scale = Vector2( 0.75, 0.75 )
 disabled = true
-text = "Finish"
+texture_normal = ExtResource( 11 )
 
 [node name="TileHighlight" type="ColorRect" parent="."]
 visible = false
@@ -101,9 +97,6 @@ enabled = false
 
 [node name="Player" parent="Entities" instance=ExtResource( 2 )]
 position = Vector2( 880, 1376 )
-unobtainiumCount = 0
-fairyDustCount = 0
-dragonOilCount = 0
 
 [node name="EnemyManager" type="YSort" parent="Entities"]
 position = Vector2( 0, 2 )

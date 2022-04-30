@@ -6,6 +6,7 @@ const OILRIG_IMG = preload("res://assets/Resources/oilpumpcursor.png")
 const FIRETOWER_IMG = preload("res://assets/Resources/flamethrowercursor.png")
 const HEALTOWER_IMG = preload("res://assets/Resources/healingtowercursor.png")
 const WALL_IMG = preload("res://assets/Resources/wallcursor.png")
+const BEARTRAP_IMG = preload("res://icon.png")
 const ORE_IMG = preload("res://assets/Resources/ore.png")
 const DUST_IMG = preload("res://assets/Resources/fairydust.png")
 const OIL_IMG = preload("res://assets/Resources/oilbarrel.png")
@@ -37,6 +38,7 @@ onready var oilRigItem = $"Oil Rig Item"
 onready var fireTowerItem = $"Fire Tower Item"
 onready var healTowerItem = $"Heal Tower Item"
 onready var wallItem = $"Wall Item"
+onready var bearTrapItem = $"Bear Trap Item"
 
 func _ready():
 	# Set price text box of fairy swatter
@@ -50,6 +52,8 @@ func _process(delta):
 			Input.set_custom_mouse_cursor(DRILL_IMG)
 		elif Global.selected_item == "wall":
 			Input.set_custom_mouse_cursor(WALL_IMG)
+		elif Global.selected_item == "beartrap":
+			Input.set_custom_mouse_cursor(BEARTRAP_IMG)
 		elif Global.selected_item == "turret":
 			Input.set_custom_mouse_cursor(TURRET_IMG)
 		elif Global.selected_item == "healtower":
@@ -103,9 +107,10 @@ func invalidPrices():
 	cantAfford(drillItem,Global.unobtainiumDrillCost,"res://assets/Structures/drillupscaled.png","res://assets/Structures/drillupscaled grayscale.png")
 	cantAfford(turretItem,Global.magicTurretCost,"res://assets/Structures/turret.png","res://assets/Structures/turret grayscale.png")
 	cantAfford(oilRigItem,Global.oilRigCost,"res://assets/Structures/oilpump.png", "res://assets/Structures/oilpumpgrey.png")
-	cantAfford(fireTowerItem,Global.fireTowerCost,"res://assets/Structures/flamethrowerv2up.png", "res://assets/Structures/flamethrowerv2up.png")
-	cantAfford(healTowerItem,Global.healTowerCost,"res://assets/Structures/healingtower.png", "res://assets/Structures/healingtower.png")
-	cantAfford(wallItem,Global.wallCost,"res://assets/Structures/wallicon.png", "res://assets/Structures/wallicon.png")
+	cantAfford(fireTowerItem,Global.fireTowerCost,"res://assets/Structures/flamethrowerv3icon.png", "res://assets/Structures/flamethrowerv3icongrey.png")
+	cantAfford(healTowerItem,Global.healTowerCost,"res://assets/Structures/healingtower.png", "res://assets/Structures/healingtowericongrey.png")
+	cantAfford(wallItem,Global.wallCost,"res://assets/Structures/wallicon.png", "res://assets/Structures/wallicongrey.png")
+	cantAfford(bearTrapItem,Global.bearTrapCost,"res://assets/Structures/beartrapicon.png", "res://assets/Structures/beartrapgreyscale.png")
 
 
 func cantAfford(parentItem, globalCost, normalTexture, lockedTexture):
@@ -242,6 +247,13 @@ func _on_Player_place_structure(pos: Vector2):
 			if(hudUnobtainiumCount < Global.wallCost[0] || hudFairyDustCount < Global.wallCost[1] || hudDragonOilCount < Global.wallCost[2]):
 				Global.selected_item = null
 				Input.set_custom_mouse_cursor(null)
+		elif Global.selected_item == "beartrap":
+			hudUnobtainiumCount -= Global.bearTrapCost[0]
+			hudFairyDustCount -= Global.bearTrapCost[1]
+			hudDragonOilCount -= Global.bearTrapCost[2]
+			if(hudUnobtainiumCount < Global.bearTrapCost[0] || hudFairyDustCount < Global.bearTrapCost[1] || hudDragonOilCount < Global.bearTrapCost[2]):
+				Global.selected_item = null
+				Input.set_custom_mouse_cursor(null)
 		emit_signal("just_purchased", hudUnobtainiumCount, hudFairyDustCount, hudDragonOilCount);
 
 
@@ -264,12 +276,21 @@ func _on_Heal_Tower_Item_toggled(button_pressed):
 	if Global.selected_item != "healtower":
 		Global.selected_item = "healtower"
 	else:
+		Input.set_custom_mouse_cursor(null)
 		Global.selected_item = null
 
 
 func _on_Wall_Item_toggled(button_pressed):
 	if Global.selected_item != "wall":
 		Global.selected_item = "wall"
+	else:
+		Input.set_custom_mouse_cursor(null)
+		Global.selected_item = null
+
+
+func _on_Bear_Trap_Item_toggled(button_pressed):
+	if Global.selected_item != "beartrap":
+		Global.selected_item = "beartrap"
 	else:
 		Input.set_custom_mouse_cursor(null)
 		Global.selected_item = null

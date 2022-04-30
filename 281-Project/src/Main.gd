@@ -7,6 +7,7 @@ const OILRIG = preload("res://src/OilRig.tscn")
 const FIRETOWER = preload("res://src/FireTower.tscn")
 const HEALTOWER = preload("res://src/HealTower.tscn")
 const WALL = preload("res://src/Wall.tscn")
+const BEARTRAP = preload("res://src/BearTrap.tscn")
 
 # Enemy References
 const BUNNY = preload("res://src/Wonderbunny.tscn")
@@ -227,6 +228,15 @@ func create_wall(pos: Vector2):
 	structures.append(inst)
 
 
+func create_beartrap(pos: Vector2):
+	#update_tile_navigation(pos, true)
+		
+	var inst = BEARTRAP.instance()
+	structure_manager.add_child(inst)
+	inst.position = pos
+	structures.append(inst)
+
+
 func update_wall_tile_navigation(pos: Vector2):
 	if Global.horizontal_wall:
 		var tile_pos = tilemap.world_to_map(pos) - Vector2(2, 1)
@@ -339,6 +349,8 @@ func _on_Player_place_structure(pos: Vector2):
 				create_healtower(pos)
 			"wall":
 				create_wall(pos)
+			"beartrap":
+				create_beartrap(pos)
 			_:
 				print("Invalid structure being placed: " + str(Global.selected_item))
 
