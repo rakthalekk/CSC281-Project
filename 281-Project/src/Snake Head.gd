@@ -29,7 +29,7 @@ var segments = 20 #The number of the snake segments
 var segmentDmg = 10 #Damage dealt by the segments
 var segmentAttackCooldownTime = 1 #Time between then the sement attacks going through
 var max_head_health = 100 #Max health of the snake head
-var max_segment_health = 20 #Health of each individual segment
+var max_segment_health = 30 #Health of each individual segment
 var returnToAreaSpeedScale = 4 #Speed at which the snake returns back to its border
 #Total health = head_health + segment_health * segments
 var runAfterHitChance = 0.5 #If the snake gets hit, this is the chance it will retreat before attacking again
@@ -44,7 +44,7 @@ var fleeSpeedScale = 2 #When the snake is fleeing, how fast it travels relative 
 var invincibilityTime = 1.3 #The invincibility time of the head when attacked
 var segmentInvincibilityTime = 1.3 #The invincibility time of the segment when attacked
 var snakeSegmentRegen = true #If true, the snake will regen segments over time if not damaged
-var segmentRegenTime = 6 #Time it takes for a segment to regenerate
+var segmentRegenTime = 10 #Time it takes for a segment to regenerate
 
 #Scene Variables
 var direction := Vector2.ZERO
@@ -385,7 +385,6 @@ func _on_SegmentRegenTimer_timeout():
 		#Add body to the side
 		bodies.append(new_segment)
 		get_parent().add_child(new_segment)
-		print("SPAWNED NEW SEGMENT POSITION: " + str(new_segment.global_position))
 	#If snake has max bodies, stop the timer
 	if(bodies.size() >= segments):
 		segmentRegenTimer.stop()
