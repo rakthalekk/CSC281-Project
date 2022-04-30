@@ -2,8 +2,8 @@ class_name FairyLog
 extends StaticBody2D
 
 # Fairy Log Variables
-var logCooldown = [1,5] #[min time, max time] time in seconds
-var fairyDustReward = 2 #Amount of fairy dust collected from logs
+var logCooldown = [15,45] #[min time, max time] time in seconds
+var fairyDustReward = [2,5] #Amount of fairy dust collected from logs
 
 var spawnedTexture = load("res://assets/Map Elements/fairylogColored.png")
 var cooldownTexture = load("res://assets/Map Elements/fairylog.png")
@@ -35,7 +35,7 @@ func _ready():
 	parent.update_log_navigation(global_position)
 
 func harvested(body):
-	body.fairyDustCount += fairyDustReward
+	body.fairyDustCount += rng.randi_range(fairyDustReward[0], fairyDustReward[1])
 	canHarvest = false
 	body.harvest_fairy_dust = false
 	sprite.texture = cooldownTexture
