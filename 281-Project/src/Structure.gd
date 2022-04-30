@@ -8,21 +8,27 @@ onready var parent = $"../../.."
 onready var anim_player = $AnimationPlayer
 onready var eff_anim_player = $EffectsAnimationPlayer
 onready var invincibility_timer = $InvincibilityTimer
+onready var hitSound = $HitSound
+
+signal make_destruction
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	anim_player.play("idle")
+	connect("make_destruction", parent, "_on_destruction")
 
 
 # Damages the structure
 func damage(dmg):
 	if invincibility_timer.is_stopped():
+		hitSound.play()
 		eff_anim_player.play("invulnerable")
 		set_collision_layer_bit(8, false)
 		invincibility_timer.start()
 		health -= dmg
 		
 		if health <= 0:
+			emit_signal("make_destruction", global_position)
 			parent.remove_structure(self)
 
 

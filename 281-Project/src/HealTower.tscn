@@ -1,9 +1,10 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://src/HealTower.gd" type="Script" id=1]
 [ext_resource path="res://assets/Structures/healingtoweranimation.png" type="Texture" id=2]
 [ext_resource path="res://assets/Structures/healring.png" type="Texture" id=3]
 [ext_resource path="res://assets/Sounds/611642__kstargio__waterbloop.wav" type="AudioStream" id=4]
+[ext_resource path="res://assets/Sounds/410363__benjaminnelan__metal-tap.wav" type="AudioStream" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 40, 24 )
@@ -236,6 +237,12 @@ stream = SubResource( 11 )
 max_distance = 500.0
 attenuation = 3.4822
 bus = "Structure"
+
+[node name="HitSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 5 )
+volume_db = 3.873
+max_distance = 1000.0
+attenuation = 1.8025
 
 [connection signal="timeout" from="InvincibilityTimer" to="." method="_on_InvincibilityTimer_timeout"]
 [connection signal="body_entered" from="HealZone" to="." method="_on_HealZone_body_entered"]

@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://src/Drill.gd" type="Script" id=1]
 [ext_resource path="res://assets/Structures/drillanimationfull.png" type="Texture" id=2]
 [ext_resource path="res://assets/Structures/healring.png" type="Texture" id=3]
 [ext_resource path="res://assets/Sounds/370189__238310__stationary-truck.wav" type="AudioStream" id=4]
+[ext_resource path="res://assets/Sounds/410363__benjaminnelan__metal-tap.wav" type="AudioStream" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 24, 26 )
@@ -161,6 +162,12 @@ texture = ExtResource( 3 )
 stream = ExtResource( 4 )
 attenuation = 1.86607
 bus = "Structure"
+
+[node name="HitSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 5 )
+volume_db = 3.873
+max_distance = 1000.0
+attenuation = 1.8025
 
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="timeout" from="InvincibilityTimer" to="." method="_on_InvincibilityTimer_timeout"]

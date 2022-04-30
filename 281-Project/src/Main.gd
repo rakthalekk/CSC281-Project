@@ -9,6 +9,8 @@ const HEALTOWER = preload("res://src/HealTower.tscn")
 const WALL = preload("res://src/Wall.tscn")
 const BEARTRAP = preload("res://src/BearTrap.tscn")
 
+const DESTRUCTION = preload("res://src/Destruction.tscn")
+
 # Enemy References
 const BUNNY = preload("res://src/Wonderbunny.tscn")
 
@@ -390,3 +392,9 @@ func _on_FrogSpawnTimer_timeout():
 		enemy_manager.add_child(forg)
 		
 		#print("frog @ " + str(pos))
+
+func _on_destruction(pos: Vector2):
+	print("hi")
+	var destruction = DESTRUCTION.instance()
+	destruction.global_position = pos
+	structure_manager.add_child(destruction)

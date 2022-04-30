@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/410363__benjaminnelan__metal-tap.wav-4dd775c65eccde0cdaaa5010146d83fc.sample"
+
+[deps]
+
+source_file="res://assets/Sounds/410363__benjaminnelan__metal-tap.wav"
+dest_files=[ "res://.import/410363__benjaminnelan__metal-tap.wav-4dd775c65eccde0cdaaa5010146d83fc.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

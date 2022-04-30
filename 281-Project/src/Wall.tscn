@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://src/Wall.gd" type="Script" id=1]
 [ext_resource path="res://assets/Structures/sandbagshorizontal.png" type="Texture" id=2]
 [ext_resource path="res://assets/Structures/healring.png" type="Texture" id=3]
+[ext_resource path="res://assets/Sounds/410363__benjaminnelan__metal-tap.wav" type="AudioStream" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 120, 20 )
@@ -114,6 +115,12 @@ visible = false
 texture = ExtResource( 3 )
 
 [node name="HealRingTimer" type="Timer" parent="."]
+
+[node name="HitSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 4 )
+volume_db = 3.873
+max_distance = 1000.0
+attenuation = 1.8025
 
 [connection signal="pressed" from="ButtonControl/Button" to="." method="_on_Button_pressed"]
 [connection signal="timeout" from="InvincibilityTimer" to="." method="_on_InvincibilityTimer_timeout"]
