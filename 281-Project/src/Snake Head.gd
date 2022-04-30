@@ -163,11 +163,11 @@ func _process(delta):
 func damage(dmg, knockback = Vector2(0,0), hitByPlayer = false):
 	#Knockback isn't used by the snake
 	if invincibilityTimer.is_stopped():
-		hitSoundB.play()
-		animate.play("hit")
 		#eff_anim_player.play("invulnerable")
 		print(str(targets))
 		if(bodies.size() == 0):
+			hitSoundB.play()
+			animate.play("hit")
 			start_invulnerability()
 			health -= dmg
 			if health <= 0:
