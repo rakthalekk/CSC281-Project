@@ -10,38 +10,32 @@
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 760, 280 )
+position = Vector2( 736, 278 )
 texture = ExtResource( 3 )
 
 [node name="MainMenuButton" type="TextureButton" parent="."]
-margin_left = 806.0
-margin_top = 566.0
-margin_right = 1270.0
-margin_bottom = 666.0
+margin_left = 782.0
+margin_top = 564.0
+margin_right = 1246.0
+margin_bottom = 664.0
 rect_scale = Vector2( 0.75, 0.75 )
 texture_normal = ExtResource( 5 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="RestartButton" type="TextureButton" parent="."]
-margin_left = 344.0
-margin_top = 566.0
-margin_right = 808.0
-margin_bottom = 666.0
+margin_left = 320.0
+margin_top = 564.0
+margin_right = 784.0
+margin_bottom = 664.0
 rect_scale = Vector2( 0.75, 0.75 )
 texture_normal = ExtResource( 4 )
 
 [node name="QuitButton" type="TextureButton" parent="."]
-margin_left = 670.0
-margin_top = 668.0
-margin_right = 882.0
-margin_bottom = 768.0
+margin_left = 646.0
+margin_top = 666.0
+margin_right = 858.0
+margin_bottom = 766.0
 rect_scale = Vector2( 0.75, 0.75 )
 texture_normal = ExtResource( 2 )
 

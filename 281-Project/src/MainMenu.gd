@@ -13,6 +13,7 @@ onready var soundSlider = $Folder/SoundSlider
 onready var soundSliderVisual = $Folder/SoundSliderVisual
 
 func _ready():
+	#OS.window_fullscreen = true
 	disable_all()
 	_on_PlayTab_pressed()
 	MusicSliderVisual.rect_size.x = Global.music * 230
