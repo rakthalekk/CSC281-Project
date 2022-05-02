@@ -38,7 +38,6 @@ tile_data = PoolIntArray( 16, 0, 65538, 17, 0, 2, 18, 0, 2, 19, 0, 2, 20, 0, 2, 
 
 [node name="TutorialPopup" type="PopupDialog" parent="HUD"]
 pause_mode = 2
-visible = true
 margin_left = 128.0
 margin_top = 144.0
 margin_right = 608.0

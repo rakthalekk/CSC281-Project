@@ -8,7 +8,7 @@ var cont = true
 var dialog = ["Welcome to Operation: Wonderland!\n\nIn this game, you will play as Joe M., a former tax attorney who has recently joined the military.\n\nA fantasy alternate world known as Wonderland was just discovered by the government, and the General wants all troops to investigate this land.",
 "Within the stone deposits of Wonderland, there exists an ore with magical properties, known as Unobtanium.\n\nThe military recognizes the potential power that Unobtanium has, and they want to use it for weapons.\n\nYour job is to collect as much Unobtanium as possible, and return to the real world safely.",
 "Try walking over to that stone deposit, using the WASD keys, and press the C key to start mining.",
-"Good work. Now that you've collected a few chunks of Unobtanium, you can place a drill to mine for you.\n\nSelect the drill icon below (or press the 1 key) and place a drill on the stone deposit. Wait for it to mine, and collect 6 Unobtanium.\n\nThe drill will only mine up to 5 Unobtanium at a time, so make sure to collect it frequently.",
+"Good work. Now that you've collected a few chunks of Unobtanium, you can place a drill to mine for you.\n\nSelect the drill icon below (or press the 1 key) and place a drill on the stone deposit. Wait for it to mine, and collect 6 Unobtanium.\n\nThe drill will only mine up to 3 Unobtanium at a time, so make sure to collect it frequently.",
 "You can use this Unobtanium to place a few more drills and improve your resource output.\n\nTo de-select a structure, click on it again, press Q, or press the middle mouse button.\n\nOnce you have 10 Unobtanium, click the lock in the lower-right corner. This will unlock the Fairy Zapper.",
 "Now that you've obtained the Fairy Zapper, walk north to the glowing log, and press E.\n\nYou can harvest Fairy Dust by interacting next to the log while it is glowing, and create new structures with it.\n\nCollect 3 Fairy Dust.",
 "Excellent! To save you some time gathering more resources, here's 50 Unobtanium and Fairy Dust.\n\nNow, why don't you try fighting some enemies? There's a burrow of bunnies off to your left.",
@@ -59,6 +59,9 @@ func _process(delta):
 
 
 func show_next_message():
+	Global.selected_item = null
+	Input.set_custom_mouse_cursor(null)
+	
 	$Previous.visible = false
 	$Previous.disabled = true
 	$Next.visible = false
@@ -87,6 +90,8 @@ func _on_TransitionTimer_timeout():
 
 
 func _on_Finish_pressed():
+	Global.selected_item = null
+	Input.set_custom_mouse_cursor(null)
 	get_tree().change_scene("res://src/MainMenu.tscn")
 
 

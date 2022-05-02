@@ -11,6 +11,8 @@ func _unhandled_input(event):
 			else:
 				show()
 				get_tree().paused = true
+			Global.selected_item = null
+			Input.set_custom_mouse_cursor(null)
 
 
 func _on_Button_pressed():

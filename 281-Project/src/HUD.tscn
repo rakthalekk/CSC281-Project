@@ -548,7 +548,7 @@ color = Color( 0.654902, 0.654902, 0.654902, 1 )
 [node name="Fairy Swatter" type="AnimatedSprite" parent="."]
 position = Vector2( 1336, 744 )
 frames = SubResource( 9 )
-frame = 2
+frame = 3
 playing = true
 
 [node name="Fairy Swatter Lock" type="TextureButton" parent="Fairy Swatter"]
