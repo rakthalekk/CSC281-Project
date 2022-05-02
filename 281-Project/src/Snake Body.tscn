@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://src/Snake Body.gd" type="Script" id=1]
 [ext_resource path="res://assets/Enemies/snakebody.png" type="Texture" id=2]
@@ -38,6 +38,38 @@ tracks/1/keys = {
 "values": [ Vector2( 3.8147e-06, 0.499999 ), Vector2( 7, 10 ), Vector2( 4, -9 ), Vector2( 2, 5 ), Vector2( 1, 1 ), Vector2( -6, -6 ), Vector2( -1, 9 ), Vector2( 5, -5 ), Vector2( 0, 0.5 ) ]
 }
 
+[sub_resource type="Animation" id=4]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "invulnerable"
+length = 0.2
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true ]
+}
+
 [node name="Snake Body" type="KinematicBody2D" groups=["Snake"]]
 collision_layer = 512
 collision_mask = 0
@@ -47,7 +79,7 @@ script = ExtResource( 1 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 0, 0.5 )
+position = Vector2( 3.8147e-06, 0.499999 )
 texture = ExtResource( 2 )
 
 [node name="Hitbox" type="Area2D" parent="."]
@@ -64,8 +96,13 @@ one_shot = true
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/hit = SubResource( 3 )
 
+[node name="EffectsAnimationPlayer" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 4 )
+anims/invulnerable = SubResource( 5 )
+
 [node name="Hit" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 3 )
+volume_db = -3.0
 
 [connection signal="body_entered" from="Hitbox" to="." method="_on_Hitbox_body_entered"]
 [connection signal="timeout" from="InvincibilityTimer" to="." method="_on_InvincibilityTimer_timeout"]

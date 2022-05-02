@@ -5,19 +5,15 @@ const VERTICAL_IMG = preload("res://assets/Structures/sandbagsvertical.png")
 
 var active = true
 var vertical = false
-
-func set_vertical():
-	vertical = true
-	$CollisionShape2D.rotation_degrees = 90
-	$Sprite.texture = VERTICAL_IMG
-	$ButtonControl.rotation_degrees = 90
+var mouse_inside = false
 
 
-func _on_InvincibilityTimer_timeout():
-	end_invulnerability()
+func _unhandled_input(event):
+	if event.is_action_pressed("right_click") && mouse_inside:
+		change_active()
 
 
-func _on_Button_pressed():
+func change_active():
 	if active:
 		active = false
 		$CollisionShape2D.disabled = true
@@ -28,5 +24,24 @@ func _on_Button_pressed():
 		$Sprite.modulate = Color(1, 1, 1, 1)
 
 
+func set_vertical():
+	vertical = true
+	$CollisionShape2D.rotation_degrees = 90
+	$Sprite.texture = VERTICAL_IMG
+	$ClickableArea.rotation_degrees = 90
+
+
+func _on_InvincibilityTimer_timeout():
+	end_invulnerability()
+
+
 func _on_HealRingTimer_timeout():
 	$HealRing.visible = false
+
+
+func _on_ClickableArea_mouse_entered():
+	mouse_inside = true
+
+
+func _on_ClickableArea_mouse_exited():
+	mouse_inside = false

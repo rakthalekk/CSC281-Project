@@ -43,6 +43,7 @@ onready var tilePath = "Path"
 onready var playerCoords = Vector2(0,0)
 
 func _ready():
+	rng.randomize()
 	if Global.difficulty == 0:
 		frog_max -= 2
 	elif Global.difficulty == 2:
@@ -74,6 +75,11 @@ func _process(delta):
 			player.onTile = tilePath
 		9:
 			player.onTile = tilePath
+	
+	if $TallGrass.get_cellv(cell) == 0:
+		player.onGrass = true
+	else:
+		player.onGrass = false
 	
 	if Global.selected_item:
 		tile_highlight.visible = true
@@ -399,7 +405,6 @@ func _on_FrogSpawnTimer_timeout():
 		#print("frog @ " + str(pos))
 
 func _on_destruction(pos: Vector2):
-	print("hi")
 	var destruction = DESTRUCTION.instance()
 	destruction.global_position = pos
 	structure_manager.add_child(destruction)

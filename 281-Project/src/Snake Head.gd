@@ -13,6 +13,7 @@ onready var faceTimer = $DirectionVisualChange
 onready var hitSoundA = $HitA
 onready var hitSoundB = $HitB
 onready var animate = $AnimationPlayer
+onready var eff_animate = $EffectsAnimationPlayer
 onready var segmentRegenTimer = $SegmentRegenTimer
 onready var player = $"../../Player"
 
@@ -75,6 +76,7 @@ func isBoss():
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	connect("pan_boss_death", player, "_on_BossDeath")
+	rng.randomize()
 	direction.y = -1
 	direction.x = 0
 	attackCooldown.wait_time = attackCooldownTime
@@ -185,6 +187,7 @@ func damage(dmg, knockback = Vector2(0,0), hitByPlayer = false):
 		if(bodies.size() == 0):
 			hitSoundB.play()
 			animate.play("hit")
+			eff_animate.play("invulnerable")
 			start_invulnerability()
 			health -= dmg
 			if health <= 0:
@@ -221,7 +224,7 @@ func start_invulnerability(body = self):
 
 #When the snake ends invincibility
 func end_invulnerability(body = self):
-	#eff_anim_player.play("RESET")
+	eff_animate.play("RESET")
 	body.set_collision_layer_bit(9, true)
 
 #Add things to queue to be attacked if in vision radius

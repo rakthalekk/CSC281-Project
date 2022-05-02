@@ -224,7 +224,6 @@ anims/RESET = SubResource( 16 )
 anims/invulnerable = SubResource( 15 )
 
 [node name="InvincibilityTimer" type="Timer" parent="."]
-wait_time = 1.3
 one_shot = true
 
 [node name="FireZone" type="Area2D" parent="."]

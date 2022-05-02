@@ -3,6 +3,7 @@ extends Area2D
 export(int) var speed = 2000
 
 var direction := Vector2.ZERO
+var hit = false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -15,6 +16,8 @@ func _on_Timer_timeout():
 
 
 func _on_Bullet_body_entered(body):
-	if body is Enemy || body.is_in_group("Snake"):
-		body.damage(10, Vector2.ZERO)
-	queue_free()
+	if !hit:
+		hit = true
+		if body is Enemy || body.is_in_group("Snake"):
+			body.damage(10, Vector2.ZERO)
+		queue_free()

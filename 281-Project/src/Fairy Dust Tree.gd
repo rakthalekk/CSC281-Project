@@ -3,7 +3,7 @@ extends StaticBody2D
 
 # Fairy Log Variables
 var logCooldown = [15,45] #[min time, max time] time in seconds
-var fairyDustReward = [2,5] #Amount of fairy dust collected from logs
+var fairyDustReward = [3,5] #Amount of fairy dust collected from logs
 
 var spawnedTexture = load("res://assets/Map Elements/fairylogColored.png")
 var cooldownTexture = load("res://assets/Map Elements/fairylog.png")
@@ -13,12 +13,15 @@ onready var sound = $AudioStreamPlayer2D
 onready var particles = $Particles2D
 onready var parent = $"../.."
 onready var respawnTimer = $"Respawn Timer"
+onready var regenProgress = $Node2D/RegenProgress
 
 # Random Number Generator
 onready var rng = RandomNumberGenerator.new()
 
 # The entity (player) in the radius that's being interacted with
 var entity = null
+
+var waitTime = 0.0
 
 # Keeps track of if the dust can be harvested
 var canHarvest = true
@@ -31,8 +34,16 @@ static func getTileAreaCoverage():
 
 func _ready():
 	yield(parent, "ready")
+	rng.randomize()
 	canHarvest = true
 	parent.update_log_navigation(global_position)
+
+
+func _process(delta):
+	var time = respawnTimer.time_left
+	if time != 0:
+		regenProgress.value = int(waitTime - time)
+
 
 func harvested(body):
 	body.fairyDustCount += rng.randi_range(fairyDustReward[0], fairyDustReward[1])
@@ -41,10 +52,13 @@ func harvested(body):
 	sprite.texture = cooldownTexture
 	particles.emitting = false
 	sound.play()
-	var waitTime = rng.randi_range(logCooldown[0],logCooldown[1])
+	waitTime = rng.randi_range(logCooldown[0],logCooldown[1])
 	respawnTimer.wait_time = waitTime
 	respawnTimer.start()
 	$HarvestArea/CollisionShape2D.disabled = true
+	regenProgress.visible = true
+	regenProgress.max_value = waitTime
+
 
 func _on_Respawn_Timer_timeout():
 	if(entity != null):
@@ -53,6 +67,7 @@ func _on_Respawn_Timer_timeout():
 	sprite.texture = cooldownTexture
 	particles.emitting = true
 	$HarvestArea/CollisionShape2D.disabled = false
+	regenProgress.visible = false
 
 
 func _on_HarvestArea_body_entered(body):

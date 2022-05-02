@@ -3,11 +3,15 @@ extends Enemy
 
 var queue_attack = false
 var tounge_target = null
+var tounge_hit = false
 
 
 func _ready():
 	._ready()
 	Global.frog_num += 1
+	unobtainium_drop_rate = 15
+	fairy_dust_drop_rate = 50
+	dragon_oil_drop_rate = 5
 
 
 func perish():
@@ -38,12 +42,15 @@ func _on_EntityDetect_body_entered(body):
 
 func get_tounge_direction():
 	if is_instance_valid(tounge_target):
+		tounge_hit = false
 		$Tounge.look_at(tounge_target.global_position - Vector2(0, 20))
 
 
 func _on_Tounge_body_entered(body):
-	if body is Player:
-		var dir = (body.position - position).normalized()
-		body.damage(dmg, dir)
-	else:
-		body.damage(dmg)
+	if !tounge_hit:
+		tounge_hit = true
+		if body is Player:
+			var dir = (body.position - position).normalized()
+			body.damage(dmg, dir)
+		else:
+			body.damage(dmg)

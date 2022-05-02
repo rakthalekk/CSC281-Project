@@ -6,6 +6,13 @@ export(int) var walk_speed = 100
 export(int) var run_speed = 200
 export(int) var knockback_speed = 400
 export(int) var max_health = 30
+export(int) var unobtainium_drop_rate = 5
+export(int) var fairy_dust_drop_rate = 3
+export(int) var dragon_oil_drop_rate = 1
+
+const UNOBTAINIUM = preload("res://src/Unobtainium.tscn")
+const FAIRY_DUST = preload("res://src/Fairy Dust.tscn")
+const DRAGON_OIL = preload("res://src/DragonOil.tscn")
 
 var direction = Vector2.ZERO
 var velocity = Vector2.ZERO
@@ -18,12 +25,14 @@ var nav = null
 
 var walk_counter = 0
 
+onready var rng = RandomNumberGenerator.new()
 onready var hp = max_health
 onready var parent = $"../../.."
 onready var anim_player = $AnimationPlayer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	rng.randomize()
 	if Global.difficulty == 0:
 		max_health -= 10
 	elif Global.difficulty == 2:
@@ -157,6 +166,20 @@ func deal_damage():
 
 func perish():
 	Global.kill_count += 1
+	var num = rng.randi_range(0, 100)
+	if num <= dragon_oil_drop_rate:
+		var inst = DRAGON_OIL.instance()
+		get_parent().add_child(inst)
+		inst.global_position = global_position
+	elif num <= fairy_dust_drop_rate + dragon_oil_drop_rate:
+		var inst = FAIRY_DUST.instance()
+		get_parent().add_child(inst)
+		inst.global_position = global_position
+	elif num <= unobtainium_drop_rate + fairy_dust_drop_rate + dragon_oil_drop_rate:
+		var inst = UNOBTAINIUM.instance()
+		get_parent().add_child(inst)
+		inst.global_position = global_position
+	
 	queue_free()
 
 

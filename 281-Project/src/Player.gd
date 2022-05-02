@@ -8,7 +8,9 @@ export(int) var dmg = 10
 export(int) var max_health = 100
 export(int) var manual_mining_time = 5
 export(int) var harvesting_time = 3
-export var onTile = "None"
+
+var onTile = "None"
+var onGrass = false
 
 # Player Signals
 signal make_bullet
@@ -81,6 +83,13 @@ func _ready():
 
 # Process function called every frame
 func _process(delta):
+	if onGrass:
+		speed = 250
+	elif onTile == "Path":
+		speed = 350
+	else:
+		speed = 300
+	
 	if health <= 0:
 		dead = true
 		anim_player.play("death")

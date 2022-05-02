@@ -3,7 +3,7 @@ extends Structure
 # Dragon Oil Rig Variables
 var dragonOilReward = 1 #The dragon oil produced
 const MAXCOUNT = 5 # Max dragon oil that can be at a miner before it will stop producing more
-var oilRigCooldownTime = 1 #Time in seconds it takes to mine an dragon oil
+var oilRigCooldownTime = 10 #Time in seconds it takes to mine an dragon oil
 
 const DRAGONOIL = preload("res://src/DragonOil.tscn")
 

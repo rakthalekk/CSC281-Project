@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://src/Snake Head.gd" type="Script" id=1]
 [ext_resource path="res://src/Snake Controller.gd" type="Script" id=2]
@@ -181,6 +181,38 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 0.972549, 0.407843, 0.407843, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
+[sub_resource type="Animation" id=10]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=11]
+resource_name = "invulnerable"
+length = 0.2
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true ]
+}
+
 [sub_resource type="CanvasItemMaterial" id=7]
 particles_animation = true
 particles_anim_h_frames = 9
@@ -265,6 +297,10 @@ anims/RESET = SubResource( 9 )
 anims/armor_hit = SubResource( 4 )
 anims/death = SubResource( 6 )
 anims/hit = SubResource( 5 )
+
+[node name="EffectsAnimationPlayer" type="AnimationPlayer" parent="Snake Head"]
+anims/RESET = SubResource( 10 )
+anims/invulnerable = SubResource( 11 )
 
 [node name="SegmentHealTimer" type="Timer" parent="Snake Head"]
 wait_time = 5.0

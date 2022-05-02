@@ -74,9 +74,9 @@ var dragonBonesRegionSize = 16 #region size squares of the Dragon Bones to spawn
 var dragonBonesBorder = 4 #Border Size to account for dragon bones size
 var dragonBonesMinChance = 0.05 #Min chance for Dragon Bones to spawn when at the start Y
 var dragonBonesMaxChance = 0.15 #Max chacne for Dragon Bones to spawn when at the end of the map
-var dragonBonesStartY = 48#fieldWidth/3 #At what point in the map Dragon Bones start spawning
+var dragonBonesStartY = 36#fieldWidth/3 #At what point in the map Dragon Bones start spawning
 var maxDragonBonesPerSquare = 1 #The number of Dragon Bones that can spawn in a single square area
-var minDragonBonesSpawned = 2 #Spawn at least this many dragon bones
+var minDragonBonesSpawned = 3 #Spawn at least this many dragon bones
 var maxDragonBonesSpawned = -1 #Spawn at most this many dragon bones - use -1 for no limit
 
 #Calculated/Generated Variables for use within scripts -- NOT FOR MODIFYING
